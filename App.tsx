@@ -1,30 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function App() {
   const [value, setValue] = useState('');
   const inputHandler = (animal: any) => setValue(animal);
   const onSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/cors', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ animal: value }),
+      const response = await axios.post('http://localhost:3001/api/cors', {
+        animal: value
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = response.data;
       console.log(data);
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
