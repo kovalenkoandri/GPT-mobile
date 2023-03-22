@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert} from 'react-native';
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -8,12 +8,17 @@ export default function App() {
   const inputHandler = (animal: any) => setValue(animal);
   const onSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/cors', {
-        animal: value
-      });
-
-      const data = response.data;
+      const response = await axios.post(
+        'https://gpt-back.onrender.com/api/generate',
+        {
+          animal: value,
+        },
+      );
+      Alert.alert('_', `${JSON.stringify(response.data)}`);
+      const data = await response.data;
       console.log(data);
+      console.table(Object.entries(response.data));
+      let a;
     } catch (error) {
       console.error(error);
     }
