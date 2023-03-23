@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
 
 interface IApiResponse {
@@ -40,22 +40,24 @@ export default function App(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <Text>{value}</Text>
-      <Text>{response}</Text>
-      {chatHistory.map((chatItem, index) => (
-        <View key={index} style={styles.chatItem}>
-          <Text style={styles.chatInput}>{chatItem.animal}</Text>
-          <Text style={styles.chatResponse}>{chatItem.data}</Text>
-        </View>
-      ))}
-      <TextInput
-        placeholder="Type text"
-        value={value}
-        onChangeText={inputHandler}
-        style={styles.input}
-      />
-      <StatusBar style="auto" />
-      <Button title={'Submit'} onPress={onSubmit} />
+      <ScrollView style={styles.scrollView}>
+        <Text>{value}</Text>
+        <Text>{response}</Text>
+        {chatHistory.map((chatItem, index) => (
+          <View key={index} style={styles.chatItem}>
+            <Text style={styles.chatInput}>{chatItem.animal}</Text>
+            <Text style={styles.chatResponse}>{chatItem.data}</Text>
+          </View>
+        ))}
+        <TextInput
+          placeholder="Type text"
+          value={value}
+          onChangeText={inputHandler}
+          style={styles.input}
+        />
+        <StatusBar style="auto" />
+        <Button title={'Submit'} onPress={onSubmit} />
+      </ScrollView>
     </View>
   );
 }
@@ -66,12 +68,38 @@ const styles = StyleSheet.create({
     color: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    maxHeight: '80%',
   },
-  chatItem: {},
-  chatInput: {},
-  chatResponse: {},
-  input: {
+  scrollView: {
+    backgroundColor: 'pink',
+    marginHorizontal: 20,
+  },
+  chatItem: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginBottom: 10,
+    padding: 10,
+    maxWidth: '80%',
+  },
+  chatInput: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    height: 44,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'red',
+    marginBottom: 10,
     width: '80%',
+  },
+  chatResponse: {
+    backgroundColor: '#000',
+    borderRadius: 10,
+    marginBottom: 10,
+    padding: 10,
+    maxWidth: '80%',
+  },
+  input: {
+    width: '100%',
     borderRadius: 10,
     height: 44,
     padding: 10,
