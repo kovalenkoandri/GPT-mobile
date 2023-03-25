@@ -10,9 +10,11 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
-
+import { SendIcon } from './assets/send';
+import { RestrictedIcon } from './assets/restricted';
 interface IApiResponse {
   result: string;
 }
@@ -28,14 +30,10 @@ export default function App(): JSX.Element {
   const inputHandler = (animal: string) => {
     animal.trim();
     if (animal.length > 128) {
-     return setValue(animal.slice(0, 128));
+      return setValue(animal.slice(0, 128));
     }
     return setValue(animal);
   };
-  const loadingStyle =
-    value.length === 0 || value.length > 128
-      ? { backgroundColor: '#f8634b' }
-      : {};
 
   const onSubmit = async () => {
     try {
@@ -65,9 +63,7 @@ export default function App(): JSX.Element {
       <View style={styles.container}>
         <StatusBar style="auto" />
         <KeyboardAvoidingView
-          // behavior='position'
-          behavior="padding"
-          // behavior="height"
+          behavior="height"
         >
           <ScrollView style={styles.scrollView}>
             {chatHistory.map((chatItem, index) => (
@@ -89,19 +85,18 @@ export default function App(): JSX.Element {
               <TouchableOpacity
                 onPress={onSubmit}
                 disabled={loading || value.length === 0}
-                style={[styles.sendButton, loadingStyle]}
+                style={styles.sendButton}
                 activeOpacity={0.6}
               >
-                <Text style={styles.sendButtonText}>
-                  {loading
-                    ? 'Loading...'
-                    : value.length === 0
-                    ? 'too short'
-                    : value.length > 128
-                    ? 'TOO LONG'
-                    : 'Send'}
-                </Text>
+                {value.length === 0 || value.length > 128 ? (
+                  <RestrictedIcon />
+                ) : (
+                  <SendIcon />
+                )}
               </TouchableOpacity>
+              <View style={styles.sendButtonText}>
+                {loading && <ActivityIndicator size="large" color="#fff" />}
+              </View>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
