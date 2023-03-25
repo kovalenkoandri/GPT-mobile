@@ -25,8 +25,17 @@ export default function App(): JSX.Element {
   const [response, setResponse] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]); // The interface is then used as a type annotation for the generic type parameter of the useState hook. Specifically, the useState hook is declared with an initial state value of an empty array ([]) of objects that conform to the ChatMessage interface.
-  const inputHandler = (animal: string) => setValue(animal);
-  const loadingStyle = value.length === 0 ? { backgroundColor: '#f8634b' } : {};
+  const inputHandler = (animal: string) => {
+    animal.trim();
+    if (animal.length > 128) {
+     return setValue(animal.slice(0, 128));
+    }
+    return setValue(animal);
+  };
+  const loadingStyle =
+    value.length === 0 || value.length > 128
+      ? { backgroundColor: '#f8634b' }
+      : {};
 
   const onSubmit = async () => {
     try {
@@ -57,8 +66,8 @@ export default function App(): JSX.Element {
         <StatusBar style="auto" />
         <KeyboardAvoidingView
           // behavior='position'
-          // behavior='padding'
-          behavior="height"
+          behavior="padding"
+          // behavior="height"
         >
           <ScrollView style={styles.scrollView}>
             {chatHistory.map((chatItem, index) => (
@@ -69,20 +78,6 @@ export default function App(): JSX.Element {
             ))}
 
             <View style={styles.inputContainer}>
-              <TouchableOpacity
-                onPress={onSubmit}
-                disabled={loading || value.length === 0}
-                style={[styles.sendButton, loadingStyle]}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.sendButtonText}>
-                  {loading
-                    ? 'Loading...'
-                    : value.length === 0
-                    ? 'to activate "Send" button type your question'
-                    : 'Send!'}
-                </Text>
-              </TouchableOpacity>
               <TextInput
                 placeholder="Type your question"
                 placeholderTextColor="#f1f6ff"
@@ -91,6 +86,22 @@ export default function App(): JSX.Element {
                 style={styles.input}
                 multiline={true}
               />
+              <TouchableOpacity
+                onPress={onSubmit}
+                disabled={loading || value.length === 0}
+                style={[styles.sendButton, loadingStyle]}
+                activeOpacity={0.6}
+              >
+                <Text style={styles.sendButtonText}>
+                  {loading
+                    ? 'Loading...'
+                    : value.length === 0
+                    ? 'too short'
+                    : value.length > 128
+                    ? 'TOO LONG'
+                    : 'Send'}
+                </Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
