@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { styles } from './styles';
-import React, { useState } from 'react';
+import React, { useState,
+  useEffect, } from 'react';
 import {
   View,
   Text,
@@ -10,7 +11,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  ActivityIndicator,
+  ActivityIndicator
 } from 'react-native';
 import axios from 'axios';
 import { SendIcon } from './assets/send';
@@ -57,6 +58,16 @@ export default function App(): JSX.Element {
       console.error(error);
     }
   };
+// useEffect(() => { // history
+//   axios
+//     .get('https://example.com/chat/history')
+//     .then(response => {
+//       setChatHistory(response.data);
+//     })
+//     .catch(error => {
+//       console.error(error);
+//     });
+// }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
