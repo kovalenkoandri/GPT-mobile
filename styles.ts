@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 26,
+    fontSize: 18,
     padding: 10,
     color: '#f1f6ff',
     backgroundColor: '#414155',
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     width: '95%',
     color: '#f1f6ff',
-    fontSize: 26,
+    fontSize: 18,
   },
   chatResponse: {
     backgroundColor: '#353343',
@@ -58,6 +58,6 @@ export const styles = StyleSheet.create({
     padding: 10,
     width: '95%',
     color: '#f1f6ff',
-    fontSize: 26,
+    fontSize: 18,
   },
 });
