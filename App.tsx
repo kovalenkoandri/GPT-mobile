@@ -30,9 +30,9 @@ export default function App(): JSX.Element {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]); // The interface is then used as a type annotation for the generic type parameter of the useState hook. Specifically, the useState hook is declared with an initial state value of an empty array ([]) of objects that conform to the ChatMessage interface.
   const inputHandler = (animal: string) => {
     animal.trim();
-    if (animal.length > 128) {
-      return setValue(animal.slice(0, 128));
-    }
+    // if (animal.length > 512) {
+    //   return setValue(animal.slice(0, 512));
+    // }
     return setValue(animal);
   };
 
@@ -99,7 +99,7 @@ export default function App(): JSX.Element {
                 style={styles.sendButton}
                 activeOpacity={0.6}
               >
-                {value.length === 0 || value.length > 128 ? (
+                {value.length === 0 ? (
                   <RestrictedIcon />
                 ) : (
                   <SendIcon />

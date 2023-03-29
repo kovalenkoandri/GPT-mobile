@@ -12,8 +12,8 @@ export const SendIcon = () => {
       <Path
         d="M20 4L3 11L10 14L13 21L20 4Z"
         stroke="#fff"
-        stroke-width="1.5"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
       />
     </Svg>
   );
