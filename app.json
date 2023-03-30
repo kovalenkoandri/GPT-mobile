@@ -12,7 +12,9 @@
       "color": "#ffffff",
       "backgroundColor": "#000"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -26,6 +28,11 @@
       "favicon": "./assets/favicon.png",
       "accessible": true,
       "accessibilityLabel": "AI web app icon"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "41fcefab-6f7d-48cb-9092-0ab3fabde6a3"
+      }
     }
   }
 }
