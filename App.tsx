@@ -43,8 +43,8 @@ export default function App(): JSX.Element {
 
       // The <IApiResponse> syntax specifies the expected response type of the API call. It is a type parameter for the post method that tells TypeScript what shape the response data should have.
       const gptResponse = await axios.post<IApiResponse>(
-        // 'https://gpt-back.onrender.com/api/generate',
-        'http://127.0.0.1:3005/api/generate',
+        'https://gpt-back.onrender.com/api/generate',
+        // 'http://127.0.0.1:3005/api/generate',
         {
           animal: value,
         }
