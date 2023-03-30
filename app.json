@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.kovalenkoandrii.GPTmobile"
+      "package": "version.one.GPTmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png",
