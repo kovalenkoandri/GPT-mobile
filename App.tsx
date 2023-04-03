@@ -75,6 +75,7 @@ export default function App(): JSX.Element {
         console.log(error);
       }
     };
+    onColdBoot();
   }, []);
 
   return (

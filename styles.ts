@@ -34,11 +34,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'bottom',
   },
   sendButton: {
-    width: '3%',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    marginBottom: 5,
+    width: '26%',
     alignItems: 'center',
   },
   sendButtonText: {
