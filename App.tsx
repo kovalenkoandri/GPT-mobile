@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { SendIcon } from './assets/send';
-import { RestrictedIcon } from './assets/restricted';
+// import { RestrictedIcon } from './assets/restricted';
 interface IApiResponse {
   result: string;
 }
@@ -105,7 +105,7 @@ export default function App(): JSX.Element {
                 style={styles.sendButton}
                 activeOpacity={0.6}
               >
-                {value.length === 0 ? <RestrictedIcon /> : <SendIcon />}
+                {value.length > 0 && <SendIcon />}
               </TouchableOpacity>
               <View style={styles.sendButtonText}>
                 {loading && <ActivityIndicator size="large" color="#fff" />}
