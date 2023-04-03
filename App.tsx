@@ -105,6 +105,8 @@ export default function App(): JSX.Element {
                 disabled={loading || value.length === 0}
                 style={styles.sendButton}
                 activeOpacity={0.6}
+                accessibilityLabel="Send button"
+                accessibilityRole="button"
               >
                 {value.length > 0 && <SendIcon />}
               </TouchableOpacity>
