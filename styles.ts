@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2f2f3d',
-    paddingTop: 10
+    paddingTop: 20,
   },
   scrollView: {
     padding: 10,
@@ -16,29 +16,30 @@ export const styles = StyleSheet.create({
     backgroundColor: '#414155',
     alignItems: 'center',
     width: '100%',
+    marginTop: 10
   },
   inputContainer: {
     alignItems: 'flex-end',
     backgroundColor: '#414155',
-    padding: 10,
     width: '100%',
     flexDirection: 'row',
+    marginTop: 10,
+    borderRadius: 10
   },
   input: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 26,
     padding: 10,
     color: '#f1f6ff',
     backgroundColor: '#414155',
-    borderRadius: 10,
     textAlignVertical: 'bottom',
   },
   sendButton: {
-    width: '26%',
+    width: '20%',
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
-  sendButtonText: {
-  },
+  sendButtonText: {},
   chatRequest: {
     backgroundColor: '#353343',
     borderRadius: 10,
