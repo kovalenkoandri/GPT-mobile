@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { styles } from './styles';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 import {
   View,
   Text,
@@ -22,16 +23,18 @@ interface ChatMessage {
   requestMobile: string;
   data: string;
 }
+SplashScreen.preventAutoHideAsync();
 export default function App(): JSX.Element {
   const [value, setValue] = useState<string>(''); // The type annotation :string after the variable name response specifies that the state variable should be of type
   // const [response, setResponse] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]); // The interface is then used as a type annotation for the generic type parameter of the useState hook. Specifically, the useState hook is declared with an initial state value of an empty array ([]) of objects that conform to the ChatMessage interface.
+   const [appIsReady, setAppIsReady] = useState<boolean>(false);
   const inputHandler = (requestMobile: string) => {
     requestMobile.trim();
-    // if (requestMobile.length > 512) {
-    //   return setValue(requestMobile.slice(0, 512));
-    // }
+    if (requestMobile.length > 64) {
+      return setValue(requestMobile.slice(0, 64));
+    }
     return setValue(requestMobile);
   };
 
@@ -58,29 +61,47 @@ export default function App(): JSX.Element {
       console.error(error);
     }
   };
-  useEffect(() => {
-    // async
-    const onColdBoot = async () => {
-      try {
-        const gptResponse = await axios.post<IApiResponse>(
-          'https://gpt-back.onrender.com/api/generate',
-          // 'http://127.0.0.1:3005/api/generate',
-          {
-            requestMobile: '', // fix for cold boot, if removed wait for response up to 8s
-          }
-        );
-        const data = gptResponse.data.result;
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    onColdBoot();
-  }, []);
+ 
+useEffect(() => {
+  async function onColdBoot() {
+    try {
+      const gptResponse = await axios.post<IApiResponse>(
+        'https://gpt-back.onrender.com/api/generate',
+        // 'http://127.0.0.1:3005/api/generate',
+        {
+          requestMobile: '', // fix for cold boot, if removed wait for response up to 8s
+        }
+      );
+      const data = gptResponse.data.result;
+      console.log(data);
+      // await new Promise(resolve => setTimeout(resolve, 2000));
+    } catch (e) {
+      console.log(e);
+    } finally {
+      // Tell the application to render
+      setAppIsReady(true);
+    }
+  }
 
+  onColdBoot();
+}, []);
+
+const onLayoutRootView = useCallback(async () => {
+  if (appIsReady) {
+    await SplashScreen.hideAsync();
+  }
+}, [appIsReady]);
+
+if (!appIsReady) {
+  return <></>;
+}
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        onLayout={onLayoutRootView}
+        accessibilityHint="Splash screen while loading sends http request for improving performance reason."
+      >
         <StatusBar style="auto" />
         <KeyboardAvoidingView
           behavior="height"

@@ -2,17 +2,21 @@
   "expo": {
     "name": "GPT-mobile",
     "slug": "GPT-mobile",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/cloud1024.png",
     "userInterfaceStyle": "dark",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "color": "#ffffff",
+      "backgroundColor": "#000"
+    },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/cloud1024.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.kovalenkoandrii.GPTmobile",
