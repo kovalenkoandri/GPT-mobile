@@ -100,7 +100,7 @@ if (!appIsReady) {
       <View
         style={styles.container}
         onLayout={onLayoutRootView}
-        accessibilityHint="Splash screen while loading sends http request for improving performance reason."
+        accessibilityHint="Splash screen while loading sends http request for improving performance. It takes up to 20 seconds."
       >
         <StatusBar style="auto" />
         <KeyboardAvoidingView
