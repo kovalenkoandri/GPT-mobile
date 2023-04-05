@@ -16,19 +16,18 @@ export const styles = StyleSheet.create({
     backgroundColor: '#414155',
     alignItems: 'center',
     width: '100%',
-    marginTop: 10
+    marginTop: 10,
   },
   inputContainer: {
-    alignItems: 'flex-end',
     backgroundColor: '#414155',
     width: '100%',
     flexDirection: 'row',
     marginTop: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
   input: {
     flex: 1,
-    fontSize: 26,
+    fontSize: 28,
     padding: 10,
     color: '#f1f6ff',
     backgroundColor: '#414155',
@@ -37,9 +36,12 @@ export const styles = StyleSheet.create({
   sendButton: {
     width: '20%',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
   },
   sendButtonText: {},
+  keyboardAvoidingView: {
+    paddingBottom: 20
+  },
   chatRequest: {
     backgroundColor: '#353343',
     borderRadius: 10,

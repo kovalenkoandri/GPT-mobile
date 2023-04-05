@@ -24,7 +24,7 @@ interface ChatMessage {
 }
 export default function App(): JSX.Element {
   const [value, setValue] = useState<string>(''); // The type annotation :string after the variable name response specifies that the state variable should be of type
-  const [response, setResponse] = useState<string>('');
+  // const [response, setResponse] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]); // The interface is then used as a type annotation for the generic type parameter of the useState hook. Specifically, the useState hook is declared with an initial state value of an empty array ([]) of objects that conform to the ChatMessage interface.
   const inputHandler = (requestMobile: string) => {
@@ -49,7 +49,7 @@ export default function App(): JSX.Element {
         }
       );
       const data = gptResponse.data.result;
-      setResponse(data);
+      // setResponse(data);
       setChatHistory([...chatHistory, { requestMobile: value, data }]);
       setValue('');
       console.log(data);
@@ -82,7 +82,10 @@ export default function App(): JSX.Element {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <StatusBar style="auto" />
-        <KeyboardAvoidingView behavior="height">
+        <KeyboardAvoidingView
+          behavior="height"
+          style={styles.keyboardAvoidingView}
+        >
           <ScrollView style={styles.scrollView}>
             {chatHistory.map((chatItem, index) => (
               <View key={index} style={styles.chatItem}>
@@ -106,7 +109,6 @@ export default function App(): JSX.Element {
                 style={styles.sendButton}
                 activeOpacity={0.6}
                 accessibilityLabel="Send button"
-                // accessibilityRole="button"
               >
                 {value.length > 0 && <SendIcon />}
               </TouchableOpacity>
