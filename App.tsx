@@ -8,18 +8,17 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   ActivityIndicator,
+  useColorScheme
 } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { styles } from './styles';
 import axios from 'axios';
-
-import { NavigationContainer } from '@react-navigation/native';
 import { useRoute } from './router';
-import Chat from './Screens/Chat';
-import Image from './Screens/Image';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
+import {
+  NavigationContainer,
+} from '@react-navigation/native';
 const Tab = createMaterialBottomTabNavigator();
 interface IApiResponse {
   result: string;
@@ -28,7 +27,21 @@ interface IApiResponse {
 SplashScreen.preventAutoHideAsync();
 export default function App(): JSX.Element {
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
-
+const routing = useRoute();
+  
+  const MyTheme = {
+    dark: false,
+    light: false,
+    colors: {
+      primary: 'rgb(255, 45, 85)',
+      background: '#2f2f3d',
+      card: 'rgb(255, 255, 255)',
+      text: 'rgb(28, 28, 30)',
+      border: 'rgb(199, 199, 204)',
+      notification: 'rgb(255, 69, 58)',
+    },
+  };
+  
   useEffect(() => {
     async function onColdBoot() {
       try {
@@ -61,7 +74,7 @@ export default function App(): JSX.Element {
   if (!appIsReady) {
     return <></>;
   }
-  const routing = useRoute();
+  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View
@@ -69,7 +82,11 @@ export default function App(): JSX.Element {
         onLayout={onLayoutRootView}
         accessibilityHint="Splash screen while loading sends http request for improving performance. It takes up to 20 seconds."
       >
-        <NavigationContainer>{routing}</NavigationContainer>
+        <NavigationContainer
+          theme={MyTheme}
+        >
+          {routing}
+        </NavigationContainer>
       </View>
     </TouchableWithoutFeedback>
   );

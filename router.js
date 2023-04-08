@@ -11,14 +11,14 @@ export const useRoute = () => {
       <Tab.Navigator
         initialRouteName="Chat"
         activeColor="#e91e63"
-        barStyle={{ backgroundColor: 'tomato' }}
+        barStyle={{ backgroundColor: '#2f2f3d' }}
       >
         <Tab.Screen
           name="Chat"
           component={Chat}
           options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ color }) => (
+            tabBarLabel: 'Chat',
+            tabBarIcon: ({ color = '000' }) => (
               <MaterialCommunityIcons name="home" color={color} size={26} />
             ),
           }}
@@ -27,8 +27,8 @@ export const useRoute = () => {
           name="Image"
           component={Image}
           options={{
-            tabBarLabel: 'Updates',
-            tabBarIcon: ({ color }) => (
+            tabBarLabel: 'Image',
+            tabBarIcon: ({ color = '000' }) => (
               <MaterialCommunityIcons name="bell" color={color} size={26} />
             ),
           }}
