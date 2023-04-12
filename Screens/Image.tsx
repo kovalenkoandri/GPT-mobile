@@ -12,12 +12,12 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Env } from '../Env';
-const apiUrl = Env.API_URL;
+const apiUrl = Env.API_ENDPOINTS;
 interface ChatMessage {
-  requestMobile: string;
+  prompt: string;
   data: string;
 }
 
@@ -26,25 +26,25 @@ const Image = () => {
   const [value, setValue] = useState<string>('');  
   const [loading, setLoading] = useState<boolean>(false);
 
-  const inputHandler = (requestMobile: string) => {
-    requestMobile.trim();
-    if (requestMobile.length > 64) {
-      return setValue(requestMobile.slice(0, 64));
+  const inputHandler = (prompt: string) => {
+    prompt.trim();
+    if (prompt.length > 256) {
+      return setValue(prompt.slice(0, 256));
     }
-    return setValue(requestMobile);
+    return setValue(prompt);
   };
 
   const onSubmit = async () => {
     try {
       setLoading(true);
        
-      const gptResponse = await axios.post(apiUrl, {
-        requestMobile: value,
+      const gptResponse = await axios.post(apiUrl.API_IMAGE_URL, {
+        prompt: value,
       });
-      const data = gptResponse.data;
-      setChatHistory([...chatHistory, { requestMobile: value, data }]);
-      setValue('');
+      const data = gptResponse.data.imageUrl;
       console.log(data);
+      setChatHistory([...chatHistory, { prompt: value, data }]);
+      setValue('');
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -60,7 +60,7 @@ const Image = () => {
         <ScrollView style={styles.scrollView}>
           {chatHistory.map((chatItem, index) => (
             <View key={index} style={styles.chatItem}>
-              <Text style={styles.chatRequest}>{chatItem.requestMobile}</Text>
+              <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
               <Text style={styles.chatResponse}>{chatItem.data}</Text>
             </View>
           ))}

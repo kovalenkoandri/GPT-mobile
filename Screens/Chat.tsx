@@ -12,10 +12,10 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Env } from '../Env';
-const apiUrl = Env.API_URL;
+const apiUrl = Env.API_ENDPOINTS;
 
 interface ChatMessage {
   prompt: string;
@@ -29,8 +29,8 @@ const Chat = () => {
 
   const inputHandler = (prompt: string) => {
     prompt.trim();
-    if (prompt.length > 64) {
-      return setValue(prompt.slice(0, 64));
+    if (prompt.length > 256) {
+      return setValue(prompt.slice(0, 256));
     }
     return setValue(prompt);
   };
@@ -39,7 +39,7 @@ const Chat = () => {
     try {
       setLoading(true);
         
-      const gptResponse = await axios.post(apiUrl, {
+      const gptResponse = await axios.post(apiUrl.API_URL, {
         prompt: value,
       });
       const data = gptResponse.data.toString();
