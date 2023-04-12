@@ -20,7 +20,9 @@ interface ChatMessage {
   prompt: string;
   data: string;
 }
+interface gptResponse {
 
+}
 const Image = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);  
   const [value, setValue] = useState<string>('');  
@@ -41,7 +43,7 @@ const Image = () => {
       const gptResponse = await axios.post(apiUrl.API_IMAGE_URL, {
         prompt: value,
       });
-      const data = gptResponse.data.imageUrl;
+      const data = gptResponse.data.data[0].url;
       console.log(data);
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
