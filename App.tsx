@@ -13,16 +13,12 @@ import {
 import React, { useState, useEffect, useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { styles } from './styles';
-import axios from 'axios';
 import { useRoute } from './router';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {
   NavigationContainer,
 } from '@react-navigation/native';
 const Tab = createMaterialBottomTabNavigator();
-interface IApiResponse {
-  result: string;
-}
 
 SplashScreen.preventAutoHideAsync();
 export default function App(): JSX.Element {
@@ -43,26 +39,9 @@ const routing = useRoute();
   };
   
   useEffect(() => {
-    async function onColdBoot() {
-      try {
-        const gptResponse = await axios.post<IApiResponse>(
-          'https://gpt-back.onrender.com/api/generate',
-          // 'http://127.0.0.1:3005/api/generate',
-          {
-            requestMobile: '', // fix for cold boot, if removed wait for response up to 8s
-          }
-        );
-        const data = gptResponse.data.result;
-        console.log(data);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        // Tell the application to render
-        setAppIsReady(true);
-      }
-    }
 
-    onColdBoot();
+    setAppIsReady(true);
+
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
