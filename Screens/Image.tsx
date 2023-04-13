@@ -20,12 +20,10 @@ interface ChatMessage {
   prompt: string;
   data: string;
 }
-interface gptResponse {
 
-}
 const Image = () => {
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);  
-  const [value, setValue] = useState<string>('');  
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const inputHandler = (prompt: string) => {
@@ -39,17 +37,20 @@ const Image = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-       
-      const gptResponse = await axios.post(apiUrl.API_IMAGE_URL, {
-        prompt: value,
-      });
+      const gptResponse = await axios.post(
+        apiUrl.API_IMAGE_URL,
+        {
+          prompt: value,
+        }
+      );
       const data = gptResponse.data.data[0].url;
       console.log(data);
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
-      setLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
