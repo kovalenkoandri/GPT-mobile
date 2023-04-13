@@ -22,4 +22,4 @@ jobs:
       - name: Install dependencies
         run: rm -rf node_modules && yarn install --immutable --immutable-cache --check-cache
       - name: Build on EAS
-        run: eas build --platform android --non-interactive
+        run: EAS_BUILD_AUTOCOMMIT=${{1}} npx eas-cli build --platform android --non-interactive
