@@ -4,8 +4,6 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
-  Keyboard,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -96,4 +94,3 @@ const Chat = () => {
 };
 export default Chat;
 
-// TouchableWithoutFeedback onPress={Keyboard.dismiss}
