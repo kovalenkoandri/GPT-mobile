@@ -23,8 +23,8 @@ interface ChatMessage {
 }
 
 const Chat = () => {
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]); 
-  const [value, setValue] = useState<string>('');  
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const inputHandler = (prompt: string) => {
@@ -38,7 +38,7 @@ const Chat = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-        
+
       const gptResponse = await axios.post(apiUrl.API_URL, {
         prompt: value,
       });
@@ -46,9 +46,10 @@ const Chat = () => {
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
       console.log(data);
-      setLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
