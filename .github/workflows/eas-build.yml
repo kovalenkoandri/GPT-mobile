@@ -21,5 +21,9 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
       - name: Install dependencies
         run: rm -rf node_modules && yarn install --immutable --immutable-cache --check-cache
+       - name: Authenticate git name
+        run: git config --global user.name "kovalenkoandri"
+      - name: Authenticate git email
+        run: git config --global user.email "kovalenkoandrii@gmail.com"
       - name: Build on EAS
         run: EAS_BUILD_AUTOCOMMIT=${{1}} npx eas-cli build --platform android --non-interactive
