@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -18,10 +19,10 @@ import { Env } from '../Env';
 const apiUrl = Env.API_ENDPOINTS;
 interface ChatMessage {
   prompt: string;
-  data: string;
+  encodedBase64: string;
 }
 
-const Image = () => {
+const ImageDalle = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,19 +34,16 @@ const Image = () => {
     }
     return setValue(prompt);
   };
-
+  let encodedBase64 = '';
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const gptResponse = await axios.post(
-        apiUrl.API_IMAGE_URL,
-        {
-          prompt: value,
-        }
-      );
-      const data = gptResponse.data.data[0].url;
-      console.log(data);
-      setChatHistory([...chatHistory, { prompt: value, data }]);
+      const gptResponse = await axios.post(apiUrl.API_IMAGE_URL, {
+        prompt: value,
+      });
+      encodedBase64 = gptResponse.data.data[0].b64_json;
+      console.log(encodedBase64);
+      setChatHistory([...chatHistory, { prompt: value, encodedBase64 }]);
       setValue('');
     } catch (error) {
       console.error(error);
@@ -64,7 +62,12 @@ const Image = () => {
           {chatHistory.map((chatItem, index) => (
             <View key={index} style={styles.chatItem}>
               <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-              <Text style={styles.chatResponse}>{chatItem.data}</Text>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `data:image/png;base64,${chatItem.encodedBase64}`,
+                }}
+              />
             </View>
           ))}
 
@@ -96,4 +99,4 @@ const Image = () => {
   );
 };
 
-export default Image;
+export default ImageDalle;

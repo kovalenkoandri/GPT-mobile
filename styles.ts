@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   },
   sendButtonText: {},
   keyboardAvoidingView: {
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   chatRequest: {
     backgroundColor: '#353343',
@@ -59,5 +59,9 @@ export const styles = StyleSheet.create({
     width: '95%',
     color: '#f1f6ff',
     fontSize: 18,
+  },
+  image: {
+    height: 150,
+    width: 150,
   },
 });

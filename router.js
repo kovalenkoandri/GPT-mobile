@@ -1,6 +1,6 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Chat from './Screens/Chat';
-import Image from './Screens/Image';
+import ImageDalle from './Screens/Image';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -24,8 +24,8 @@ export const useRoute = () => {
           }}
         />
         <Tab.Screen
-          name="Image"
-          component={Image}
+          name="ImageDalle"
+          component={ImageDalle}
           options={{
             tabBarLabel: 'Image',
             tabBarIcon: ({ color = '000' }) => (
