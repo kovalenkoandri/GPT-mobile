@@ -85,3 +85,4 @@ dist/
 # @end expo-cli
 credentials.json
 samples/app.json
+credentials/
