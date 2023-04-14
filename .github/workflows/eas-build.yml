@@ -13,11 +13,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
+          cache: npm
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+          token: ui8-S_V6CKOI85rqRMgSpMTu3agM_50osle3T5q_
       - name: Install dependencies
         run: npm ci
       - name: Build on EAS
