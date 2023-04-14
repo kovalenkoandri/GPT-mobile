@@ -85,3 +85,4 @@ web-build/
 dist/
 
 # @end expo-cli
+credentials.json

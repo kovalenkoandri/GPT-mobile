@@ -7,7 +7,7 @@
     "web": "npx expo start --web"
   },
   "dependencies": {
-    "@expo/config-plugins": "~6.0.0",
+    "@expo/config-plugins": "^6.0.1",
     "@expo/webpack-config": "^18.0.4",
     "@react-navigation/material-bottom-tabs": "^6.2.15",
     "@react-navigation/native": "^6.1.6",
