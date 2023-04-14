@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "GPT-mobile",
+    "slug": "gpt-mobile",
+    "icon": "./assets/cloud1024.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2f2f3d"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/cloud1024.png",
+        "backgroundColor": "#2f2f3d"
+      },
+      "package": "com.kovalenkoandrii.GPTmobile",
+      "versionCode": 4
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "accessible": true,
+      "accessibilityLabel": "AI web app icon"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2692c939-6145-41cc-86d8-3f76d9d0d0eb"
+      },
+      "API_URL": "https://soft-river-70ec.kovalenkoandrii2931.workers.dev/",
+      "API_IMAGE_URL": "https://patient-bonus-24f2.kovalenkoandrii2931.workers.dev"
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/41fcefab-6f7d-48cb-9092-0ab3fabde6a3"
+    },
+    "plugins": [
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ]
+    ],
+    "owner": "wawa260"
+  }
+}
