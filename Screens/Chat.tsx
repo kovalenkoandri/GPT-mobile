@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -67,21 +68,26 @@ const Chat = () => {
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Type your question"
+              placeholder="Type your question from 5 symbols"
               placeholderTextColor="#f1f6ff"
               value={value}
               onChangeText={inputHandler}
               style={styles.input}
               multiline={true}
+              onBlur={() => {
+                if (value.length >= 5) {
+                  Keyboard.dismiss();
+                  onSubmit();
+                }
+              }}
             />
             <TouchableOpacity
-              onPress={onSubmit}
-              disabled={loading || value.length === 0}
+              disabled={loading || value.length < 5}
               style={styles.sendButton}
               activeOpacity={0.6}
               accessibilityLabel="Send button"
             >
-              {value.length > 0 && <SendIcon />}
+              {value.length >= 5 && <SendIcon />}
             </TouchableOpacity>
             <View style={styles.sendButtonText}>
               {loading && <ActivityIndicator size="large" color="#fff" />}
@@ -93,4 +99,3 @@ const Chat = () => {
   );
 };
 export default Chat;
-

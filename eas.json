@@ -3,12 +3,13 @@
     "appVersionSource": "local"
   },
   "build": {
-    "staging": {
+    "development": {
+      "developmentClient": true,
       "distribution": "internal",
       "android": {
         "buildType": "apk"
       },
-      "channel": "staging"
+      "channel": "development"
     },
     "production": {
       "autoIncrement": true,
