@@ -26,7 +26,7 @@ const ImageDalle = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [messageToDelete, setMessageToDelete] = useState<number>(-1);
   const inputHandler = (prompt: string) => {
     prompt.trim();
     if (prompt.length > 256) {
@@ -67,6 +67,20 @@ const ImageDalle = () => {
                   uri: `data:image/png;base64,${chatItem.encodedBase64}`,
                 }}
               />
+              {messageToDelete !== index && (
+                <TouchableOpacity
+                  style={styles.showDeleteButton}
+                  onPress={() => {
+                    setMessageToDelete(index);
+                    const newChatHistory = [...chatHistory];
+                    newChatHistory.splice(index, 1);
+                    setChatHistory(newChatHistory);
+                    setMessageToDelete(-1);
+                  }}
+                >
+                  <Text style={styles.showDeleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+              )}
             </View>
           ))}
 

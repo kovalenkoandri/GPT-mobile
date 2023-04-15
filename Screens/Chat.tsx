@@ -63,23 +63,16 @@ const Chat = () => {
             <View key={index} style={styles.chatItem}>
               <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
               <Text style={styles.chatResponse}>{chatItem.data}</Text>
-              {messageToDelete === index && (
+              {messageToDelete !== index && (
                 <TouchableOpacity
-                  style={styles.deleteButton}
+                  style={styles.showDeleteButton}
                   onPress={() => {
+                    setMessageToDelete(index);
                     const newChatHistory = [...chatHistory];
                     newChatHistory.splice(index, 1);
                     setChatHistory(newChatHistory);
                     setMessageToDelete(-1);
                   }}
-                >
-                  <Text style={styles.deleteButtonText}>Confirm Delete</Text>
-                </TouchableOpacity>
-              )}
-              {messageToDelete !== index && (
-                <TouchableOpacity
-                  style={styles.showDeleteButton}
-                  onPress={() => setMessageToDelete(index)}
                 >
                   <Text style={styles.showDeleteButtonText}>Delete</Text>
                 </TouchableOpacity>
