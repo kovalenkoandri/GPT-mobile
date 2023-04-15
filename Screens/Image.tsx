@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  Platform,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -16,6 +17,9 @@ import { SendIcon } from '../assets/send';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Env } from '../Env';
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+
 const apiUrl = Env.API_ENDPOINTS;
 interface ChatMessage {
   prompt: string;
@@ -50,6 +54,21 @@ const ImageDalle = () => {
       setLoading(false);
     }
   };
+  const saveToPhone = async (imageData: any) => {
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== 'granted') {
+        return alert('Permission to save image was denied');
+      }
+      const asset = await MediaLibrary.createAssetAsync(imageData);
+      await MediaLibrary.createAlbumAsync('ImageDalle', asset, false);
+      alert('Image saved to phone!');
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred while saving the image');
+    }
+  };
+
   return (
     <>
       <StatusBar style="auto" />
@@ -68,18 +87,34 @@ const ImageDalle = () => {
                 }}
               />
               {messageToDelete !== index && (
-                <TouchableOpacity
-                  style={styles.showDeleteButton}
-                  onPress={() => {
-                    setMessageToDelete(index);
-                    const newChatHistory = [...chatHistory];
-                    newChatHistory.splice(index, 1);
-                    setChatHistory(newChatHistory);
-                    setMessageToDelete(-1);
-                  }}
-                >
-                  <Text style={styles.showDeleteButtonText}>Delete</Text>
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.showDeleteButton}
+                    onPress={() => {
+                      setMessageToDelete(index);
+                      const newChatHistory = [...chatHistory];
+                      newChatHistory.splice(index, 1);
+                      setChatHistory(newChatHistory);
+                      setMessageToDelete(-1);
+                    }}
+                  >
+                    <Text style={styles.showDeleteButtonText}>Delete</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.saveButton}
+                    onPress={() =>
+                      saveToPhone(
+                        `data:image/png;base64,${chatItem.encodedBase64}`
+                      )
+                    }
+                  >
+                    <Image
+                      source={require('../assets/cloud1024.png')}
+                      fadeDuration={0}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  </TouchableOpacity>
+                </View>
               )}
             </View>
           ))}

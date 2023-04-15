@@ -77,4 +77,17 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 5,
+  },
+  saveButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#42a5f5',
+    borderRadius: 50,
+    height: 30,
+    width: 30,
+  },
 });
