@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -24,6 +25,7 @@ const Chat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [messageToDelete, setMessageToDelete] = useState<number>(-1);
 
   const inputHandler = (prompt: string) => {
     prompt.trim();
@@ -43,7 +45,6 @@ const Chat = () => {
       const data = gptResponse.data.toString();
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
-      console.log(data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -62,26 +63,45 @@ const Chat = () => {
             <View key={index} style={styles.chatItem}>
               <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
               <Text style={styles.chatResponse}>{chatItem.data}</Text>
+              {messageToDelete !== index && (
+                <TouchableOpacity
+                  style={styles.showDeleteButton}
+                  onPress={() => {
+                    setMessageToDelete(index);
+                    const newChatHistory = [...chatHistory];
+                    newChatHistory.splice(index, 1);
+                    setChatHistory(newChatHistory);
+                    setMessageToDelete(-1);
+                  }}
+                >
+                  <Text style={styles.showDeleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+              )}
             </View>
           ))}
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Type your question"
+              placeholder="Type your question from 5 symbols"
               placeholderTextColor="#f1f6ff"
               value={value}
               onChangeText={inputHandler}
               style={styles.input}
               multiline={true}
+              onBlur={() => {
+                if (value.length >= 5) {
+                  Keyboard.dismiss();
+                  onSubmit();
+                }
+              }}
             />
             <TouchableOpacity
-              onPress={onSubmit}
-              disabled={loading || value.length === 0}
+              disabled={loading || value.length < 5}
               style={styles.sendButton}
               activeOpacity={0.6}
               accessibilityLabel="Send button"
             >
-              {value.length > 0 && <SendIcon />}
+              {value.length >= 5 && <SendIcon />}
             </TouchableOpacity>
             <View style={styles.sendButtonText}>
               {loading && <ActivityIndicator size="large" color="#fff" />}
@@ -93,4 +113,3 @@ const Chat = () => {
   );
 };
 export default Chat;
-
