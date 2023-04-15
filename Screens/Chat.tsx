@@ -25,6 +25,7 @@ const Chat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [messageToDelete, setMessageToDelete] = useState<number>(-1);
 
   const inputHandler = (prompt: string) => {
     prompt.trim();
@@ -62,6 +63,27 @@ const Chat = () => {
             <View key={index} style={styles.chatItem}>
               <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
               <Text style={styles.chatResponse}>{chatItem.data}</Text>
+              {messageToDelete === index && (
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => {
+                    const newChatHistory = [...chatHistory];
+                    newChatHistory.splice(index, 1);
+                    setChatHistory(newChatHistory);
+                    setMessageToDelete(-1);
+                  }}
+                >
+                  <Text style={styles.deleteButtonText}>Confirm Delete</Text>
+                </TouchableOpacity>
+              )}
+              {messageToDelete !== index && (
+                <TouchableOpacity
+                  style={styles.showDeleteButton}
+                  onPress={() => setMessageToDelete(index)}
+                >
+                  <Text style={styles.showDeleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+              )}
             </View>
           ))}
 

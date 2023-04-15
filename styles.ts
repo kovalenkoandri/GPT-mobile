@@ -64,4 +64,30 @@ export const styles = StyleSheet.create({
     height: 150,
     width: 150,
   },
+  deleteButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: '#f00',
+    borderRadius: 10,
+    padding: 5,
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  showDeleteButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: '#ddd',
+    borderRadius: 10,
+    padding: 5,
+  },
+  showDeleteButtonText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
