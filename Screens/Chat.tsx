@@ -44,7 +44,6 @@ const Chat = () => {
       const data = gptResponse.data.toString();
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
-      console.log(data);
     } catch (error) {
       console.error(error);
     } finally {

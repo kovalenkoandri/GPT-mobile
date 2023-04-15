@@ -42,7 +42,6 @@ const ImageDalle = () => {
         prompt: value,
       });
       encodedBase64 = gptResponse.data.data[0].b64_json;
-      console.log(encodedBase64);
       setChatHistory([...chatHistory, { prompt: value, encodedBase64 }]);
       setValue('');
     } catch (error) {
@@ -79,15 +78,21 @@ const ImageDalle = () => {
               onChangeText={inputHandler}
               style={styles.input}
               multiline={true}
+              onBlur={() => {
+                if (value.length >= 5) {
+                  Keyboard.dismiss();
+                  onSubmit();
+                }
+              }}
             />
             <TouchableOpacity
               onPress={onSubmit}
-              disabled={loading || value.length === 0}
+              disabled={loading || value.length < 5}
               style={styles.sendButton}
               activeOpacity={0.6}
               accessibilityLabel="Send button"
             >
-              {value.length > 0 && <SendIcon />}
+              {value.length >= 5 && <SendIcon />}
             </TouchableOpacity>
             <View style={styles.sendButtonText}>
               {loading && <ActivityIndicator size="large" color="#fff" />}
