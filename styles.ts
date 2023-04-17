@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
     padding: 10,
     color: '#f1f6ff',
     backgroundColor: '#414155',
+    textAlignVertical: 'top',
   },
   chatRequest: {
     backgroundColor: '#353343',
