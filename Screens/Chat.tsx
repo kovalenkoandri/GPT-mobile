@@ -54,10 +54,10 @@ const Chat = () => {
   return (
     <>
       <StatusBar style="auto" />
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         behavior="height"
-        style={styles.keyboardAvoidingView}
-      >
+        style={styles.keyboardAvoidingView} */}
+      {/* > */}
         <ScrollView style={styles.scrollView}>
           {chatHistory.map((chatItem, index) => (
             <View key={index} style={styles.chatItem}>
@@ -108,7 +108,7 @@ const Chat = () => {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </>
   );
 };

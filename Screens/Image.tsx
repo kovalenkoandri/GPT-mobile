@@ -53,10 +53,10 @@ const ImageDalle = () => {
   return (
     <>
       <StatusBar style="auto" />
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         behavior="height"
         style={styles.keyboardAvoidingView}
-      >
+      > */}
         <ScrollView style={styles.scrollView}>
           {chatHistory.map((chatItem, index) => (
             <View key={index} style={styles.chatItem}>
@@ -113,7 +113,7 @@ const ImageDalle = () => {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </>
   );
 };
