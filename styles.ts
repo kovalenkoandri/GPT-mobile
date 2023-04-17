@@ -33,15 +33,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#414155',
     textAlignVertical: 'bottom',
   },
-  sendButton: {
-    width: '20%',
-    alignItems: 'center',
-    alignSelf: 'flex-end',
-  },
-  sendButtonText: {},
-  keyboardAvoidingView: {
-    paddingBottom: 20,
-  },
   chatRequest: {
     backgroundColor: '#353343',
     borderRadius: 10,

@@ -3,7 +3,6 @@ import {
   Text,
   TextInput,
   ScrollView,
-  KeyboardAvoidingView,
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
@@ -54,61 +53,53 @@ const Chat = () => {
   return (
     <>
       <StatusBar style="auto" />
-      {/* <KeyboardAvoidingView
-        behavior="height"
-        style={styles.keyboardAvoidingView} */}
-      {/* > */}
-        <ScrollView style={styles.scrollView}>
-          {chatHistory.map((chatItem, index) => (
-            <View key={index} style={styles.chatItem}>
-              <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-              <Text style={styles.chatResponse}>{chatItem.data}</Text>
-              {messageToDelete !== index && (
-                <TouchableOpacity
-                  style={styles.showDeleteButton}
-                  onPress={() => {
-                    setMessageToDelete(index);
-                    const newChatHistory = [...chatHistory];
-                    newChatHistory.splice(index, 1);
-                    setChatHistory(newChatHistory);
-                    setMessageToDelete(-1);
-                  }}
-                >
-                  <Text style={styles.showDeleteButtonText}>Delete</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          ))}
-
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Type your question from 5 symbols"
-              placeholderTextColor="#f1f6ff"
-              value={value}
-              onChangeText={inputHandler}
-              style={styles.input}
-              multiline={true}
-              onBlur={() => {
-                if (value.length >= 5) {
-                  Keyboard.dismiss();
-                  onSubmit();
-                }
-              }}
-            />
-            <TouchableOpacity
-              disabled={loading || value.length < 5}
-              style={styles.sendButton}
-              activeOpacity={0.6}
-              accessibilityLabel="Send button"
-            >
-              {value.length >= 5 && <SendIcon />}
-            </TouchableOpacity>
-            <View style={styles.sendButtonText}>
-              {loading && <ActivityIndicator size="large" color="#fff" />}
-            </View>
+      <ScrollView style={styles.scrollView}>
+        {chatHistory.map((chatItem, index) => (
+          <View key={index} style={styles.chatItem}>
+            <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
+            <Text style={styles.chatResponse}>{chatItem.data}</Text>
+            {messageToDelete !== index && (
+              <TouchableOpacity
+                style={styles.showDeleteButton}
+                onPress={() => {
+                  setMessageToDelete(index);
+                  const newChatHistory = [...chatHistory];
+                  newChatHistory.splice(index, 1);
+                  setChatHistory(newChatHistory);
+                  setMessageToDelete(-1);
+                }}
+              >
+                <Text style={styles.showDeleteButtonText}>Delete</Text>
+              </TouchableOpacity>
+            )}
           </View>
-        </ScrollView>
-      {/* </KeyboardAvoidingView> */}
+        ))}
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Type from 5 symbols"
+            placeholderTextColor="#f1f6ff"
+            value={value}
+            onChangeText={inputHandler}
+            style={styles.input}
+            multiline={true}
+            onBlur={() => {
+              if (value.length >= 5) {
+                Keyboard.dismiss();
+                onSubmit();
+              }
+            }}
+          />
+          <TouchableOpacity
+            disabled={loading || value.length < 5}
+            activeOpacity={0.6}
+            accessibilityLabel="Send button"
+          >
+            {value.length >= 5 && <SendIcon />}
+          </TouchableOpacity>
+            {loading && <ActivityIndicator size="large" color="#fff" />}
+        </View>
+      </ScrollView>
     </>
   );
 };

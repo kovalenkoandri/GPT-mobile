@@ -3,9 +3,7 @@ import {
   Text,
   TextInput,
   ScrollView,
-  KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   ActivityIndicator,
   Image,
@@ -53,67 +51,59 @@ const ImageDalle = () => {
   return (
     <>
       <StatusBar style="auto" />
-      {/* <KeyboardAvoidingView
-        behavior="height"
-        style={styles.keyboardAvoidingView}
-      > */}
-        <ScrollView style={styles.scrollView}>
-          {chatHistory.map((chatItem, index) => (
-            <View key={index} style={styles.chatItem}>
-              <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `data:image/png;base64,${chatItem.encodedBase64}`,
-                }}
-              />
-              {messageToDelete !== index && (
-                <TouchableOpacity
-                  style={styles.showDeleteButton}
-                  onPress={() => {
-                    setMessageToDelete(index);
-                    const newChatHistory = [...chatHistory];
-                    newChatHistory.splice(index, 1);
-                    setChatHistory(newChatHistory);
-                    setMessageToDelete(-1);
-                  }}
-                >
-                  <Text style={styles.showDeleteButtonText}>Delete</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          ))}
-
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Type your question"
-              placeholderTextColor="#f1f6ff"
-              value={value}
-              onChangeText={inputHandler}
-              style={styles.input}
-              multiline={true}
-              onBlur={() => {
-                if (value.length >= 5) {
-                  Keyboard.dismiss();
-                  onSubmit();
-                }
+      <ScrollView style={styles.scrollView}>
+        {chatHistory.map((chatItem, index) => (
+          <View key={index} style={styles.chatItem}>
+            <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
+            <Image
+              style={styles.image}
+              source={{
+                uri: `data:image/png;base64,${chatItem.encodedBase64}`,
               }}
             />
-            <TouchableOpacity
-              onPress={onSubmit}
-              disabled={loading || value.length < 5}
-              style={styles.sendButton}
-              activeOpacity={0.6}
-              accessibilityLabel="Send button"
-            >
-              {value.length >= 5 && <SendIcon />}
-            </TouchableOpacity>
-            <View style={styles.sendButtonText}>
-              {loading && <ActivityIndicator size="large" color="#fff" />}
-            </View>
+            {messageToDelete !== index && (
+              <TouchableOpacity
+                style={styles.showDeleteButton}
+                onPress={() => {
+                  setMessageToDelete(index);
+                  const newChatHistory = [...chatHistory];
+                  newChatHistory.splice(index, 1);
+                  setChatHistory(newChatHistory);
+                  setMessageToDelete(-1);
+                }}
+              >
+                <Text style={styles.showDeleteButtonText}>Delete</Text>
+              </TouchableOpacity>
+            )}
           </View>
-        </ScrollView>
-      {/* </KeyboardAvoidingView> */}
+        ))}
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Type from 5 symbols"
+            placeholderTextColor="#f1f6ff"
+            value={value}
+            onChangeText={inputHandler}
+            style={styles.input}
+            multiline={true}
+            onBlur={() => {
+              if (value.length >= 5) {
+                Keyboard.dismiss();
+                onSubmit();
+              }
+            }}
+          />
+          <TouchableOpacity
+            onPress={onSubmit}
+            disabled={loading || value.length < 5}
+            activeOpacity={0.6}
+            accessibilityLabel="Send button"
+          >
+            {value.length >= 5 && <SendIcon />}
+          </TouchableOpacity>
+            {loading && <ActivityIndicator size="large" color="#fff" />}
+        </View>
+      </ScrollView>
     </>
   );
 };
