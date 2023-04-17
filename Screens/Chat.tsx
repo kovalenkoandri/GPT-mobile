@@ -10,7 +10,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Env } from '../Env';
 const apiUrl = Env.API_ENDPOINTS;
@@ -25,6 +25,7 @@ const Chat = () => {
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
+  const scrollViewRef = useRef<TextInput>(null);
 
   const inputHandler = (prompt: string) => {
     prompt.trim();
@@ -50,6 +51,13 @@ const Chat = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.focus();
+    }
+  }, [chatHistory]);
+
   return (
     <>
       <StatusBar style="auto" />
@@ -77,6 +85,7 @@ const Chat = () => {
 
         <View style={styles.inputContainer}>
           <TextInput
+            ref={scrollViewRef}
             placeholder="Type from 5 symbols"
             placeholderTextColor="#f1f6ff"
             value={value}
@@ -97,7 +106,7 @@ const Chat = () => {
           >
             {value.length >= 5 && <SendIcon />}
           </TouchableOpacity>
-            {loading && <ActivityIndicator size="large" color="#fff" />}
+          {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>
       </ScrollView>
     </>
