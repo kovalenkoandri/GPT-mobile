@@ -18,6 +18,15 @@ export const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10,
   },
+  gestureContainer: {
+    flex: 1,
+    backgroundColor: '#25292e',
+    alignItems: 'center',
+  },
+  imageContainer: {
+    flex: 1,
+    paddingTop: 58,
+  },
   inputContainer: {
     backgroundColor: '#414155',
     width: '100%',
@@ -54,6 +63,7 @@ export const styles = StyleSheet.create({
   image: {
     height: 150,
     width: 150,
+    borderRadius: 18,
   },
   showDeleteButton: {
     position: 'absolute',
@@ -67,5 +77,17 @@ export const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  footerContainer: {
+    flex: 1 / 3,
+    alignItems: 'center',
+  },
+  optionsContainer: {
+    position: 'absolute',
+    bottom: 80,
+  },
+  optionsRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });
