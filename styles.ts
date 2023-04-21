@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     paddingTop: 58,
+    alignItems: 'center',
   },
   inputContainer: {
     backgroundColor: '#414155',

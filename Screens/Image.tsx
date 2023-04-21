@@ -16,7 +16,6 @@ import axios from 'axios';
 import { Env } from '../Env';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { captureRef } from 'react-native-view-shot';
-import ImageViewer from '../components/ImageViewer';
 import EmojiPicker from '../components/EmojiPicker';
 import EmojiList from '../components/EmojiList';
 import EmojiSticker from '../components/EmojiSticker';
@@ -134,11 +133,6 @@ const ImageDalle = () => {
               <GestureHandlerRootView style={styles.gestureContainer}>
                 <View style={styles.imageContainer}>
                   <View ref={imageRef} collapsable={false}>
-                    <ImageViewer
-                      placeholderImageSource={chatItem.encodedBase64}
-                      selectedImage={selectedImage}
-                      setSelectedImage={setSelectedImage}
-                    />
                     <Image
                       style={styles.image}
                       source={{
