@@ -88,7 +88,7 @@ export const styles = StyleSheet.create({
     bottom: 80,
   },
   optionsRow: {
-    alignItems: 'center',
     flexDirection: 'row',
+    alignItems: 'center'
   },
 });
