@@ -18,7 +18,6 @@ import { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import CircleButton from '../components/CircleButton';
 import IconButton from '../components/IconButton';
-
 const apiUrl = Env.API_ENDPOINTS;
 
 interface ChatMessage {
@@ -29,20 +28,55 @@ interface ChatMessage {
 const ImageDalle = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
+  const [imageURL, setImageURL] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
-  const [showAppOptions, setShowAppOptions] = useState(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
 
   const scrollViewRef = useRef<TextInput>(null);
   const imageRef = useRef<View>(null);
 
+  let encodedBase64 = '';
+
   if (status === null) {
     requestPermission();
   }
 
-  const onReset = () => {
-    setShowAppOptions(false);
+  const onReset = async () => {
+    try {
+      setLoading(true);
+      const gptResponse = await axios.post(
+        apiUrl.API_IMAGE_VARIATION_URL,
+        {
+          link: imageURL,
+          // link: 'https://res.cloudinary.com/dpad5ltdp/image/upload/v1682337209/image_variation_original_fjzhea.png',
+        },
+        { timeout: 6000 }
+      );
+      async function getImageToBase64(imageURL: string): Promise<string> {
+        const data = await fetch(imageURL);
+        const blob = await data.blob();
+        return new Promise<string>(resolve => {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+            const base64data = reader.result as string;
+            resolve(base64data);
+          };
+        });
+      }
+
+      encodedBase64 = await getImageToBase64(gptResponse.data.url);
+      encodedBase64 = await encodedBase64.replace(
+        'data:application/octet-stream;base64,',
+        ''
+      );
+      setChatHistory([...chatHistory, { prompt: value, encodedBase64 }]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSaveImageAsync = async () => {
@@ -60,7 +94,7 @@ const ImageDalle = () => {
       console.log(e);
     }
   };
- 
+
   const inputHandler = (prompt: string) => {
     prompt.trim();
     if (prompt.length > 256) {
@@ -68,14 +102,26 @@ const ImageDalle = () => {
     }
     return setValue(prompt);
   };
-  let encodedBase64 = '';
+
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const gptResponse = await axios.post(apiUrl.API_IMAGE_URL, {
-        prompt: value,
-      });
+      const gptResponse = await axios.post(
+        apiUrl.API_IMAGE_B64,
+        {
+          prompt: value,
+        },
+        { timeout: 6000 }
+      );
+      const gptResponseURL = await axios.post(
+        apiUrl.API_IMAGE_URL,
+        {
+          prompt: value,
+        },
+        { timeout: 6000 }
+      );
       encodedBase64 = gptResponse.data.data[0].b64_json;
+      setImageURL(gptResponseURL.data.data[0].url);
       setChatHistory([...chatHistory, { prompt: value, encodedBase64 }]);
       setValue('');
     } catch (error) {
@@ -99,45 +145,41 @@ const ImageDalle = () => {
           return (
             <View key={index} style={styles.chatItem}>
               <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-                <View style={styles.imageContainer}>
-                  <View ref={imageRef} collapsable={false}>
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: `data:image/png;base64,${chatItem.encodedBase64}`,
-                      }}
-                    />
-                  </View>
-                </View>
-                {messageToDelete !== index && (
-                  <TouchableOpacity
-                    style={styles.showDeleteButton}
-                    onPress={() => {
-                      setMessageToDelete(index);
-                      const newChatHistory = [...chatHistory];
-                      newChatHistory.splice(index, 1);
-                      setChatHistory(newChatHistory);
-                      setMessageToDelete(-1);
+              <View style={styles.imageContainer}>
+                <View ref={imageRef} collapsable={false}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `data:image/png;base64,${chatItem.encodedBase64}`,
                     }}
-                  >
-                    <Text style={styles.showDeleteButtonText}>Delete</Text>
-                  </TouchableOpacity>
-                )}
-                  <View style={styles.optionsContainer}>
-                    <View style={styles.optionsRow}>
-                      <IconButton
-                        icon="refresh"
-                        label="Reset"
-                        onPress={onReset}
-                      />
-                      {/* <CircleButton onPress={onAddSticker} /> */}
-                      <IconButton
-                        icon="save-alt"
-                        label="Save"
-                        onPress={onSaveImageAsync}
-                      />
-                    </View>
-                  </View>
+                  />
+                </View>
+              </View>
+              {messageToDelete !== index && (
+                <TouchableOpacity
+                  style={styles.showDeleteButton}
+                  onPress={() => {
+                    setMessageToDelete(index);
+                    const newChatHistory = [...chatHistory];
+                    newChatHistory.splice(index, 1);
+                    setChatHistory(newChatHistory);
+                    setMessageToDelete(-1);
+                  }}
+                >
+                  <Text style={styles.showDeleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+              )}
+              <View style={styles.optionsContainer}>
+                <View style={styles.optionsRow}>
+                  <IconButton icon="refresh" label="Reset" onPress={onReset} />
+                  {/* <CircleButton onPress={onAddSticker} /> */}
+                  <IconButton
+                    icon="save-alt"
+                    label="Save"
+                    onPress={onSaveImageAsync}
+                  />
+                </View>
+              </View>
             </View>
           );
         })}

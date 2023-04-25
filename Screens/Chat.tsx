@@ -39,9 +39,13 @@ const Chat = () => {
     try {
       setLoading(true);
 
-      const gptResponse = await axios.post(apiUrl.API_URL, {
-        prompt: value,
-      });
+      const gptResponse = await axios.post(
+        apiUrl.API_URL,
+        {
+          prompt: value,
+        },
+        { timeout: 1000 }
+      );
       const data = gptResponse.data.toString();
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
