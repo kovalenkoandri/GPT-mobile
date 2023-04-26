@@ -76,7 +76,6 @@ const ImageDalle = () => {
         'data:application/octet-stream;base64,',
         ''
       );
-      console.log('Clicked item at index:', index);
       itemId = uuid.v4();
       const newChatHistory = [...chatHistory];
       newChatHistory.splice(foundItemIdx, 1, {
