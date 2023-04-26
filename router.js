@@ -42,7 +42,7 @@ export const useRoute = () => {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="ImageUpload"
           component={ImageUpload}
           options={{
@@ -55,7 +55,7 @@ export const useRoute = () => {
               />
             ),
           }}
-        />
+        /> */}
       </Tab.Navigator>
     );
   }

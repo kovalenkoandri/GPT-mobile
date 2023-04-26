@@ -89,6 +89,9 @@ export const styles = StyleSheet.create({
   },
   optionsRow: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  buttonSend: {
+    justifyContent: 'flex-end',
   },
 });

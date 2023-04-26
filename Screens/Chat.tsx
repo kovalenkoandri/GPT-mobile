@@ -107,6 +107,7 @@ const Chat = () => {
             disabled={loading || value.length < 5}
             activeOpacity={0.6}
             accessibilityLabel="Send button"
+            style={styles.buttonSend}
           >
             {value.length >= 5 && <SendIcon />}
           </TouchableOpacity>
