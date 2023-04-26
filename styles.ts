@@ -18,14 +18,10 @@ export const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10,
   },
-  gestureContainer: {
-    flex: 1,
-    backgroundColor: '#25292e',
-    alignItems: 'center',
-  },
   imageContainer: {
     flex: 1,
     paddingTop: 58,
+    alignItems: 'center',
   },
   inputContainer: {
     backgroundColor: '#414155',
@@ -84,10 +80,12 @@ export const styles = StyleSheet.create({
   },
   optionsContainer: {
     position: 'absolute',
-    bottom: 80,
+    bottom: 50,
   },
   optionsRow: {
-    alignItems: 'center',
     flexDirection: 'row',
+  },
+  buttonSend: {
+    justifyContent: 'flex-end',
   },
 });

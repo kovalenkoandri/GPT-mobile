@@ -14,53 +14,82 @@ import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Env } from '../Env';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { captureRef } from 'react-native-view-shot';
-import ImageViewer from '../components/ImageViewer';
-import EmojiPicker from '../components/EmojiPicker';
-import EmojiList from '../components/EmojiList';
-import EmojiSticker from '../components/EmojiSticker';
 import * as MediaLibrary from 'expo-media-library';
-import * as ImagePicker from 'expo-image-picker';
 import CircleButton from '../components/CircleButton';
 import IconButton from '../components/IconButton';
-import Button from '../components/Button';
-
+import uuid from 'react-native-uuid';
 const apiUrl = Env.API_ENDPOINTS;
 
 interface ChatMessage {
   prompt: string;
   encodedBase64: string;
+  itemId: any;
+  imageURL: string;
 }
 
 const ImageDalle = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-  const [value, setValue] = useState<string>('');
+  const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [messageToDelete, setMessageToDelete] = useState<number>(-1);
-  const [selectedImage, setSelectedImage] = useState<string | null>('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [showAppOptions, setShowAppOptions] = useState(false);
-  const [pickedEmoji, setPickedEmoji] = useState(null);
   const [status, requestPermission] = MediaLibrary.usePermissions();
 
   const scrollViewRef = useRef<TextInput>(null);
   const imageRef = useRef<View>(null);
 
+  let encodedBase64 = '';
+  let imageURL = '';
+  let itemId: any;
+
   if (status === null) {
     requestPermission();
   }
 
-  const onReset = () => {
-    setShowAppOptions(false);
-  };
+  const onSwap = async (index: any) => {
+    try {
+      setLoading(true);
+      const foundItem = chatHistory.find(item => item.itemId === index);
+      const foundItemIdx = chatHistory.findIndex(item => item.itemId === index);
+      const gptResponse = await axios.post(
+        apiUrl.API_IMAGE_VARIATION_URL,
+        {
+          link: foundItem?.imageURL,
+          // link: 'https://res.cloudinary.com/dpad5ltdp/image/upload/v1682337209/image_variation_original_fjzhea.png',
+        },
+        { timeout: 6000 }
+      );
+      async function getImageToBase64(imageURL: string): Promise<string> {
+        const data = await fetch(imageURL);
+        const blob = await data.blob();
+        return new Promise<string>(resolve => {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+            const base64data = reader.result as string;
+            resolve(base64data);
+          };
+        });
+      }
 
-  const onAddSticker = () => {
-    setIsModalVisible(true);
-  };
-
-  const onModalClose = () => {
-    setIsModalVisible(false);
+      encodedBase64 = await getImageToBase64(gptResponse.data.url);
+      encodedBase64 = await encodedBase64.replace(
+        'data:application/octet-stream;base64,',
+        ''
+      );
+      itemId = uuid.v4();
+      const newChatHistory = [...chatHistory];
+      newChatHistory.splice(foundItemIdx, 1, {
+        itemId,
+        prompt: chatHistory[foundItemIdx].prompt || prompt,
+        encodedBase64,
+        imageURL: foundItem?.imageURL || imageURL,
+      });
+      setChatHistory(newChatHistory);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSaveImageAsync = async () => {
@@ -79,37 +108,39 @@ const ImageDalle = () => {
     }
   };
 
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-      setShowAppOptions(true);
-    } else {
-      alert('You did not select any image.');
-    }
-  };
-
   const inputHandler = (prompt: string) => {
     prompt.trim();
     if (prompt.length > 256) {
-      return setValue(prompt.slice(0, 256));
+      return setPrompt(prompt.slice(0, 256));
     }
-    return setValue(prompt);
+    return setPrompt(prompt);
   };
-  let encodedBase64 = '';
+
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const gptResponse = await axios.post(apiUrl.API_IMAGE_URL, {
-        prompt: value,
-      });
+      const gptResponse = await axios.post(
+        apiUrl.API_IMAGE_B64,
+        {
+          prompt,
+        },
+        { timeout: 6000 }
+      );
+      const gptResponseURL = await axios.post(
+        apiUrl.API_IMAGE_URL,
+        {
+          prompt,
+        },
+        { timeout: 6000 }
+      );
       encodedBase64 = gptResponse.data.data[0].b64_json;
-      setChatHistory([...chatHistory, { prompt: value, encodedBase64 }]);
-      setValue('');
+      imageURL = gptResponseURL.data.data[0].url;
+      itemId = uuid.v4();
+      setChatHistory([
+        ...chatHistory,
+        { itemId, prompt, encodedBase64, imageURL },
+      ]);
+      setPrompt('');
     } catch (error) {
       console.error(error);
     } finally {
@@ -127,88 +158,64 @@ const ImageDalle = () => {
     <>
       <StatusBar style="auto" />
       <ScrollView style={styles.scrollView}>
-        {chatHistory.map((chatItem, index) => (
-          <View key={index} style={styles.chatItem}>
-            <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-            <GestureHandlerRootView style={styles.gestureContainer}>
-              <View style={styles.imageContainer}>
-                <View ref={imageRef} collapsable={false}>
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: `data:image/png;base64,${chatItem.encodedBase64}`,
-                    }}
-                  />
-                  {pickedEmoji !== null ? (
-                    <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />
-                  ) : null}
-                </View>
+        {chatHistory.map((chatItem, index) => {
+          return (
+            <View key={chatItem.itemId} style={styles.chatItem}>
+              <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
+              <View ref={imageRef} collapsable={false}>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: `data:image/png;base64,${chatItem.encodedBase64}`,
+                  }}
+                />
               </View>
-              {messageToDelete !== index && (
+              {loading || (
                 <TouchableOpacity
                   style={styles.showDeleteButton}
                   onPress={() => {
-                    setMessageToDelete(index);
                     const newChatHistory = [...chatHistory];
                     newChatHistory.splice(index, 1);
                     setChatHistory(newChatHistory);
-                    setMessageToDelete(-1);
                   }}
                 >
                   <Text style={styles.showDeleteButtonText}>Delete</Text>
                 </TouchableOpacity>
               )}
-              {showAppOptions ? (
-                <View style={styles.optionsContainer}>
-                  <View style={styles.optionsRow}>
+              <View style={styles.optionsContainer}>
+                <View style={styles.optionsRow}>
+                  {loading || (
                     <IconButton
                       icon="refresh"
-                      label="Reset"
-                      onPress={onReset}
+                      label="Swap"
+                      onPress={() => onSwap(chatItem.itemId)}
                     />
-                    <CircleButton onPress={onAddSticker} />
+                  )}
+                  {/* <CircleButton onPress={onAddSticker} /> */}
+                  {loading || (
                     <IconButton
                       icon="save-alt"
                       label="Save"
                       onPress={onSaveImageAsync}
                     />
-                  </View>
+                  )}
                 </View>
-              ) : (
-                <View style={styles.footerContainer}>
-                  <Button
-                    theme="primary"
-                    label="Choose a photo"
-                    onPress={pickImageAsync}
-                  />
-                  <Button
-                    theme="secondary"
-                    label="Use this photo"
-                    onPress={() => setShowAppOptions(true)}
-                  />
-                </View>
-              )}
-              <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-                <EmojiList
-                  onSelect={setPickedEmoji}
-                  onCloseModal={onModalClose}
-                />
-              </EmojiPicker>
-            </GestureHandlerRootView>
-          </View>
-        ))}
+              </View>
+            </View>
+          );
+        })}
 
         <View style={styles.inputContainer}>
           <TextInput
             ref={scrollViewRef}
-            placeholder="Type from 5 symbols"
+            placeholder="Type from 3 symbols"
             placeholderTextColor="#f1f6ff"
-            value={value}
+            value={prompt}
             onChangeText={inputHandler}
             style={styles.input}
             multiline={true}
             onBlur={() => {
-              if (value.length >= 5) {
+              if (prompt.length >= 3) {
                 Keyboard.dismiss();
                 onSubmit();
               }
@@ -216,11 +223,12 @@ const ImageDalle = () => {
           />
           <TouchableOpacity
             onPress={onSubmit}
-            disabled={loading || value.length < 5}
+            disabled={loading || prompt.length < 3}
             activeOpacity={0.6}
             accessibilityLabel="Send button"
+            style={styles.buttonSend}
           >
-            {value.length >= 5 && <SendIcon />}
+            {prompt.length >= 3 && <SendIcon />}
           </TouchableOpacity>
           {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>

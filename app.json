@@ -6,7 +6,7 @@
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#2f2f3d"
     },
     "assetBundlePatterns": [
@@ -29,8 +29,12 @@
       "eas": {
         "projectId": "41fcefab-6f7d-48cb-9092-0ab3fabde6a3"
       },
-      "API_URL": "https://soft-river-70ec.kovalenkoandrii2931.workers.dev/",
-      "API_IMAGE_URL": "https://patient-bonus-24f2.kovalenkoandrii2931.workers.dev"
+      "API_URL": "https://text-davinci-003.kovalenkoandrii2931.workers.dev",
+      "API_CHAT_35_TURBO": "https://gpt-body-35-turbo.kovalenkoandrii2931.workers.dev",
+      "API_IMAGE_B64": "https://gpt-image-b64.kovalenkoandrii2931.workers.dev",
+      "API_IMAGE_URL": "https://gpt-image-url.kovalenkoandrii2931.workers.dev",
+      "API_IMAGE_VARIATION_URL": "https://gpt-back.onrender.com/api/imageVariation"
+      // "API_IMAGE_VARIATION_URL": "https://gpt-image-variation-url.kovalenkoandrii2931.workers.dev"
     },
     "runtimeVersion": {
       "policy": "sdkVersion"

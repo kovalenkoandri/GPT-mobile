@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Chat from './Screens/Chat';
 import ImageDalle from './Screens/Image';
+import ImageUpload from './Screens/ImageUpload';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -19,7 +20,11 @@ export const useRoute = () => {
           options={{
             tabBarLabel: 'Chat',
             tabBarIcon: ({ color = '000' }) => (
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <MaterialCommunityIcons
+                name="book-open-page-variant"
+                color={color}
+                size={26}
+              />
             ),
           }}
         />
@@ -27,12 +32,30 @@ export const useRoute = () => {
           name="ImageDalle"
           component={ImageDalle}
           options={{
-            tabBarLabel: 'Image',
+            tabBarLabel: 'Image create',
             tabBarIcon: ({ color = '000' }) => (
-              <MaterialCommunityIcons name="bell" color={color} size={26} />
+              <MaterialCommunityIcons
+                name="white-balance-sunny"
+                color={color}
+                size={26}
+              />
             ),
           }}
         />
+        {/* <Tab.Screen
+          name="ImageUpload"
+          component={ImageUpload}
+          options={{
+            tabBarLabel: 'Image upload',
+            tabBarIcon: ({ color = '000' }) => (
+              <MaterialCommunityIcons
+                name="arrow-up-circle"
+                color={color}
+                size={26}
+              />
+            ),
+          }}
+        /> */}
       </Tab.Navigator>
     );
   }

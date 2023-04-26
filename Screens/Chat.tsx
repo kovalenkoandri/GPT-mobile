@@ -39,9 +39,13 @@ const Chat = () => {
     try {
       setLoading(true);
 
-      const gptResponse = await axios.post(apiUrl.API_URL, {
-        prompt: value,
-      });
+      const gptResponse = await axios.post(
+        apiUrl.API_URL,
+        {
+          prompt: value,
+        },
+        { timeout: 1000 }
+      );
       const data = gptResponse.data.toString();
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
@@ -103,6 +107,7 @@ const Chat = () => {
             disabled={loading || value.length < 5}
             activeOpacity={0.6}
             accessibilityLabel="Send button"
+            style={styles.buttonSend}
           >
             {value.length >= 5 && <SendIcon />}
           </TouchableOpacity>
