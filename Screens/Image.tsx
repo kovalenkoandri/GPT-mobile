@@ -30,7 +30,7 @@ interface ChatMessage {
 
 const ImageDalle = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-  const [value, setValue] = useState<string>('');
+  const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
 
@@ -45,10 +45,11 @@ const ImageDalle = () => {
     requestPermission();
   }
 
-  const onReset = async (index: any) => {
+  const onSwap = async (index: any) => {
     try {
       setLoading(true);
       const foundItem = chatHistory.find(item => item.itemId === index);
+      const foundItemIdx = chatHistory.findIndex(item => item.itemId === index);
       const gptResponse = await axios.post(
         apiUrl.API_IMAGE_VARIATION_URL,
         {
@@ -77,15 +78,14 @@ const ImageDalle = () => {
       );
       console.log('Clicked item at index:', index);
       itemId = uuid.v4();
-      setChatHistory([
-        ...chatHistory,
-        {
-          itemId,
-          prompt: value,
-          encodedBase64,
-          imageURL: foundItem?.imageURL || imageURL,
-        },
-      ]);
+      const newChatHistory = [...chatHistory];
+      newChatHistory.splice(foundItemIdx, 1, {
+        itemId,
+        prompt: chatHistory[foundItemIdx].prompt || prompt,
+        encodedBase64,
+        imageURL: foundItem?.imageURL || imageURL,
+      });
+      setChatHistory(newChatHistory);
     } catch (error) {
       console.error(error);
     } finally {
@@ -112,9 +112,9 @@ const ImageDalle = () => {
   const inputHandler = (prompt: string) => {
     prompt.trim();
     if (prompt.length > 256) {
-      return setValue(prompt.slice(0, 256));
+      return setPrompt(prompt.slice(0, 256));
     }
-    return setValue(prompt);
+    return setPrompt(prompt);
   };
 
   const onSubmit = async () => {
@@ -123,14 +123,14 @@ const ImageDalle = () => {
       const gptResponse = await axios.post(
         apiUrl.API_IMAGE_B64,
         {
-          prompt: value,
+          prompt,
         },
         { timeout: 6000 }
       );
       const gptResponseURL = await axios.post(
         apiUrl.API_IMAGE_URL,
         {
-          prompt: value,
+          prompt,
         },
         { timeout: 6000 }
       );
@@ -139,9 +139,9 @@ const ImageDalle = () => {
       itemId = uuid.v4();
       setChatHistory([
         ...chatHistory,
-        { itemId, prompt: value, encodedBase64, imageURL },
+        { itemId, prompt, encodedBase64, imageURL },
       ]);
-      setValue('');
+      setPrompt('');
     } catch (error) {
       console.error(error);
     } finally {
@@ -163,41 +163,43 @@ const ImageDalle = () => {
           return (
             <View key={chatItem.itemId} style={styles.chatItem}>
               <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-              <View style={styles.imageContainer}>
-                <View ref={imageRef} collapsable={false}>
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: `data:image/png;base64,${chatItem.encodedBase64}`,
-                    }}
-                  />
-                </View>
+              <View ref={imageRef} collapsable={false}>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: `data:image/png;base64,${chatItem.encodedBase64}`,
+                  }}
+                />
               </View>
-              <TouchableOpacity
-                style={styles.showDeleteButton}
-                onPress={() => {
-                  const newChatHistory = [...chatHistory];
-                  newChatHistory.splice(index, 1);
-                  setChatHistory(newChatHistory);
-                }}
-              >
-                <Text style={styles.showDeleteButtonText}>Delete</Text>
-              </TouchableOpacity>
+              {loading || (
+                <TouchableOpacity
+                  style={styles.showDeleteButton}
+                  onPress={() => {
+                    const newChatHistory = [...chatHistory];
+                    newChatHistory.splice(index, 1);
+                    setChatHistory(newChatHistory);
+                  }}
+                >
+                  <Text style={styles.showDeleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+              )}
               <View style={styles.optionsContainer}>
                 <View style={styles.optionsRow}>
                   {loading || (
                     <IconButton
                       icon="refresh"
-                      label="Reset"
-                      onPress={() => onReset(chatItem.itemId)}
+                      label="Swap"
+                      onPress={() => onSwap(chatItem.itemId)}
                     />
                   )}
                   {/* <CircleButton onPress={onAddSticker} /> */}
-                  <IconButton
-                    icon="save-alt"
-                    label="Save"
-                    onPress={onSaveImageAsync}
-                  />
+                  {loading || (
+                    <IconButton
+                      icon="save-alt"
+                      label="Save"
+                      onPress={onSaveImageAsync}
+                    />
+                  )}
                 </View>
               </View>
             </View>
@@ -209,12 +211,12 @@ const ImageDalle = () => {
             ref={scrollViewRef}
             placeholder="Type from 3 symbols"
             placeholderTextColor="#f1f6ff"
-            value={value}
+            value={prompt}
             onChangeText={inputHandler}
             style={styles.input}
             multiline={true}
             onBlur={() => {
-              if (value.length >= 3) {
+              if (prompt.length >= 3) {
                 Keyboard.dismiss();
                 onSubmit();
               }
@@ -222,12 +224,12 @@ const ImageDalle = () => {
           />
           <TouchableOpacity
             onPress={onSubmit}
-            disabled={loading || value.length < 3}
+            disabled={loading || prompt.length < 3}
             activeOpacity={0.6}
             accessibilityLabel="Send button"
             style={styles.buttonSend}
           >
-            {value.length >= 3 && <SendIcon />}
+            {prompt.length >= 3 && <SendIcon />}
           </TouchableOpacity>
           {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>
