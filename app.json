@@ -18,7 +18,7 @@
         "backgroundColor": "#2f2f3d"
       },
       "package": "com.kovalenkoandrii.GPTmobile",
-      "versionCode": 8
+      "versionCode": 9
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -34,7 +34,6 @@
       "API_IMAGE_B64": "https://gpt-image-b64.kovalenkoandrii2931.workers.dev",
       "API_IMAGE_URL": "https://gpt-image-url.kovalenkoandrii2931.workers.dev",
       "API_IMAGE_VARIATION_URL": "https://gpt-back.onrender.com/api/imageVariation"
-      // "API_IMAGE_VARIATION_URL": "https://gpt-image-variation-url.kovalenkoandrii2931.workers.dev"
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
