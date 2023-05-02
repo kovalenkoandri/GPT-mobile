@@ -128,7 +128,7 @@ const ImageDalle = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.focus();
     }
-  }, [scrollViewRef.current, promptHeader.current]);
+  });
 
   return (
     <>
