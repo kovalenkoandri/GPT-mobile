@@ -101,6 +101,15 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  checkUpdateButton: {
+    borderRadius: 10,
+    padding: 5,
+  },
+  checkUpdateButtonText: {
+    color: '#f1f6ff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   footerContainer: {
     flex: 1 / 3,
     alignItems: 'center',

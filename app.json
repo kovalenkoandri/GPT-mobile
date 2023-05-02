@@ -9,9 +9,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#2f2f3d"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/cloud1024.png",
@@ -46,6 +44,12 @@
         "expo-screen-orientation",
         {
           "initialOrientation": "DEFAULT"
+        }
+      ],
+      [
+        "expo-updates",
+        {
+          "username": "kovalenkoandrii"
         }
       ]
     ],

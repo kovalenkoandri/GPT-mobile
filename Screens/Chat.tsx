@@ -14,6 +14,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Env } from '../Env';
 import * as Speech from 'expo-speech';
+import * as Updates from 'expo-updates';
 
 const apiUrl = Env.API_ENDPOINTS;
 
@@ -70,7 +71,19 @@ const Chat = () => {
   const stopSpeak = async (thingToSay: any) => {
     Speech.stop(thingToSay);
   };
+  async function onFetchUpdateAsync() {
+    try {
+      const update = await Updates.checkForUpdateAsync();
 
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    } catch (error) {
+      // You can also add an alert() to see the error message in case of an error when fetching updates.
+      alert(`Error fetching latest Expo update: ${error}`);
+    }
+  }
   return (
     <>
       <StatusBar style="auto" />
@@ -139,6 +152,12 @@ const Chat = () => {
           {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>
       </ScrollView>
+      <TouchableOpacity
+        onPress={onFetchUpdateAsync}
+        style={styles.checkUpdateButton}
+      >
+        <Text style={styles.checkUpdateButtonText}>Check for updates</Text>
+      </TouchableOpacity>
     </>
   );
 };
