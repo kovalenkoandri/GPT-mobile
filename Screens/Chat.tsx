@@ -152,12 +152,12 @@ const Chat = () => {
           {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>
       </ScrollView>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={onFetchUpdateAsync}
         style={styles.checkUpdateButton}
       >
         <Text style={styles.checkUpdateButtonText}>Check for updates</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </>
   );
 };

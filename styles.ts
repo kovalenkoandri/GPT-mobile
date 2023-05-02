@@ -57,8 +57,8 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   image: {
-    height: 150,
-    width: 150,
+    height: 200,
+    width: 200,
     borderRadius: 18,
   },
   showDeleteButton: {
@@ -116,8 +116,8 @@ export const styles = StyleSheet.create({
   },
   optionsContainer: {
     position: 'absolute',
-    bottom: 50,
-    left: -100, // for swap btn be always left, not center positioned
+    bottom: 80,
+    // left: -100, // for swap btn be always left, not center positioned
   },
   optionsRow: {
     flexDirection: 'row',

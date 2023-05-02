@@ -18,18 +18,9 @@ import { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import CircleButton from '../components/CircleButton';
 import IconButton from '../components/IconButton';
-import uuid from 'react-native-uuid';
 const apiUrl = Env.API_ENDPOINTS;
 
-interface ChatMessage {
-  prompt: string;
-  encodedBase64: string;
-  itemId: any;
-  imageURL: string;
-}
-
 const ImageDalle = () => {
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
@@ -37,23 +28,21 @@ const ImageDalle = () => {
   const scrollViewRef = useRef<TextInput>(null);
   const imageRef = useRef<View>(null);
 
-  let encodedBase64 = '';
-  let imageURL = '';
-  let itemId: any;
+  let encodedBase64 = useRef('');
+  let imageURL = useRef('');
+  let promptHeader = useRef('');
 
   if (status === null) {
     requestPermission();
   }
 
-  const onSwap = async (index: any) => {
+  const onSwap = async () => {
     try {
       setLoading(true);
-      const foundItem = chatHistory.find(item => item.itemId === index);
-      const foundItemIdx = chatHistory.findIndex(item => item.itemId === index);
       const gptResponse = await axios.post(
         apiUrl.API_IMAGE_VARIATION_URL,
         {
-          link: foundItem?.imageURL,
+          link: imageURL.current,
           // link: 'https://res.cloudinary.com/dpad5ltdp/image/upload/v1682337209/image_variation_original_fjzhea.png',
         },
         { timeout: 6000 }
@@ -71,20 +60,11 @@ const ImageDalle = () => {
         });
       }
 
-      encodedBase64 = await getImageToBase64(gptResponse.data.url);
-      encodedBase64 = await encodedBase64.replace(
+      encodedBase64.current = await getImageToBase64(gptResponse.data.url);
+      encodedBase64.current = await encodedBase64.current.replace(
         'data:application/octet-stream;base64,',
         ''
       );
-      itemId = uuid.v4();
-      const newChatHistory = [...chatHistory];
-      newChatHistory.splice(foundItemIdx, 1, {
-        itemId,
-        prompt: chatHistory[foundItemIdx].prompt || prompt,
-        encodedBase64,
-        imageURL: foundItem?.imageURL || imageURL,
-      });
-      setChatHistory(newChatHistory);
     } catch (error) {
       console.error(error);
     } finally {
@@ -133,13 +113,9 @@ const ImageDalle = () => {
         },
         { timeout: 6000 }
       );
-      encodedBase64 = gptResponse.data.data[0].b64_json;
-      imageURL = gptResponseURL.data.data[0].url;
-      itemId = uuid.v4();
-      setChatHistory([
-        ...chatHistory,
-        { itemId, prompt, encodedBase64, imageURL },
-      ]);
+      encodedBase64.current = gptResponse.data.data[0].b64_json;
+      imageURL.current = gptResponseURL.data.data[0].url;
+      promptHeader.current = prompt;
       setPrompt('');
     } catch (error) {
       console.error(error);
@@ -152,58 +128,41 @@ const ImageDalle = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.focus();
     }
-  }, [chatHistory]);
+  }, [scrollViewRef.current, promptHeader.current]);
 
   return (
     <>
       <StatusBar style="auto" />
       <ScrollView style={styles.scrollView}>
-        {chatHistory.map((chatItem, index) => {
-          return (
-            <View key={chatItem.itemId} style={styles.chatItem}>
-              <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-              <View ref={imageRef} collapsable={false}>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: `data:image/png;base64,${chatItem.encodedBase64}`,
-                  }}
-                />
-              </View>
-              {loading || (
-                <TouchableOpacity
-                  style={styles.showDeleteButton}
-                  onPress={() => {
-                    const newChatHistory = [...chatHistory];
-                    newChatHistory.splice(index, 1);
-                    setChatHistory(newChatHistory);
-                  }}
-                >
-                  <Text style={styles.showDeleteButtonText}>Delete</Text>
-                </TouchableOpacity>
-              )}
-              <View style={styles.optionsContainer}>
-                <View style={styles.optionsRow}>
-                  {loading || (
-                    <IconButton
-                      icon="refresh"
-                      label="Swap"
-                      onPress={() => onSwap(chatItem.itemId)}
-                    />
-                  )}
-                  {/* <CircleButton onPress={onAddSticker} /> */}
-                  {loading || (
-                    <IconButton
-                      icon="save-alt"
-                      label="Save"
-                      onPress={onSaveImageAsync}
-                    />
-                  )}
-                </View>
+        {encodedBase64.current && (
+          <View style={styles.chatItem}>
+            <Text style={styles.chatRequest}>{promptHeader.current}</Text>
+            <View ref={imageRef} collapsable={false}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `data:image/png;base64,${encodedBase64.current}`,
+                }}
+              />
+            </View>
+
+            <View style={styles.optionsContainer}>
+              <View style={styles.optionsRow}>
+                {loading || (
+                  <IconButton icon="refresh" label="Swap" onPress={onSwap} />
+                )}
+                {/* <CircleButton onPress={onAddSticker} /> */}
+                {loading || (
+                  <IconButton
+                    icon="save-alt"
+                    label="Save"
+                    onPress={onSaveImageAsync}
+                  />
+                )}
               </View>
             </View>
-          );
-        })}
+          </View>
+        )}
 
         <View style={styles.inputContainer}>
           <TextInput
