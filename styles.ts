@@ -74,13 +74,17 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  talkView: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'flex-start',
+  },
   showSpeechButton: {
-    position: 'absolute',
-    top: 50,
-    left: 5,
     backgroundColor: '#ddd',
     borderRadius: 10,
     padding: 5,
+    marginLeft: 20,
+    marginRight: 40,
   },
   showSpeechButtonText: {
     color: '#000',
@@ -88,9 +92,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   showStopTalkButton: {
-    position: 'absolute',
-    top: 50,
-    left: 60,
     backgroundColor: '#ddd',
     borderRadius: 10,
     padding: 5,
@@ -107,7 +108,7 @@ export const styles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     bottom: 50,
-    left: -100 // for swap btn be always left, not center positioned
+    left: -100, // for swap btn be always left, not center positioned
   },
   optionsRow: {
     flexDirection: 'row',

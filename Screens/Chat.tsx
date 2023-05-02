@@ -79,6 +79,20 @@ const Chat = () => {
           <View key={index} style={styles.chatItem}>
             <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
             <Text style={styles.chatResponse}>{chatItem.data}</Text>
+            <View style={styles.talkView}>
+              <TouchableOpacity
+                onPress={() => speak(chatItem.data)}
+                style={styles.showSpeechButton}
+              >
+                <Text style={styles.showSpeechButtonText}>Start talking</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => stopSpeak(chatItem.data)}
+                style={styles.showStopTalkButton}
+              >
+                <Text style={styles.showStopTalkButtonText}>Stop talking</Text>
+              </TouchableOpacity>
+            </View>
             {messageToDelete !== index && (
               <>
                 <TouchableOpacity
@@ -92,22 +106,6 @@ const Chat = () => {
                   }}
                 >
                   <Text style={styles.showDeleteButtonText}>Delete</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => speak(chatItem.data)}
-                  style={styles.showSpeechButton}
-                >
-                  <Text style={styles.showSpeechButtonText}>
-                    Talk
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => stopSpeak(chatItem.data)}
-                  style={styles.showStopTalkButton}
-                >
-                  <Text style={styles.showStopTalkButtonText}>
-                    Stop talking
-                  </Text>
                 </TouchableOpacity>
               </>
             )}
