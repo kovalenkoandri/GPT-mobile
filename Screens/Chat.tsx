@@ -13,6 +13,8 @@ import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Env } from '../Env';
+import * as Speech from 'expo-speech';
+
 const apiUrl = Env.API_ENDPOINTS;
 
 interface ChatMessage {
@@ -62,6 +64,13 @@ const Chat = () => {
     }
   }, [chatHistory]);
 
+  const speak = async (thingToSay: any) => {
+    Speech.speak(thingToSay);
+  };
+  const stopSpeak = async (thingToSay: any) => {
+    Speech.stop(thingToSay);
+  };
+
   return (
     <>
       <StatusBar style="auto" />
@@ -71,18 +80,36 @@ const Chat = () => {
             <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
             <Text style={styles.chatResponse}>{chatItem.data}</Text>
             {messageToDelete !== index && (
-              <TouchableOpacity
-                style={styles.showDeleteButton}
-                onPress={() => {
-                  setMessageToDelete(index);
-                  const newChatHistory = [...chatHistory];
-                  newChatHistory.splice(index, 1);
-                  setChatHistory(newChatHistory);
-                  setMessageToDelete(-1);
-                }}
-              >
-                <Text style={styles.showDeleteButtonText}>Delete</Text>
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity
+                  style={styles.showDeleteButton}
+                  onPress={() => {
+                    setMessageToDelete(index);
+                    const newChatHistory = [...chatHistory];
+                    newChatHistory.splice(index, 1);
+                    setChatHistory(newChatHistory);
+                    setMessageToDelete(-1);
+                  }}
+                >
+                  <Text style={styles.showDeleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => speak(chatItem.data)}
+                  style={styles.showSpeechButton}
+                >
+                  <Text style={styles.showSpeechButtonText}>
+                    Talk
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => stopSpeak(chatItem.data)}
+                  style={styles.showStopTalkButton}
+                >
+                  <Text style={styles.showStopTalkButtonText}>
+                    Stop talking
+                  </Text>
+                </TouchableOpacity>
+              </>
             )}
           </View>
         ))}

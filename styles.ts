@@ -74,6 +74,32 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  showSpeechButton: {
+    position: 'absolute',
+    top: 50,
+    left: 5,
+    backgroundColor: '#ddd',
+    borderRadius: 10,
+    padding: 5,
+  },
+  showSpeechButtonText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  showStopTalkButton: {
+    position: 'absolute',
+    top: 50,
+    left: 60,
+    backgroundColor: '#ddd',
+    borderRadius: 10,
+    padding: 5,
+  },
+  showStopTalkButtonText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   footerContainer: {
     flex: 1 / 3,
     alignItems: 'center',
@@ -81,6 +107,7 @@ export const styles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     bottom: 50,
+    left: -100 // for swap btn be always left, not center positioned
   },
   optionsRow: {
     flexDirection: 'row',
