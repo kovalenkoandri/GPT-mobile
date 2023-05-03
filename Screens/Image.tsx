@@ -124,11 +124,11 @@ const ImageDalle = () => {
     }
   };
 
-  useEffect(() => {
-    if (scrollViewRef.current) {
-      scrollViewRef.current.focus();
-    }
-  });
+  // useEffect(() => {
+  //   if (scrollViewRef.current) {
+  //     scrollViewRef.current.focus();
+  //   }
+  // });
 
   return (
     <>

@@ -18,7 +18,7 @@
         "backgroundColor": "#2f2f3d"
       },
       "package": "com.kovalenkoandrii.GPTmobile",
-      "versionCode": 10
+      "versionCode": 11
     },
     "web": {
       "favicon": "./assets/favicon.png",
