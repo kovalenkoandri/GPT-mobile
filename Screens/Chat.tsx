@@ -11,10 +11,11 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { Env } from '../Env';
 import * as Speech from 'expo-speech';
 import * as Updates from 'expo-updates';
+import * as textDavinci003 from '../utils/textDavinci003';
+import * as gpt35Turbo from '../utils/gpt35Turbo';
 
 const apiUrl = Env.API_ENDPOINTS;
 
@@ -42,14 +43,19 @@ const Chat = () => {
     try {
       setLoading(true);
 
-      const gptResponse = await axios.post(
-        apiUrl.API_URL,
-        {
-          prompt: value,
-        },
-        { timeout: 1000 }
-      );
-      const data = gptResponse.data.toString();
+      const gptResponse = await gpt35Turbo.default.fetch(value);
+      // const gptResponse = await textDavinci003.default.fetch(value);
+      // const gptResponse = await axios.post(
+      //   apiUrl.API_URL,
+      //   {
+      //     prompt: value,
+      //   },
+      //   { timeout: 1000 }
+      // );
+      // const data = gptResponse.data.toString();
+      // what is good for human
+      const data = gptResponse;
+      console.log(gptResponse);
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
     } catch (error) {

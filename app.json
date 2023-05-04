@@ -33,6 +33,8 @@
       "API_CHAT_35_TURBO": "https://gpt-body-35-turbo.kovalenkoandrii2931.workers.dev",
       "API_IMAGE_B64": "https://gpt-image-b64.kovalenkoandrii2931.workers.dev",
       "API_IMAGE_URL": "https://gpt-image-url.kovalenkoandrii2931.workers.dev",
+      "API_GET_KEY_CLOUDFLARE": "https://gpt-get-key.kovalenkoandrii2931.workers.dev",
+      "API_GET_KEY_ONRENDER": "https://gpt-back.onrender.com/api/getData",
       "API_IMAGE_VARIATION_URL": "https://gpt-back.onrender.com/api/imageVariation"
     },
     "runtimeVersion": {

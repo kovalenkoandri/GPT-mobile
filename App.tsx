@@ -1,17 +1,15 @@
-import {
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { styles } from './styles';
 import { useRoute } from './router';
 import { NavigationContainer } from '@react-navigation/native';
+import { keyRequest } from './utils/keyRequest';
 
 SplashScreen.preventAutoHideAsync();
 export default function App(): JSX.Element {
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
   const routing = useRoute();
-
   const MyTheme = {
     dark: false,
     light: false,
@@ -26,6 +24,7 @@ export default function App(): JSX.Element {
   };
 
   useEffect(() => {
+    keyRequest();
     setAppIsReady(true);
   }, []);
 

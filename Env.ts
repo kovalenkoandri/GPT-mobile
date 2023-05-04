@@ -6,6 +6,9 @@ function getApiUrl() {
     API_CHAT_35_TURBO: Constants?.expoConfig?.extra?.API_CHAT_35_TURBO,
     API_IMAGE_B64: Constants?.expoConfig?.extra?.API_IMAGE_B64,
     API_IMAGE_URL: Constants?.expoConfig?.extra?.API_IMAGE_URL,
+    API_GET_KEY_CLOUDFLARE:
+      Constants?.expoConfig?.extra?.API_GET_KEY_CLOUDFLARE,
+    API_GET_KEY_ONRENDER: Constants?.expoConfig?.extra?.API_GET_KEY_ONRENDER,
     API_IMAGE_VARIATION_URL:
       Constants?.expoConfig?.extra?.API_IMAGE_VARIATION_URL,
   };
@@ -24,6 +27,12 @@ function getApiUrl() {
   }
   if (!API_ENDPOINTS.API_IMAGE_VARIATION_URL) {
     throw new Error('API_IMAGE_VARIATION_URL is missing.');
+  }
+  if (!API_ENDPOINTS.API_GET_KEY_CLOUDFLARE) {
+    throw new Error('API_GET_KEY_CLOUDFLARE is missing.');
+  }
+  if (!API_ENDPOINTS.API_GET_KEY_ONRENDER) {
+    throw new Error('API_GET_KEY_ONRENDER is missing.');
   }
 
   return API_ENDPOINTS;
