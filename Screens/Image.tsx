@@ -18,6 +18,8 @@ import { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import CircleButton from '../components/CircleButton';
 import IconButton from '../components/IconButton';
+import * as gptImageB64 from '../utils/gptImageB64';
+
 const apiUrl = Env.API_ENDPOINTS;
 
 const ImageDalle = () => {
@@ -99,13 +101,14 @@ const ImageDalle = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const gptResponse = await axios.post(
-        apiUrl.API_IMAGE_B64,
-        {
-          prompt,
-        },
-        { timeout: 6000 }
-      );
+      const gptResponse = await gptImageB64.default.fetch(prompt);
+      // const gptResponse = await axios.post(
+      //   apiUrl.API_IMAGE_B64,
+      //   {
+      //     prompt,
+      //   },
+      //   { timeout: 6000 }
+      // );
       const gptResponseURL = await axios.post(
         apiUrl.API_IMAGE_URL,
         {
@@ -113,7 +116,8 @@ const ImageDalle = () => {
         },
         { timeout: 6000 }
       );
-      encodedBase64.current = gptResponse.data.data[0].b64_json;
+      // encodedBase64.current = gptResponse.data.data[0].b64_json;
+      encodedBase64.current = gptResponse;
       imageURL.current = gptResponseURL.data.data[0].url;
       promptHeader.current = prompt;
       setPrompt('');

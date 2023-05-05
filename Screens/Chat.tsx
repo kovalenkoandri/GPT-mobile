@@ -12,13 +12,10 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
-import { Env } from '../Env';
 import * as Speech from 'expo-speech';
 import * as Updates from 'expo-updates';
 import * as textDavinci003 from '../utils/textDavinci003';
 import * as gpt35Turbo from '../utils/gpt35Turbo';
-
-const apiUrl = Env.API_ENDPOINTS;
 
 interface ChatMessage {
   prompt: string;

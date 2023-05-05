@@ -2,7 +2,7 @@ import { keyData } from './keyRequest';
 export default {
   async fetch(prompt) {
     if (prompt.length === 0 || prompt.length > 2048) {
-      return new Response('The length of the payload should be in (0,2048].');
+      return ('The length of the payload should be in (0,2048].');
     }
 
     const url = 'https://api.openai.com/v1/chat/completions';
