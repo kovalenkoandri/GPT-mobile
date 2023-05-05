@@ -125,4 +125,12 @@ export const styles = StyleSheet.create({
   buttonSend: {
     justifyContent: 'flex-end',
   },
+  toggleSmartFastView: {
+    alignItems: 'center',
+  },
+  toggleSmartFastText: {
+    color: '#f1f6ff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });

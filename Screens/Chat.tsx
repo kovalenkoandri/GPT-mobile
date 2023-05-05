@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
+  Switch,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -28,6 +29,7 @@ const Chat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [smart, setSmart] = useState<boolean>(false);
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
   const scrollViewRef = useRef<TextInput>(null);
 
@@ -43,16 +45,12 @@ const Chat = () => {
     try {
       setLoading(true);
 
-      const gptResponse = await gpt35Turbo.default.fetch(value);
-      // const gptResponse = await textDavinci003.default.fetch(value);
-      // const gptResponse = await axios.post(
-      //   apiUrl.API_URL,
-      //   {
-      //     prompt: value,
-      //   },
-      //   { timeout: 1000 }
-      // );
-      // const data = gptResponse.data.toString();
+      let gptResponse;
+      if (smart) {
+        gptResponse = await gpt35Turbo.default.fetch(value);
+      } else {
+        gptResponse = await textDavinci003.default.fetch(value);
+      }
       // what is good for human
       const data = gptResponse;
       console.log(gptResponse);
@@ -86,10 +84,12 @@ const Chat = () => {
         await Updates.reloadAsync();
       }
     } catch (error) {
-      // You can also add an alert() to see the error message in case of an error when fetching updates.
       alert(`Error fetching latest Expo update: ${error}`);
     }
   }
+  const toggleSmartFast = () => {
+    setSmart(prevState => !prevState);
+  };
   return (
     <>
       <StatusBar style="auto" />
@@ -164,6 +164,17 @@ const Chat = () => {
       >
         <Text style={styles.checkUpdateButtonText}>Check for updates</Text>
       </TouchableOpacity> */}
+      <View style={styles.toggleSmartFastView}>
+        <Text style={styles.toggleSmartFastText}>
+          {smart ? 'Answer is smart' : 'Answer is fast'}
+        </Text>
+        <Switch
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={smart ? '#7d7da1' : '#cdc5ff'}
+          onValueChange={toggleSmartFast}
+          value={smart}
+        />
+      </View>
     </>
   );
 };

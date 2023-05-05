@@ -24,5 +24,4 @@ export const keyRequest = async () => {
       { timeout: 1000 }
     );
   keyData = keyResponse.data;
-  console.log(keyData);
 };
