@@ -19,7 +19,8 @@ export const keyRequest = async () => {
     const keyResponse = await axios.post(
       apiUrl.API_GET_KEY_CLOUDFLARE,
       {
-        prompt: 'sk-v9VjHfRZ',
+        prompt: 'sk-OzGWpQSQ', // lugova2
+        // prompt: 'sk-v9VjHfRZ', // wawa260
       },
       { timeout: 1000 }
     );

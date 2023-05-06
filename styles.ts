@@ -117,7 +117,7 @@ export const styles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     bottom: 80,
-    // left: -100, // for swap btn be always left, not center positioned
+    left: -100, // for swap btn be always left, not center positioned
   },
   optionsRow: {
     flexDirection: 'row',

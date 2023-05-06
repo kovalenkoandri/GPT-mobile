@@ -42,32 +42,34 @@ const ImageDalle = () => {
   const onSwap = async () => {
     try {
       setLoading(true);
-      const gptResponse = await axios.post(
-        apiUrl.API_IMAGE_VARIATION_URL,
-        {
-          link: imageURL.current,
-          // link: 'https://res.cloudinary.com/dpad5ltdp/image/upload/v1682337209/image_variation_original_fjzhea.png',
-        },
-        { timeout: 6000 }
-      );
-      async function getImageToBase64(imageURL: string): Promise<string> {
-        const data = await fetch(imageURL);
-        const blob = await data.blob();
-        return new Promise<string>(resolve => {
-          const reader = new FileReader();
-          reader.readAsDataURL(blob);
-          reader.onloadend = () => {
-            const base64data = reader.result as string;
-            resolve(base64data);
-          };
-        });
-      }
+      // const gptResponse = await axios.post(
+      //   apiUrl.API_IMAGE_VARIATION_URL,
+      //   {
+      //     link: imageURL.current,
+      //     // link: 'https://res.cloudinary.com/dpad5ltdp/image/upload/v1682337209/image_variation_original_fjzhea.png',
+      //   },
+      //   { timeout: 6000 }
+      // );
+      // async function getImageToBase64(imageURL: string): Promise<string> {
+      //   const data = await fetch(imageURL);
+      //   const blob = await data.blob();
+      //   return new Promise<string>(resolve => {
+      //     const reader = new FileReader();
+      //     reader.readAsDataURL(blob);
+      //     reader.onloadend = () => {
+      //       const base64data = reader.result as string;
+      //       resolve(base64data);
+      //     };
+      //   });
+      // }
 
-      encodedBase64.current = await getImageToBase64(gptResponse.data.url);
-      encodedBase64.current = await encodedBase64.current.replace(
-        'data:application/octet-stream;base64,',
-        ''
-      );
+      // encodedBase64.current = await getImageToBase64(gptResponse.data.url);
+      // encodedBase64.current = await encodedBase64.current.replace(
+      //   'data:application/octet-stream;base64,',
+      //   ''
+      // );
+      const gptResponse = await gptImageB64.default.fetch(prompt);
+      encodedBase64.current = gptResponse;
     } catch (error) {
       console.error(error);
     } finally {
@@ -103,7 +105,7 @@ const ImageDalle = () => {
     try {
       setLoading(true);
       const gptResponse = await gptImageB64.default.fetch(prompt);
-      const gptResponseURL = await gptImageUrl.default.fetch(prompt);
+      // const gptResponseURL = await gptImageUrl.default.fetch(prompt);
       // const gptResponse = await axios.post(
       //   apiUrl.API_IMAGE_B64,
       //   {
@@ -121,9 +123,9 @@ const ImageDalle = () => {
       // encodedBase64.current = gptResponse.data.data[0].b64_json;
       encodedBase64.current = gptResponse;
       // imageURL.current = gptResponseURL.data.data[0].url;
-      imageURL.current = gptResponseURL;
+      // imageURL.current = gptResponseURL;
       promptHeader.current = prompt;
-      setPrompt('');
+      // setPrompt('');
     } catch (error) {
       console.error(error);
     } finally {
@@ -155,9 +157,10 @@ const ImageDalle = () => {
 
             <View style={styles.optionsContainer}>
               <View style={styles.optionsRow}>
-                {loading || (
-                  <IconButton icon="refresh" label="Swap" onPress={onSwap} />
-                )}
+                {loading ||
+                  (prompt.length >= 3 && (
+                    <IconButton icon="refresh" label="Swap" onPress={onSwap} />
+                  ))}
                 {/* <CircleButton onPress={onAddSticker} /> */}
                 {loading || (
                   <IconButton

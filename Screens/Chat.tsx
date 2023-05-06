@@ -26,7 +26,7 @@ const Chat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [smart, setSmart] = useState<boolean>(false);
+  const [smart, setSmart] = useState<boolean>(true);
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
   const scrollViewRef = useRef<TextInput>(null);
 
