@@ -10,7 +10,7 @@ export default {
     const options = {
       method: 'POST',
       headers: {
-        'content-type': 'application/json;charset=UTF-8',
+        'content-type': 'application/json',
         authorization: `Bearer ${keyData}`,
       },
       body: JSON.stringify({
@@ -22,11 +22,10 @@ export default {
 
     const response = await fetch(new Request(url, options));
     const extractedData = await response.json();
-    const b64Data = extractedData.data[0].url;
-    const data = JSON.stringify(b64Data);
-    if (!data) {
+    const urlData = extractedData.data[0].url;
+    if (!urlData) {
       return 'An error is occurred during uri the request.';
     }
-    return data;
+    return urlData;
   },
 };
