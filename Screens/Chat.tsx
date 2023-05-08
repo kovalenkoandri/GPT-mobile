@@ -16,6 +16,7 @@ import * as Speech from 'expo-speech';
 import * as Updates from 'expo-updates';
 import * as textDavinci003 from '../utils/textDavinci003';
 import * as gpt35Turbo from '../utils/gpt35Turbo';
+import { onFetchUpdateAsync } from '../utils/checkUpdates';
 
 interface ChatMessage {
   prompt: string;
@@ -29,6 +30,8 @@ const Chat = () => {
   const [smart, setSmart] = useState<boolean>(true);
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
   const scrollViewRef = useRef<TextInput>(null);
+
+  setTimeout(onFetchUpdateAsync, 3600000);
 
   const inputHandler = (prompt: string) => {
     prompt.trim();
@@ -72,18 +75,7 @@ const Chat = () => {
   const stopSpeak = async (thingToSay: any) => {
     Speech.stop(thingToSay);
   };
-  async function onFetchUpdateAsync() {
-    try {
-      const update = await Updates.checkForUpdateAsync();
 
-      if (update.isAvailable) {
-        await Updates.fetchUpdateAsync();
-        await Updates.reloadAsync();
-      }
-    } catch (error) {
-      alert(`Error fetching latest Expo update: ${error}`);
-    }
-  }
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);
   };
@@ -155,12 +147,7 @@ const Chat = () => {
           {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>
       </ScrollView>
-      {/* <TouchableOpacity
-        onPress={onFetchUpdateAsync}
-        style={styles.checkUpdateButton}
-      >
-        <Text style={styles.checkUpdateButtonText}>Check for updates</Text>
-      </TouchableOpacity> */}
+
       <View style={styles.toggleSmartFastView}>
         <Text style={styles.toggleSmartFastText}>
           {smart ? 'Answer is smart' : 'Answer is fast'}

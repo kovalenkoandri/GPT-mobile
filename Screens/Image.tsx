@@ -20,6 +20,7 @@ import CircleButton from '../components/CircleButton';
 import IconButton from '../components/IconButton';
 import * as gptImageB64 from '../utils/gptImageB64';
 import * as gptImageUrl from '../utils/gptImageUrl';
+import { onFetchUpdateAsync } from '../utils/checkUpdates';
 
 const apiUrl = Env.API_ENDPOINTS;
 
@@ -38,6 +39,8 @@ const ImageDalle = () => {
   if (status === null) {
     requestPermission();
   }
+
+  setTimeout(onFetchUpdateAsync, 3600000);
 
   const onSwap = async () => {
     try {
