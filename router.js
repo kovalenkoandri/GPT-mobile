@@ -1,12 +1,16 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Chat from './Screens/Chat';
 import ImageDalle from './Screens/Image';
+import GetKey from './Screens/GetKey';
 import ImageUpload from './Screens/ImageUpload';
+import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+// import { isTestKeyPassed } from './Screens/GetKey';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export const useRoute = () => {
+  const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
   {
     return (
       <Tab.Navigator
@@ -14,25 +18,44 @@ export const useRoute = () => {
         activeColor="#e91e63"
         barStyle={{ backgroundColor: '#2f2f3d' }}
       >
+        {isTestKeyPassed && (
+          <>
+            <Tab.Screen
+              name="Chat"
+              component={Chat}
+              options={{
+                tabBarLabel: 'Chat',
+                tabBarIcon: ({ color = '000' }) => (
+                  <MaterialCommunityIcons
+                    name="book-open-page-variant"
+                    color={color}
+                    size={26}
+                  />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="ImageDalle"
+              component={ImageDalle}
+              options={{
+                tabBarLabel: 'Image create',
+                tabBarIcon: ({ color = '000' }) => (
+                  <MaterialCommunityIcons
+                    name="white-balance-sunny"
+                    color={color}
+                    size={26}
+                  />
+                ),
+              }}
+            />
+          </>
+        )}
+
         <Tab.Screen
-          name="Chat"
-          component={Chat}
+          name="GetKey"
+          children={() => <GetKey {...{ setIsTestKeyPassed }} />}
           options={{
-            tabBarLabel: 'Chat',
-            tabBarIcon: ({ color = '000' }) => (
-              <MaterialCommunityIcons
-                name="book-open-page-variant"
-                color={color}
-                size={26}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="ImageDalle"
-          component={ImageDalle}
-          options={{
-            tabBarLabel: 'Image create',
+            tabBarLabel: 'Get key',
             tabBarIcon: ({ color = '000' }) => (
               <MaterialCommunityIcons
                 name="white-balance-sunny"

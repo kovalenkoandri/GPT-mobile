@@ -13,7 +13,6 @@ import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import * as Speech from 'expo-speech';
-import * as Updates from 'expo-updates';
 import * as textDavinci003 from '../utils/textDavinci003';
 import * as gpt35Turbo from '../utils/gpt35Turbo';
 import { onFetchUpdateAsync } from '../utils/checkUpdates';
@@ -141,6 +140,7 @@ const Chat = () => {
             activeOpacity={0.6}
             accessibilityLabel="Send button"
             style={styles.buttonSend}
+            onPress={onSubmit}
           >
             {value.length >= 5 && <SendIcon />}
           </TouchableOpacity>

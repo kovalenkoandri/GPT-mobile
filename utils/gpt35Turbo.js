@@ -1,4 +1,5 @@
-import { keyData } from './keyRequest';
+// import { keyData } from './keyRequest';
+import { keyData } from '../Screens/GetKey';
 export default {
   async fetch(prompt) {
     if (prompt.length === 0 || prompt.length > 2048) {
