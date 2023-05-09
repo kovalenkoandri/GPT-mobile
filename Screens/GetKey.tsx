@@ -12,6 +12,7 @@ import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import * as ada from '../utils/textAda001';
+import { A } from '@expo/html-elements';
 
 interface ChatMessage {
   prompt: string;
@@ -70,6 +71,15 @@ const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
           </View>
         ))}
 
+        <A
+          style={styles.input}
+          href="https://platform.openai.com/account/api-keys"
+        >
+          Tap here to create new secret key
+        </A>
+        <A style={styles.input} href="https://youtu.be/VPKlkgT7hSY">
+          Video tutorial
+        </A>
         <Text style={styles.input}>
           Key example sk-OzGWpQSQqyqKh6GNKqpdT3BlbkFJg2Essrq3qP3k******q
         </Text>
