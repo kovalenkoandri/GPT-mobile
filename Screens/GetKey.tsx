@@ -11,7 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
-import { gpt35Turbo } from '../utils/gpt35Turbo';
+import * as ada from '../utils/textAda001';
 
 interface ChatMessage {
   prompt: string;
@@ -34,8 +34,11 @@ const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
     try {
       setLoading(true);
       keyRef.current = value;
-      const gptResponse = await gpt35Turbo('what is good for human', keyRef);
-      if (gptResponse.length > 150) {
+      const gptResponse = await ada.default.fetch(
+        'what is good for human',
+        keyRef
+      );
+      if (gptResponse.length > 0) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);
       } else {

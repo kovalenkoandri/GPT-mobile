@@ -1,9 +1,5 @@
 export default {
   async fetch(prompt, keyRef) {
-    if (prompt.length === 0 || prompt.length > 2048) {
-      return new Response('The length of the payload should be in (0,2048].');
-    }
-
     let url = 'https://api.openai.com/v1/completions';
     let options = {
       method: 'POST',
@@ -12,9 +8,9 @@ export default {
         ['Authorization', 'Bearer ' + keyRef.current],
       ],
       body: JSON.stringify({
-        model: 'text-davinci-003',
+        model: 'text-ada-001',
         prompt: prompt,
-        max_tokens: 2048,
+        max_tokens: 1,
       }),
     };
     let response = await fetch(new Request(url, options));

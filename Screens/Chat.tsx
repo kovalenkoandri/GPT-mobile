@@ -49,7 +49,7 @@ const Chat = ({ keyRef }: any) => {
       if (smart) {
         gptResponse = await gpt35Turbo(value, keyRef);
       } else {
-        gptResponse = await textDavinci003.default.fetch(value);
+        gptResponse = await textDavinci003.default.fetch(value, keyRef);
       }
       // what is good for human
       const data = gptResponse;
