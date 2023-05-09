@@ -59,7 +59,7 @@ export const useRoute = () => {
             tabBarLabel: 'Get key',
             tabBarIcon: ({ color = '000' }) => (
               <MaterialCommunityIcons
-                name="white-balance-sunny"
+                name="key"
                 color={color}
                 size={26}
               />
