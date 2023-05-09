@@ -12,6 +12,7 @@ import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import * as ada from '../utils/textAda001';
+import { saveString } from '../utils/saveString';
 import { A } from '@expo/html-elements';
 
 interface ChatMessage {
@@ -42,6 +43,7 @@ const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
       if (gptResponse.length > 0) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);
+        saveString(value);
       } else {
         setIsTestKeyPassed(false);
         alert('Invalid key passed. Try another key or payed plan.');
