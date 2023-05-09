@@ -11,19 +11,17 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
-import * as gpt35Turbo from '../utils/gpt35Turbo';
+import { gpt35Turbo } from '../utils/gpt35Turbo';
 
 interface ChatMessage {
   prompt: string;
   data: string;
 }
-export let keyData = '';
-const GetKey = ({ setIsTestKeyPassed }: any) => {
+const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const scrollViewRef = useRef<TextInput>(null);
-
   const inputHandler = (prompt: string) => {
     prompt.trim();
     if (prompt.length > 51) {
@@ -35,14 +33,11 @@ const GetKey = ({ setIsTestKeyPassed }: any) => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const gptResponse = await gpt35Turbo.default.fetch(
-        'what is good for human'
-      );
-      console.log(gptResponse);
+      keyRef.current = value;
+      const gptResponse = await gpt35Turbo('what is good for human', keyRef);
       if (gptResponse.length > 150) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);
-        keyData = value;
       } else {
         setIsTestKeyPassed(false);
         alert('Invalid key passed. Try another key or payed plan.');

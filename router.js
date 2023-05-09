@@ -11,6 +11,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 export const useRoute = () => {
   const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
+  const keyRef = useRef('');
   {
     return (
       <Tab.Navigator
@@ -22,7 +23,7 @@ export const useRoute = () => {
           <>
             <Tab.Screen
               name="Chat"
-              component={Chat}
+              children={() => <Chat {...{ keyRef }} />}
               options={{
                 tabBarLabel: 'Chat',
                 tabBarIcon: ({ color = '000' }) => (
@@ -36,7 +37,7 @@ export const useRoute = () => {
             />
             <Tab.Screen
               name="ImageDalle"
-              component={ImageDalle}
+              children={() => <ImageDalle {...{ keyRef }} />}
               options={{
                 tabBarLabel: 'Image create',
                 tabBarIcon: ({ color = '000' }) => (
@@ -53,7 +54,7 @@ export const useRoute = () => {
 
         <Tab.Screen
           name="GetKey"
-          children={() => <GetKey {...{ setIsTestKeyPassed }} />}
+          children={() => <GetKey {...{ setIsTestKeyPassed, keyRef }} />}
           options={{
             tabBarLabel: 'Get key',
             tabBarIcon: ({ color = '000' }) => (

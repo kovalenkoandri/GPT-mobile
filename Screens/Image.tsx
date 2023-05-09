@@ -24,7 +24,7 @@ import { onFetchUpdateAsync } from '../utils/checkUpdates';
 
 const apiUrl = Env.API_ENDPOINTS;
 
-const ImageDalle = () => {
+const ImageDalle = ({ keyRef }: any) => {
   const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
@@ -71,7 +71,7 @@ const ImageDalle = () => {
       //   'data:application/octet-stream;base64,',
       //   ''
       // );
-      const gptResponse = await gptImageB64.default.fetch(prompt);
+      const gptResponse = await gptImageB64.default.fetch(prompt, keyRef);
       encodedBase64.current = gptResponse;
     } catch (error) {
       console.error(error);
@@ -107,7 +107,7 @@ const ImageDalle = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const gptResponse = await gptImageB64.default.fetch(prompt);
+      const gptResponse = await gptImageB64.default.fetch(prompt, keyRef);
       // const gptResponseURL = await gptImageUrl.default.fetch(prompt);
       // const gptResponse = await axios.post(
       //   apiUrl.API_IMAGE_B64,

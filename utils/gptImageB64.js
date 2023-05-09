@@ -1,7 +1,5 @@
-import { keyData } from './keyRequest';
-
 export default {
-  async fetch(prompt) {
+  async fetch(prompt, keyRef) {
     if (prompt.length === 0 || prompt.length > 2048) {
       return 'The length of the payload should be in (0,2048].';
     }
@@ -11,7 +9,7 @@ export default {
       method: 'POST',
       headers: {
         'content-type': 'application/json;charset=UTF-8',
-        authorization: `Bearer ${keyData}`,
+        authorization: `Bearer ${keyRef.current}`,
       },
       body: JSON.stringify({
         prompt,

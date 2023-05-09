@@ -14,7 +14,8 @@ import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import * as Speech from 'expo-speech';
 import * as textDavinci003 from '../utils/textDavinci003';
-import * as gpt35Turbo from '../utils/gpt35Turbo';
+// import * as gpt35Turbo from '../utils/gpt35Turbo';
+import { gpt35Turbo } from '../utils/gpt35Turbo';
 import { onFetchUpdateAsync } from '../utils/checkUpdates';
 
 interface ChatMessage {
@@ -22,7 +23,7 @@ interface ChatMessage {
   data: string;
 }
 
-const Chat = () => {
+const Chat = ({ keyRef }: any) => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,7 +47,7 @@ const Chat = () => {
 
       let gptResponse;
       if (smart) {
-        gptResponse = await gpt35Turbo.default.fetch(value);
+        gptResponse = await gpt35Turbo(value, keyRef);
       } else {
         gptResponse = await textDavinci003.default.fetch(value);
       }
