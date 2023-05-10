@@ -31,7 +31,7 @@ const Chat = ({ keyRef }: any) => {
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
   const scrollViewRef = useRef<TextInput>(null);
 
-  setTimeout(onFetchUpdateAsync, 3600000);
+  setInterval(onFetchUpdateAsync, 86400000);
 
   const inputHandler = (prompt: string) => {
     prompt.trim();

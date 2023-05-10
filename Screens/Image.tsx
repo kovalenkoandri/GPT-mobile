@@ -40,7 +40,7 @@ const ImageDalle = ({ keyRef }: any) => {
     requestPermission();
   }
 
-  setTimeout(onFetchUpdateAsync, 3600000);
+  setInterval(onFetchUpdateAsync, 86400000);
 
   const onSwap = async () => {
     try {
