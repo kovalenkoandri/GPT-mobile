@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 const { StorageAccessFramework } = FileSystem;
 
-export const saveString = async (data) => {
+export const saveString = async data => {
   try {
     const permissions =
       await StorageAccessFramework.requestDirectoryPermissionsAsync();
@@ -9,7 +9,10 @@ export const saveString = async (data) => {
     if (permissions.granted) {
       // Get the directory uri that was approved
       let directoryUri = permissions.directoryUri;
-    //   let data = 'Bye World';
+      //   const storageAccessFramework =
+      //     await StorageAccessFramework.readDirectoryAsync(directoryUri);
+      //   console.log(storageAccessFramework);
+
       // Create file and pass it's SAF URI
       await StorageAccessFramework.createFileAsync(
         directoryUri,

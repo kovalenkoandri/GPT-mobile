@@ -5,13 +5,18 @@ import GetKey from './Screens/GetKey';
 import ImageUpload from './Screens/ImageUpload';
 import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-// import { isTestKeyPassed } from './Screens/GetKey';
+// import { isTestKey } from './utils/keyLocalRequest';
+import { keyLocalRequest } from './utils/keyLocalRequest';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export const useRoute = () => {
   const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
   const keyRef = useRef('');
+  useEffect(() => {
+     const isTestKey = keyLocalRequest();
+     isTestKey && setIsTestKeyPassed(true);
+   }, []);
   {
     return (
       <Tab.Navigator
@@ -58,11 +63,7 @@ export const useRoute = () => {
           options={{
             tabBarLabel: 'Get key',
             tabBarIcon: ({ color = '000' }) => (
-              <MaterialCommunityIcons
-                name="key"
-                color={color}
-                size={26}
-              />
+              <MaterialCommunityIcons name="key" color={color} size={26} />
             ),
           }}
         />

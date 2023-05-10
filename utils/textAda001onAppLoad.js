@@ -5,7 +5,7 @@ export default {
       method: 'POST',
       headers: [
         ['Content-Type', 'application/json'],
-        ['Authorization', 'Bearer ' + keyRef.current],
+        ['Authorization', 'Bearer ' + keyRef],
       ],
       body: JSON.stringify({
         model: 'text-ada-001',
@@ -16,7 +16,6 @@ export default {
     let response = await fetch(new Request(url, options));
     let data = JSON.parse(await response.text());
     if (!data.choices) {
-      console.log(data);
       return false;
     }
     return true;

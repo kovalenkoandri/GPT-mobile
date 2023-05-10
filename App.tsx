@@ -4,7 +4,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { styles } from './styles';
 import { useRoute } from './router';
 import { NavigationContainer } from '@react-navigation/native';
-import { keyRequest } from './utils/keyRequest';
 import { onFetchUpdateAsync } from './utils/checkUpdates';
 
 SplashScreen.preventAutoHideAsync();
@@ -26,7 +25,6 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     onFetchUpdateAsync();
-    keyRequest();
     setAppIsReady(true);
   }, []);
 

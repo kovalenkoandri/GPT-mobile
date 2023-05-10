@@ -40,7 +40,7 @@ const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
         'what is good for human',
         keyRef
       );
-      if (gptResponse.length > 0) {
+      if (gptResponse) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);
         saveString(value);
