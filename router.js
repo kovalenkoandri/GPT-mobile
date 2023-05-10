@@ -14,9 +14,13 @@ export const useRoute = () => {
   const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
   const keyRef = useRef('');
   useEffect(() => {
-     const isTestKey = keyLocalRequest();
-     isTestKey && setIsTestKeyPassed(true);
-   }, []);
+    const checkLocalKey = async () => {
+      const isTestKey = await keyLocalRequest();
+      console.log(isTestKey);
+      isTestKey && setIsTestKeyPassed(true);
+    };
+    checkLocalKey();
+  }, []);
   {
     return (
       <Tab.Navigator
