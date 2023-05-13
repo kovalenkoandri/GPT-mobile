@@ -37,9 +37,6 @@ export const keyLocalRequest = async () => {
     const retrievedString = await StorageAccessFramework.readAsStringAsync(
       gifDir + `example.txt`
     );
-    console.log(
-      await StorageAccessFramework.readAsStringAsync(gifDir + `example.txt`)
-    );
     if (retrievedString.length === 51) {
       const gptResponse = await ada.default.fetch(
         'what is good for human',
@@ -49,7 +46,6 @@ export const keyLocalRequest = async () => {
         console.log(
           'Key is accepted. You can continue with chat or image requests.'
         );
-        console.log(gptResponse);
         isTestKey = true;
       } else {
         console.log('Invalid key passed. Try another key or payed plan.');

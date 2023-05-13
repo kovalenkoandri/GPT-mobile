@@ -12,7 +12,7 @@ import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import * as ada from '../utils/textAda001';
-// import { saveString } from '../utils/saveString';
+import { saveString } from '../utils/saveString';
 import { writeFile } from '../utils/saveString';
 import { A } from '@expo/html-elements';
 
@@ -44,7 +44,7 @@ const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
       if (gptResponse) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);
-        // saveString(value);
+        saveString(value);
         writeFile(value);
       } else {
         setIsTestKeyPassed(false);
