@@ -2,6 +2,7 @@ import * as FileSystem from 'expo-file-system';
 const { StorageAccessFramework } = FileSystem;
 
 let directoryUri = '';
+let gifDir = '';
 
 const createWriteFile = async data => {
   const newFile = await StorageAccessFramework.createFileAsync(
@@ -15,6 +16,17 @@ const createWriteFile = async data => {
   });
 };
 
+const ensureDirExists = async () => {
+  const dirInfo = await FileSystem.getInfoAsync(gifDir);
+  // console.log(dirInfo);
+  if (!dirInfo.exists) {
+    console.log("Gif directory doesn't exist, creating...");
+    await StorageAccessFramework.makeDirectoryAsync(gifDir, {
+      intermediates: true,
+    });
+  }
+}
+
 export const saveString = async data => {
   try {
     const permissions =
@@ -23,9 +35,9 @@ export const saveString = async data => {
     if (permissions.granted) {
       // Get the directory uri that was approved
       directoryUri = permissions.directoryUri;
-      console.log(
-        await StorageAccessFramework.readDirectoryAsync(directoryUri)
-      );
+      // console.log(
+      //   await StorageAccessFramework.readDirectoryAsync(directoryUri)
+      // );
       // Create file and pass it's SAF URI
       // ["content://com.android.externalstorage.documents/tree/primary%3AOpenAI/document/primary%3AOpenAI%2FopenAIStringKey.txt"]
 
@@ -36,7 +48,7 @@ export const saveString = async data => {
         el.includes('openAIStringKey.txt')
       );
 
-      console.log(foundKeyFile);
+      // console.log(foundKeyFile);
       if (!foundKeyFile) {
         await createWriteFile(data);
       } else {
@@ -52,28 +64,20 @@ export const saveString = async data => {
 };
 
 export const writeFile = async data => {
-  const gifDir = FileSystem.cacheDirectory + 'giphy/';
+  gifDir = FileSystem.cacheDirectory + 'giphy/';
 
   // Checks if gif directory exists. If not, creates it
-  async function ensureDirExists() {
-    const dirInfo = await FileSystem.getInfoAsync(gifDir);
-    // console.log(dirInfo);
-    if (!dirInfo.exists) {
-      console.log("Gif directory doesn't exist, creating...");
-      await StorageAccessFramework.makeDirectoryAsync(gifDir, {
-        intermediates: true,
-      });
-    }
-  }
+
   ensureDirExists();
   try {
     await StorageAccessFramework.writeAsStringAsync(
       gifDir + `example.txt`,
       data
     );
-    console.log(
-      await StorageAccessFramework.readAsStringAsync(gifDir + `example.txt`)
-    );
+    // const readFile = await StorageAccessFramework.readAsStringAsync(
+    //   gifDir + `example.txt`
+    // );
+    // console.log(readFile);
     console.log('File saved successfully.');
   } catch (error) {
     console.error('Error while writing file:', error);
