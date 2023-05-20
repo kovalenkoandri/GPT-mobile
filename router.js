@@ -2,6 +2,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Chat from './Screens/Chat';
 import ImageDalle from './Screens/Image';
 import GetKey from './Screens/GetKey';
+import BrowseKey from './Screens/BrowseKey';
 import ImageUpload from './Screens/ImageUpload';
 import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -21,7 +22,7 @@ export const useRoute = () => {
     };
     checkLocalKey();
   }, []);
-  {
+
     return (
       <Tab.Navigator
         initialRouteName="Chat"
@@ -71,6 +72,16 @@ export const useRoute = () => {
             ),
           }}
         />
+        <Tab.Screen
+          name="BrowseKey"
+          children={() => <BrowseKey />}
+          options={{
+            tabBarLabel: 'Browse key',
+            tabBarIcon: ({ color = '000' }) => (
+              <MaterialCommunityIcons name="dog" color={color} size={26} />
+            ),
+          }}
+        />
         {/* <Tab.Screen
           name="ImageUpload"
           component={ImageUpload}
@@ -87,5 +98,5 @@ export const useRoute = () => {
         /> */}
       </Tab.Navigator>
     );
-  }
+  
 };
