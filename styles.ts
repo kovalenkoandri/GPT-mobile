@@ -133,4 +133,14 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  imageBackground: {
+    alignItems: 'center',
+  },
+  imageBackgroundText: {
+    marginLeft: 40,
+    width: 200,
+    fontSize: 28,
+    padding: 30,
+    color: '#f1f6ff',
+  },
 });

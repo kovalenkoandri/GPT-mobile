@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
+  Image,
+  ImageBackground,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -21,9 +23,9 @@ interface ChatMessage {
   data: string;
 }
 const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const insideImage = require('../assets/images/button.webp');
   const scrollViewRef = useRef<TextInput>(null);
   const inputHandler = (prompt: string) => {
     prompt.trim();
@@ -67,20 +69,14 @@ const GetKey = ({ setIsTestKeyPassed, keyRef }: any) => {
     <>
       <StatusBar style="auto" />
       <ScrollView style={styles.scrollView}>
-        {chatHistory.map((chatItem, index) => (
-          <View key={index} style={styles.chatItem}>
-            <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
-            <Text style={styles.chatResponse}>{chatItem.data}</Text>
-            <View style={styles.talkView}></View>
-          </View>
-        ))}
-
-        <A
-          style={styles.input}
-          href="https://platform.openai.com/account/api-keys"
-        >
-          Tap here to create new secret key
-        </A>
+        <ImageBackground source={insideImage} style={styles.imageBackground}>
+          <A
+            style={styles.imageBackgroundText}
+            href="https://platform.openai.com/account/api-keys"
+          >
+            Tap here to create new secret key
+          </A>
+        </ImageBackground>
         <A style={styles.input} href="https://youtu.be/VPKlkgT7hSY">
           Video tutorial
         </A>
