@@ -1,7 +1,7 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Chat from './Screens/Chat';
 import ImageDalle from './Screens/Image';
-import GetKey from './Screens/GetKey';
+import PasteKey from './Screens/PasteKey';
 import BrowseKey from './Screens/BrowseKey';
 import ImageUpload from './Screens/ImageUpload';
 import React, { useState, useEffect, useRef } from 'react';
@@ -23,66 +23,66 @@ export const useRoute = () => {
     checkLocalKey();
   }, []);
 
-    return (
-      <Tab.Navigator
-        initialRouteName="Chat"
-        activeColor="#e91e63"
-        barStyle={{ backgroundColor: '#2f2f3d' }}
-      >
-        {isTestKeyPassed && (
-          <>
-            <Tab.Screen
-              name="Chat"
-              children={() => <Chat {...{ keyRef }} />}
-              options={{
-                tabBarLabel: 'Chat',
-                tabBarIcon: ({ color = '000' }) => (
-                  <MaterialCommunityIcons
-                    name="book-open-page-variant"
-                    color={color}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="ImageDalle"
-              children={() => <ImageDalle {...{ keyRef }} />}
-              options={{
-                tabBarLabel: 'Image create',
-                tabBarIcon: ({ color = '000' }) => (
-                  <MaterialCommunityIcons
-                    name="white-balance-sunny"
-                    color={color}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-          </>
-        )}
+  return (
+    <Tab.Navigator
+      initialRouteName="Chat"
+      activeColor="#e91e63"
+      barStyle={{ backgroundColor: '#2f2f3d' }}
+    >
+      {isTestKeyPassed && (
+        <>
+          <Tab.Screen
+            name="Chat"
+            children={() => <Chat {...{ keyRef }} />}
+            options={{
+              tabBarLabel: 'Chat',
+              tabBarIcon: ({ color = '000' }) => (
+                <MaterialCommunityIcons
+                  name="book-open-page-variant"
+                  color={color}
+                  size={26}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="ImageDalle"
+            children={() => <ImageDalle {...{ keyRef }} />}
+            options={{
+              tabBarLabel: 'Image create',
+              tabBarIcon: ({ color = '000' }) => (
+                <MaterialCommunityIcons
+                  name="white-balance-sunny"
+                  color={color}
+                  size={26}
+                />
+              ),
+            }}
+          />
+        </>
+      )}
 
-        <Tab.Screen
-          name="GetKey"
-          children={() => <GetKey {...{ setIsTestKeyPassed, keyRef }} />}
-          options={{
-            tabBarLabel: 'Get key',
-            tabBarIcon: ({ color = '000' }) => (
-              <MaterialCommunityIcons name="key" color={color} size={26} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="BrowseKey"
-          children={() => <BrowseKey />}
-          options={{
-            tabBarLabel: 'Browse key',
-            tabBarIcon: ({ color = '000' }) => (
-              <MaterialCommunityIcons name="dog" color={color} size={26} />
-            ),
-          }}
-        />
-        {/* <Tab.Screen
+      <Tab.Screen
+        name="PasteKey"
+        children={() => <PasteKey {...{ setIsTestKeyPassed, keyRef }} />}
+        options={{
+          tabBarLabel: 'Paste key',
+          tabBarIcon: ({ color = '000' }) => (
+            <MaterialCommunityIcons name="key" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="BrowseKey"
+        children={() => <BrowseKey />}
+        options={{
+          tabBarLabel: 'Browse key',
+          tabBarIcon: ({ color = '000' }) => (
+            <MaterialCommunityIcons name="dog" color={color} size={26} />
+          ),
+        }}
+      />
+      {/* <Tab.Screen
           name="ImageUpload"
           component={ImageUpload}
           options={{
@@ -96,7 +96,6 @@ export const useRoute = () => {
             ),
           }}
         /> */}
-      </Tab.Navigator>
-    );
-  
+    </Tab.Navigator>
+  );
 };
