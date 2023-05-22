@@ -20,6 +20,7 @@ import { A } from '@expo/html-elements';
 import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 const PasteKey = ({ setIsTestKeyPassed, keyRef }) => {
   const [value, setValue] = useState('');
@@ -81,9 +82,16 @@ const PasteKey = ({ setIsTestKeyPassed, keyRef }) => {
             </Text>
           </TouchableOpacity>
         </ImageBackground>
-        <A style={styles.input} href="https://youtu.be/VPKlkgT7hSY">
+        {/* <A style={styles.input} href="https://youtu.be/VPKlkgT7hSY">
           Video tutorial
-        </A>
+        </A> */}
+        <View style={styles.youtubePlayerContainer}>
+          <YoutubePlayer
+            height={220}
+            play={false}
+            videoId={'VPKlkgT7hSY'}
+          />
+        </View>
         <Text style={styles.input}>
           Key example sk-OzGWpQSQqyqKh6GNKqpdT3BlbkFJg2Essrq3qP3k******q
         </Text>

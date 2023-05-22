@@ -143,4 +143,8 @@ export const styles = StyleSheet.create({
     padding: 30,
     color: '#f1f6ff',
   },
+  youtubePlayerContainer: {
+    marginVertical: 20,
+  },
+  
 });
