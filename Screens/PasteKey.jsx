@@ -23,12 +23,14 @@ import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const PasteKey = ({ setIsTestKeyPassed, keyRef, playing, setPlaying }) => {
+const PasteKey = ({ setIsTestKeyPassed, keyRef }) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
   const playStatus = useRef('');
+  const [playing, setPlaying] = useState(true);
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -42,33 +44,33 @@ const PasteKey = ({ setIsTestKeyPassed, keyRef, playing, setPlaying }) => {
     };
   }, []);
 
-  const onStateChange = state => {
-    console.log(state);
-
+  const onStateChange = useCallback(state => {
     playStatus.current = state;
-  };
+    if (state === 'ended') {
+      setPlaying(false);
+    }
+    if (state === 'paused') {
+      setPlaying(false);
+    }
+    if (state === 'playing') {
+      setPlaying(true);
+    }
+  }, []);
+  const togglePlaying = useCallback(() => {
+    setPlaying(prev => {
+      return !prev;
+    });
+  }, []);
 
   useEffect(() => {
-    const unsubscribePlay = navigation.addListener(
-      'tabPress',
-      () => {
-        console.log('paste here tab pressed');
-        console.log(playStatus.current);
-
-        if (
-          playStatus.current === 'playing' ||
-          playStatus.current === 'buffering'
-        ) {
-          setPlaying(prev => {
-            console.log(prev);
-            if (!prev === true) {
-              return !prev;
-            }
-          });
-        }
-      },
-      [navigation]
-    );
+    const unsubscribePlay = navigation.addListener('tabPress', () => {
+      if (
+        playStatus.current === 'playing' ||
+        playStatus.current === 'buffering'
+      ) {
+        togglePlaying();
+      }
+    });
 
     return unsubscribePlay;
   }, [navigation]);
