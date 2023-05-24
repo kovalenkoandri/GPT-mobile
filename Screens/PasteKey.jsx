@@ -8,11 +8,12 @@ import {
   Keyboard,
   Image,
   ImageBackground,
+  AppState,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as ada from '../utils/textAda001';
 import { saveString } from '../utils/saveString';
 import { writeFile } from '../utils/saveString';
@@ -22,13 +23,56 @@ import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const PasteKey = ({ setIsTestKeyPassed, keyRef }) => {
+const PasteKey = ({ setIsTestKeyPassed, keyRef, playing, setPlaying }) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
-  const insideImage = require('../assets/images/button.webp');
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
+  const playStatus = useRef('');
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      AppState.currentState = nextAppState;
+      console.log(AppState.currentState);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  const onStateChange = state => {
+    console.log(state);
+
+    playStatus.current = state;
+  };
+
+  useEffect(() => {
+    const unsubscribePlay = navigation.addListener(
+      'tabPress',
+      () => {
+        console.log('paste here tab pressed');
+        console.log(playStatus.current);
+
+        if (
+          playStatus.current === 'playing' ||
+          playStatus.current === 'buffering'
+        ) {
+          setPlaying(prev => {
+            console.log(prev);
+            if (!prev === true) {
+              return !prev;
+            }
+          });
+        }
+      },
+      [navigation]
+    );
+
+    return unsubscribePlay;
+  }, [navigation]);
+
   const inputHandler = prompt => {
     prompt.trim();
     if (prompt.length > 51) {
@@ -75,21 +119,12 @@ const PasteKey = ({ setIsTestKeyPassed, keyRef }) => {
     <>
       <StatusBar style="auto" />
       <ScrollView style={styles.scrollView}>
-        <ImageBackground source={insideImage} style={styles.imageBackground}>
-          <TouchableOpacity onPress={() => navigation.navigate('BrowseKey')}>
-            <Text style={styles.imageBackgroundText}>
-              Tap here to create new secret key
-            </Text>
-          </TouchableOpacity>
-        </ImageBackground>
-        {/* <A style={styles.input} href="https://youtu.be/VPKlkgT7hSY">
-          Video tutorial
-        </A> */}
         <View style={styles.youtubePlayerContainer}>
           <YoutubePlayer
             height={220}
-            play={false}
+            play={playing}
             videoId={'VPKlkgT7hSY'}
+            onChangeState={onStateChange}
           />
         </View>
         <Text style={styles.input}>

@@ -16,7 +16,7 @@ export default {
     let response = await fetch(new Request(url, options));
     let data = JSON.parse(await response.text());
     if (!data.choices) {
-      console.log(data);
+      // console.log(data);
       return false;
     }
     return true;

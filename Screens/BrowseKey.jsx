@@ -20,12 +20,13 @@ import { A } from '@expo/html-elements';
 import { WebView } from 'react-native-webview';
 // import {getUserAgent} from 'react-native-device-info';
 import Constants from 'expo-constants';
+import { useNavigation } from '@react-navigation/native';
 
-
-const BrowseKey = () => {
-  const scrollViewRef = useRef<TextInput>(null);
-  const userAgentRef = useRef<string | null>('');
-
+const BrowseKey = ({ setPlaying }) => {
+  const scrollViewRef = useRef(null);
+  const userAgentRef = useRef('');
+  const navigation = useNavigation();
+ 
   useEffect(() => {
     const fetchUserAgent = async () => {
       userAgentRef.current = await Constants.getWebViewUserAgentAsync();
