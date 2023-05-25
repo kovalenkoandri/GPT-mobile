@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
-  Image,
-  ImageBackground,
   AppState,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -17,21 +15,21 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as ada from '../utils/textAda001';
 import { saveString } from '../utils/saveString';
 import { writeFile } from '../utils/saveString';
-import { A } from '@expo/html-elements';
-import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
-import { useNavigation } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const PasteKey = ({ setIsTestKeyPassed, keyRef }) => {
+const PasteKey = ({
+  setIsTestKeyPassed,
+  keyRef,
+  playing,
+  setPlaying,
+  setPlayStatus,
+}) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
-  const playStatus = useRef('');
-  const [playing, setPlaying] = useState(true);
-
-  const navigation = useNavigation();
+  const timerRef = useRef(null);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
@@ -43,37 +41,28 @@ const PasteKey = ({ setIsTestKeyPassed, keyRef }) => {
       subscription.remove();
     };
   }, []);
-
   const onStateChange = useCallback(state => {
-    playStatus.current = state;
+    setPlayStatus(state);
     if (state === 'ended') {
       setPlaying(false);
     }
     if (state === 'paused') {
       setPlaying(false);
     }
+    // if (state === 'buffering') {
+    //   setPlaying(false);
+    // }
     if (state === 'playing') {
-      setPlaying(true);
+      timerRef.current = setTimeout(() => {
+        setPlaying(true);
+      }, 50);
     }
-  }, []);
-  const togglePlaying = useCallback(() => {
-    setPlaying(prev => {
-      return !prev;
-    });
-  }, []);
-
-  useEffect(() => {
-    const unsubscribePlay = navigation.addListener('tabPress', () => {
-      if (
-        playStatus.current === 'playing' ||
-        playStatus.current === 'buffering'
-      ) {
-        togglePlaying();
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
       }
-    });
-
-    return unsubscribePlay;
-  }, [navigation]);
+    };
+  }, []);
 
   const inputHandler = prompt => {
     prompt.trim();

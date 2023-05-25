@@ -13,6 +13,8 @@ const Tab = createMaterialBottomTabNavigator();
 
 export const useRoute = () => {
   const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const [playStatus, setPlayStatus] = useState('');
   const keyRef = useRef('');
   useEffect(() => {
     const checkLocalKey = async () => {
@@ -22,7 +24,7 @@ export const useRoute = () => {
     };
     checkLocalKey();
   }, []);
-
+  console.log(playStatus);
   return (
     <Tab.Navigator
       initialRouteName="Chat"
@@ -65,7 +67,15 @@ export const useRoute = () => {
       <Tab.Screen
         name="PasteKey"
         children={() => (
-          <PasteKey {...{ setIsTestKeyPassed, keyRef  }} />
+          <PasteKey
+            {...{
+              setIsTestKeyPassed,
+              keyRef,
+              playing,
+              setPlaying,
+              setPlayStatus,
+            }}
+          />
         )}
         options={{
           tabBarLabel: 'Paste key',
@@ -76,7 +86,7 @@ export const useRoute = () => {
       />
       <Tab.Screen
         name="BrowseKey"
-        children={() => <BrowseKey   />}
+        children={() => <BrowseKey {...{ playStatus, setPlaying }} />}
         options={{
           tabBarLabel: 'Browse key',
           tabBarIcon: ({ color = '000' }) => (
