@@ -33,7 +33,7 @@ const BrowseKey = ({ playStatus, setPlaying }) => {
   //   handleTabPress();
 
   //   return unsubscribePlay;
-  // }, [navigation]);
+  // }, [navigation]); // moved to useStopPlay hook
   
   useStopPlay({playStatus, setPlaying, navigation});
   return (

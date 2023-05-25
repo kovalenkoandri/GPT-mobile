@@ -23,7 +23,8 @@ const PasteKey = ({
   keyRef,
   playing,
   setPlaying,
-  setPlayStatus,
+  playStatus
+  // setPlayStatus,
 }) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,9 @@ const PasteKey = ({
     };
   }, []);
   const onStateChange = useCallback(state => {
-    setPlayStatus(state);
+    // console.log('onStateChange ' + state);
+    // setPlayStatus(state);
+    playStatus.current = state;
     if (state === 'ended') {
       setPlaying(false);
     }
@@ -51,7 +54,7 @@ const PasteKey = ({
     }
     // if (state === 'buffering') {
     //   setPlaying(false);
-    // }
+    // } // if uncomment endless cycle happens on rewind
     if (state === 'playing') {
       timerRef.current = setTimeout(() => {
         setPlaying(true);

@@ -21,16 +21,20 @@ import IconButton from '../components/IconButton';
 import * as gptImageB64 from '../utils/gptImageB64';
 import * as gptImageUrl from '../utils/gptImageUrl';
 import { onFetchUpdateAsync } from '../utils/checkUpdates';
+import { useNavigation } from '@react-navigation/native';
+import useStopPlay from '../utils/useStopPlay';
 
 const apiUrl = Env.API_ENDPOINTS;
 
-const ImageDalle = ({ keyRef }: any) => {
+const ImageDalle = ({ keyRef, setPlaying, playStatus }: any) => {
   const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
 
   const scrollViewRef = useRef<TextInput>(null);
   const imageRef = useRef<View>(null);
+
+  const navigation = useNavigation();
 
   let encodedBase64 = useRef('');
   let imageURL = useRef('');
@@ -141,6 +145,8 @@ const ImageDalle = ({ keyRef }: any) => {
   //     scrollViewRef.current.focus();
   //   }
   // });
+
+  useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <>

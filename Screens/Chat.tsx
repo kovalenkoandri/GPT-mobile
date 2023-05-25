@@ -17,13 +17,15 @@ import * as textDavinci003 from '../utils/textDavinci003';
 // import * as gpt35Turbo from '../utils/gpt35Turbo';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
 import { onFetchUpdateAsync } from '../utils/checkUpdates';
+import { useNavigation } from '@react-navigation/native';
+import useStopPlay from '../utils/useStopPlay';
 
 interface ChatMessage {
   prompt: string;
   data: string;
 }
 
-const Chat = ({ keyRef }: any) => {
+const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,6 +34,7 @@ const Chat = ({ keyRef }: any) => {
   const scrollViewRef = useRef<TextInput>(null);
 
   setInterval(onFetchUpdateAsync, 86400000);
+  const navigation = useNavigation();
 
   const inputHandler = (prompt: string) => {
     prompt.trim();
@@ -79,6 +82,8 @@ const Chat = ({ keyRef }: any) => {
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);
   };
+
+  useStopPlay({ playStatus, setPlaying, navigation });
   return (
     <>
       <StatusBar style="auto" />

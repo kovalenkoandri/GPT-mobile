@@ -14,7 +14,8 @@ const Tab = createMaterialBottomTabNavigator();
 export const useRoute = () => {
   const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
   const [playing, setPlaying] = useState(true);
-  const [playStatus, setPlayStatus] = useState('');
+  const playStatus = useRef('');
+  // console.log('router ' + playStatus.current);
   const keyRef = useRef('');
   useEffect(() => {
     const checkLocalKey = async () => {
@@ -24,7 +25,7 @@ export const useRoute = () => {
     };
     checkLocalKey();
   }, []);
-  console.log(playStatus);
+  // console.log(playStatus);
   return (
     <Tab.Navigator
       initialRouteName="Chat"
@@ -35,7 +36,7 @@ export const useRoute = () => {
         <>
           <Tab.Screen
             name="Chat"
-            children={() => <Chat {...{ keyRef }} />}
+            children={() => <Chat {...{ keyRef, setPlaying, playStatus }} />}
             options={{
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color = '000' }) => (
@@ -49,7 +50,9 @@ export const useRoute = () => {
           />
           <Tab.Screen
             name="ImageDalle"
-            children={() => <ImageDalle {...{ keyRef }} />}
+            children={() => (
+              <ImageDalle {...{ keyRef, setPlaying, playStatus }} />
+            )}
             options={{
               tabBarLabel: 'Image create',
               tabBarIcon: ({ color = '000' }) => (
@@ -73,7 +76,8 @@ export const useRoute = () => {
               keyRef,
               playing,
               setPlaying,
-              setPlayStatus,
+              playStatus,
+              // setPlayStatus,
             }}
           />
         )}
@@ -91,12 +95,13 @@ export const useRoute = () => {
           tabBarLabel: 'Browse key',
           tabBarIcon: ({ color = '000' }) => (
             <MaterialCommunityIcons name="dog" color={color} size={26} />
-          ),
-        }}
-      />
+            ),
+          }}
+          />
       {/* <Tab.Screen
           name="ImageUpload"
-          component={ImageUpload}
+          children={() => <ImageUpload {...{ playStatus, setPlaying }} />}
+          // component={ImageUpload}
           options={{
             tabBarLabel: 'Image upload',
             tabBarIcon: ({ color = '000' }) => (

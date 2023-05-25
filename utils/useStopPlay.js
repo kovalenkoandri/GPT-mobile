@@ -4,10 +4,11 @@ const useStopPlay = ({ playStatus, setPlaying, navigation }) => {
 
   useEffect(() => {
     const handleTabPress = () => {
-      if (playStatus === 'playing') {
+      if (playStatus.current === 'playing') {
         timerRef.current = setTimeout(() => {
           setPlaying(prev => !prev);
         }, 50);
+        // console.log('handleTabPress ' + playStatus.current);
       }
     };
 
