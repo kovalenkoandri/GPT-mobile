@@ -27,7 +27,7 @@ const ensureDirExists = async () => {
   }
 }
 
-export const saveString = async data => {
+export const saveStringPermissions = async data => {
   try {
     const permissions =
       await StorageAccessFramework.requestDirectoryPermissionsAsync();
@@ -63,7 +63,7 @@ export const saveString = async data => {
   }
 };
 
-export const writeFile = async data => {
+export const writeFileCacheDirectory = async data => {
   gifDir = FileSystem.cacheDirectory + 'giphy/';
 
   // Checks if gif directory exists. If not, creates it

@@ -6,8 +6,8 @@ import BrowseKey from './Screens/BrowseKey';
 import ImageUpload from './Screens/ImageUpload';
 import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-// import { isTestKey } from './utils/keyLocalRequest';
-import { keyLocalRequest } from './utils/keyLocalRequest';
+// import { keyLocalRequest } from './utils/keyLocalRequest'; // load data from FileSystem.cacheDirectory
+import { readStringFromStorage } from './utils/saveStringToStorage';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -15,13 +15,15 @@ export const useRoute = () => {
   const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
   const [playing, setPlaying] = useState(true);
   const playStatus = useRef('');
+  const isTestKey = useRef(false);
   // console.log('router ' + playStatus.current);
   const keyRef = useRef('');
   useEffect(() => {
     const checkLocalKey = async () => {
-      const isTestKey = await keyLocalRequest();
+      // const isTestKey = await keyLocalRequest();
+      isTestKey.current = await readStringFromStorage();
       // console.log(isTestKey);
-      isTestKey && setIsTestKeyPassed(true);
+      isTestKey.current && setIsTestKeyPassed(true);
     };
     checkLocalKey();
   }, []);
@@ -95,9 +97,9 @@ export const useRoute = () => {
           tabBarLabel: 'Browse key',
           tabBarIcon: ({ color = '000' }) => (
             <MaterialCommunityIcons name="dog" color={color} size={26} />
-            ),
-          }}
-          />
+          ),
+        }}
+      />
       {/* <Tab.Screen
           name="ImageUpload"
           children={() => <ImageUpload {...{ playStatus, setPlaying }} />}

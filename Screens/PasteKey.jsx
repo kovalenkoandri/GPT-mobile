@@ -13,8 +13,11 @@ import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as ada from '../utils/textAda001';
-import { saveString } from '../utils/saveString';
-import { writeFile } from '../utils/saveString';
+import {
+  writeFileCacheDirectory,
+  saveStringPermissions,
+} from '../utils/saveString';
+import { writeStringToStorage } from '../utils/saveStringToStorage';
 import Constants from 'expo-constants';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
@@ -23,8 +26,7 @@ const PasteKey = ({
   keyRef,
   playing,
   setPlaying,
-  playStatus
-  // setPlayStatus,
+  playStatus,
 }) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -86,8 +88,9 @@ const PasteKey = ({
       if (gptResponse) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);
-        saveString(value);
-        writeFile(value);
+        writeStringToStorage(value);
+        // writeFileCacheDirectory(value);
+        // saveStringPermissions(value);
       } else {
         setIsTestKeyPassed(false);
         alert('Invalid key passed. Try another key or payed plan.');
