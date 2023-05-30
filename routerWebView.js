@@ -20,7 +20,7 @@ export const useRoute = () => {
         name="ChatWebView"
         children={() => <ChatWebView />}
         options={{
-          tabBarLabel: 'Browse key',
+          tabBarLabel: 'Chat',
           tabBarIcon: ({ color = '000' }) => (
             <MaterialCommunityIcons
               name="book-open-page-variant"
@@ -34,7 +34,7 @@ export const useRoute = () => {
         name="ImageGenerateWebView"
         children={() => <ImageGenerateWebView />}
         options={{
-          tabBarLabel: 'Browse key',
+          tabBarLabel: 'Image generate',
           tabBarIcon: ({ color = '000' }) => (
             <MaterialCommunityIcons
               name="white-balance-sunny"
@@ -48,7 +48,7 @@ export const useRoute = () => {
         name="PlayMarketWebView"
         children={() => <PlayMarketWebView />}
         options={{
-          tabBarLabel: 'Browse key',
+          tabBarLabel: 'Home page',
           tabBarIcon: ({ color = '000' }) => (
             <MaterialCommunityIcons name="apps" color={color} size={26} />
           ),
