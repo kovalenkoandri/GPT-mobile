@@ -79,7 +79,6 @@ export const useRoute = () => {
               playing,
               setPlaying,
               playStatus,
-              // setPlayStatus,
             }}
           />
         )}
