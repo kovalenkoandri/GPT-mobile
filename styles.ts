@@ -146,5 +146,8 @@ export const styles = StyleSheet.create({
   youtubePlayerContainer: {
     marginVertical: 20,
   },
-  
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 });
