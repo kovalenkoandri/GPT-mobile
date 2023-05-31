@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "app-scheme",
     "name": "GPT-mobile",
     "slug": "GPT-mobile",
     "icon": "./assets/cloud1024.png",
