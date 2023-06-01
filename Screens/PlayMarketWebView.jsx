@@ -10,9 +10,7 @@ const PlayMarketWebView = ({
   scrollViewRef,
   userAgentRef,
 }) => {
-  
   const navigation = useNavigation();
-
   useUserAgent({ scrollViewRef, userAgentRef });
   useStopPlay({ playStatus, setPlaying, navigation });
 

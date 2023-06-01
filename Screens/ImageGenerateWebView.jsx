@@ -1,20 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WebView } from 'react-native-webview';
-import Constants from 'expo-constants';
+import useStopPlay from '../utils/useStopPlay';
+import useUserAgent from '../utils/useUserAgent';
+import { useNavigation } from '@react-navigation/native';
 
-const ImageGenerateWebView = () => {
-  const scrollViewRef = useRef(null);
-  const userAgentRef = useRef('');
-
-  useEffect(() => {
-    const fetchUserAgent = async () => {
-      userAgentRef.current = await Constants.getWebViewUserAgentAsync();
-    };
-    fetchUserAgent();
-    if (scrollViewRef.current) {
-      scrollViewRef.current.focus();
-    }
-  }, []);
+const ImageGenerateWebView = ({ scrollViewRef, userAgentRef }) => {
+  const navigation = useNavigation();
+  useUserAgent({ scrollViewRef, userAgentRef });
+  useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <WebView

@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { Button, Text } from 'react-native';
 import { styles } from '../styles';
+import * as WebBrowser from 'expo-web-browser';
+import useUserAgent from '../utils/useUserAgent';
 WebBrowser.maybeCompleteAuthSession();
 
-const GoogleLoginView = ({ userInfo, setUserInfo }) => {
+const GoogleLoginView = ({
+  userInfo,
+  setUserInfo,
+  scrollViewRef,
+  userAgentRef,
+}) => {
   const [request, response, promptAsync] = Google.useAuthRequest(
     {
       androidClientId:
@@ -43,6 +49,7 @@ const GoogleLoginView = ({ userInfo, setUserInfo }) => {
       console.log('getUserInfo ' + error);
     }
   };
+  useUserAgent({ scrollViewRef, userAgentRef });
 
   return (
     <>

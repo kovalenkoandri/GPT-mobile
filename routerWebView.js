@@ -12,6 +12,9 @@ const Tab = createMaterialBottomTabNavigator();
 
 export const useRoute = () => {
   const [userInfo, setUserInfo] = useState(null);
+  const userAgentRef = useRef('');
+  const scrollViewRef = useRef(null);
+
   return (
     <Tab.Navigator
       initialRouteName="Navigator"
@@ -22,7 +25,9 @@ export const useRoute = () => {
         <>
           <Tab.Screen
             name="ChatWebView"
-            children={() => <ChatWebView />}
+            children={() => (
+              <ChatWebView {...{ scrollViewRef, userAgentRef }} />
+            )}
             options={{
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color = '000' }) => (
@@ -36,7 +41,9 @@ export const useRoute = () => {
           />
           <Tab.Screen
             name="ImageGenerateWebView"
-            children={() => <ImageGenerateWebView />}
+            children={() => (
+              <ImageGenerateWebView {...{ scrollViewRef, userAgentRef }} />
+            )}
             options={{
               tabBarLabel: 'Image generate',
               tabBarIcon: ({ color = '000' }) => (
@@ -50,7 +57,9 @@ export const useRoute = () => {
           />
           <Tab.Screen
             name="PlayMarketWebView"
-            children={() => <PlayMarketWebView />}
+            children={() => (
+              <PlayMarketWebView {...{ scrollViewRef, userAgentRef }} />
+            )}
             options={{
               tabBarLabel: 'Home page',
               tabBarIcon: ({ color = '000' }) => (
@@ -66,7 +75,11 @@ export const useRoute = () => {
       ) : (
         <Tab.Screen
           name="GoogleLoginView"
-          children={() => <GoogleLoginView {...{ userInfo, setUserInfo }} />}
+          children={() => (
+            <GoogleLoginView
+              {...{ userInfo, setUserInfo, scrollViewRef, userAgentRef }}
+            />
+          )}
           options={{
             tabBarLabel: 'Google login',
             tabBarIcon: ({ color = '000' }) => (
