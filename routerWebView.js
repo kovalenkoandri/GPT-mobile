@@ -14,6 +14,8 @@ export const useRoute = () => {
   const [userInfo, setUserInfo] = useState(null);
   const userAgentRef = useRef('');
   const scrollViewRef = useRef(null);
+  const [playing, setPlaying] = useState(true);
+  const playStatus = useRef('');
 
   return (
     <Tab.Navigator
@@ -26,7 +28,9 @@ export const useRoute = () => {
           <Tab.Screen
             name="ChatWebView"
             children={() => (
-              <ChatWebView {...{ scrollViewRef, userAgentRef }} />
+              <ChatWebView
+                {...{ scrollViewRef, userAgentRef, playStatus, setPlaying }}
+              />
             )}
             options={{
               tabBarLabel: 'Chat',
@@ -42,7 +46,9 @@ export const useRoute = () => {
           <Tab.Screen
             name="ImageGenerateWebView"
             children={() => (
-              <ImageGenerateWebView {...{ scrollViewRef, userAgentRef }} />
+              <ImageGenerateWebView
+                {...{ scrollViewRef, userAgentRef, playStatus, setPlaying }}
+              />
             )}
             options={{
               tabBarLabel: 'Image generate',
@@ -58,7 +64,9 @@ export const useRoute = () => {
           <Tab.Screen
             name="PlayMarketWebView"
             children={() => (
-              <PlayMarketWebView {...{ scrollViewRef, userAgentRef }} />
+              <PlayMarketWebView
+                {...{ scrollViewRef, userAgentRef, playStatus, setPlaying }}
+              />
             )}
             options={{
               tabBarLabel: 'Home page',

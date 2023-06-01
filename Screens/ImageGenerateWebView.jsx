@@ -4,7 +4,12 @@ import useStopPlay from '../utils/useStopPlay';
 import useUserAgent from '../utils/useUserAgent';
 import { useNavigation } from '@react-navigation/native';
 
-const ImageGenerateWebView = ({ scrollViewRef, userAgentRef }) => {
+const ImageGenerateWebView = ({
+  scrollViewRef,
+  userAgentRef,
+  playStatus,
+  setPlaying,
+}) => {
   const navigation = useNavigation();
   useUserAgent({ scrollViewRef, userAgentRef });
   useStopPlay({ playStatus, setPlaying, navigation });
