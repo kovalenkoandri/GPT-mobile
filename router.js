@@ -2,7 +2,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Chat from './Screens/Chat';
 import ImageDalle from './Screens/Image';
 import PasteKey from './Screens/PasteKey';
-import BrowseKey from './Screens/BrowseKey';
+import BrowseKey from './Screens/BrowseKeyWebView';
 import ImageUpload from './Screens/ImageUpload';
 import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
