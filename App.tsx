@@ -2,12 +2,12 @@ import { View } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { styles } from './styles';
-// import { useRoute } from './router';
-import { useRoute } from './routerWebView';
+import { useRoute } from './router';
+// import { useRoute } from './routerWebView';
 import { NavigationContainer } from '@react-navigation/native';
 import { onFetchUpdateAsync } from './utils/checkUpdates';
 import Reactotron from 'reactotron-react-native';
-import * as Location from 'expo-location';
+// import * as Location from 'expo-location';
 if (__DEV__) {
   import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
 }

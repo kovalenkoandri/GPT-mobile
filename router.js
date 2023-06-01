@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 // import { keyLocalRequest } from './utils/keyLocalRequest'; // load data from FileSystem.cacheDirectory
 import { readStringFromStorage } from './utils/saveStringToStorage';
+import PlayMarketWebView from './Screens/PlayMarketWebView';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -96,6 +97,22 @@ export const useRoute = () => {
           tabBarLabel: 'Browse key',
           tabBarIcon: ({ color = '000' }) => (
             <MaterialCommunityIcons name="dog" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="PlayMarketWebView"
+        children={() => (
+          <PlayMarketWebView {...{ playStatus, setPlaying }} />
+        )}
+        options={{
+          tabBarLabel: 'Home page',
+          tabBarIcon: ({ color = '000' }) => (
+            <MaterialCommunityIcons
+              name="google-play"
+              color={color}
+              size={26}
+            />
           ),
         }}
       />

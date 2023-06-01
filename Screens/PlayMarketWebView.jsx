@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
+import useStopPlay from '../utils/useStopPlay';
+import { useNavigation } from '@react-navigation/native';
 
-const PlayMarketWebView = () => {
+const PlayMarketWebView = ({ playStatus, setPlaying }) => {
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchUserAgent = async () => {
@@ -15,6 +18,8 @@ const PlayMarketWebView = () => {
       scrollViewRef.current.focus();
     }
   }, []);
+
+  useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <WebView
