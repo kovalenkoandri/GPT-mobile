@@ -2,7 +2,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Chat from './Screens/Chat';
 import ImageDalle from './Screens/Image';
 import PasteKey from './Screens/PasteKey';
-import BrowseKey from './Screens/BrowseKeyWebView';
+import BrowseKeyWebView from './Screens/BrowseKeyWebView';
 import ImageUpload from './Screens/ImageUpload';
 import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -17,13 +17,13 @@ export const useRoute = () => {
   const [playing, setPlaying] = useState(true);
   const playStatus = useRef('');
   const isTestKey = useRef(false);
-  // console.log('router ' + playStatus.current);
   const keyRef = useRef('');
+  const scrollViewRef = useRef(null);
+  const userAgentRef = useRef('');
+
   useEffect(() => {
     const checkLocalKey = async () => {
-      // const isTestKey = await keyLocalRequest();
       isTestKey.current = await readStringFromStorage();
-      // console.log(isTestKey);
       isTestKey.current && setIsTestKeyPassed(true);
     };
     checkLocalKey();
@@ -91,8 +91,12 @@ export const useRoute = () => {
         }}
       />
       <Tab.Screen
-        name="BrowseKey"
-        children={() => <BrowseKey {...{ playStatus, setPlaying }} />}
+        name="BrowseKeyWebView"
+        children={() => (
+          <BrowseKeyWebView
+            {...{ playStatus, setPlaying, scrollViewRef, userAgentRef }}
+          />
+        )}
         options={{
           tabBarLabel: 'Browse key',
           tabBarIcon: ({ color = '000' }) => (
@@ -103,7 +107,9 @@ export const useRoute = () => {
       <Tab.Screen
         name="PlayMarketWebView"
         children={() => (
-          <PlayMarketWebView {...{ playStatus, setPlaying }} />
+          <PlayMarketWebView
+            {...{ playStatus, setPlaying, scrollViewRef, userAgentRef }}
+          />
         )}
         options={{
           tabBarLabel: 'Home page',
