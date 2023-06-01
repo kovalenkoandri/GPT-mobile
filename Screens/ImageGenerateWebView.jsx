@@ -18,6 +18,7 @@ const ImageGenerateWebView = () => {
 
   return (
     <WebView
+      originWhitelist={['*']}
       userAgent={userAgentRef.current ?? ''}
       source={{ uri: 'https://labs.openai.com/' }}
     />

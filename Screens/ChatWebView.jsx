@@ -20,6 +20,7 @@ const ChatWebView = () => {
 
   return (
     <WebView
+      originWhitelist={['*']}
       userAgent={userAgentRef.current ?? ''}
       source={{ uri: 'https://chat.openai.com' }}
     />

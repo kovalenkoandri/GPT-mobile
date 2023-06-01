@@ -24,6 +24,7 @@ const PlayMarketWebView = ({ playStatus, setPlaying }) => {
   return (
     <WebView
       userAgent={userAgentRef.current ?? ''}
+      originWhitelist={['*']}
       source={{
         uri: 'https://play.google.com/store/apps/details?id=com.kovalenkoandrii.GPTmobile',
       }}

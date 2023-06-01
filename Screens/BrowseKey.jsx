@@ -19,25 +19,10 @@ const BrowseKey = ({ playStatus, setPlaying }) => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const handleTabPress = () => {
-  //     if (
-  //       playStatus === 'playing' 
-  //     ) {
-  //       setPlaying(prev => !prev);
-  //     }
-  //   };
-
-  //   const unsubscribePlay = navigation.addListener('tabPress', handleTabPress);
-
-  //   handleTabPress();
-
-  //   return unsubscribePlay;
-  // }, [navigation]); // moved to useStopPlay hook
-  
   useStopPlay({playStatus, setPlaying, navigation});
   return (
     <WebView
+      originWhitelist={['*']}
       userAgent={userAgentRef.current ?? ''}
       source={{ uri: 'https://platform.openai.com/account/api-keys' }}
     />
