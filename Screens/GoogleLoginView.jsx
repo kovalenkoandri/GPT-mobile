@@ -4,6 +4,7 @@ import { Button, Text } from 'react-native';
 import { styles } from '../styles';
 import * as WebBrowser from 'expo-web-browser';
 import useUserAgent from '../utils/useUserAgent';
+
 WebBrowser.maybeCompleteAuthSession();
 
 const GoogleLoginView = ({
@@ -20,6 +21,7 @@ const GoogleLoginView = ({
         '731236659578-f9167hqeram9g6tqg82nqjrldjf8008s.apps.googleusercontent.com',
       expoClientId:
         '731236659578-f9167hqeram9g6tqg82nqjrldjf8008s.apps.googleusercontent.com',
+      selectAccount: true,
     },
     {
       projectNameForProxy: '@kovalenkoandrii/GPT-mobile',
