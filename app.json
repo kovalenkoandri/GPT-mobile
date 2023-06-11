@@ -2,7 +2,7 @@
   "expo": {
     "name": "GPT-mobile",
     "slug": "GPT-mobile",
-    "scheme": "com.kovalenkoandrii.gptmobile",
+    "scheme": "com.kovalenkoandrii.GPTmobile",
     "icon": "./assets/cloud1024.png",
     "userInterfaceStyle": "dark",
     "splash": {
@@ -22,8 +22,8 @@
         "foregroundImage": "./assets/cloud1024.png",
         "backgroundColor": "#2f2f3d"
       },
-      "package": "com.kovalenkoandrii.gptmobile",
-      "versionCode": 21
+      "package": "com.kovalenkoandrii.GPTmobile",
+      "versionCode": 22
     },
     "web": {
       "favicon": "./assets/favicon.png",
