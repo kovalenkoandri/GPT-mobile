@@ -4,6 +4,7 @@ import { Button, Text } from 'react-native';
 import { styles } from '../styles';
 import * as WebBrowser from 'expo-web-browser';
 import useUserAgent from '../utils/useUserAgent';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -22,6 +23,11 @@ const GoogleLoginView = ({
       expoClientId:
         '731236659578-f9167hqeram9g6tqg82nqjrldjf8008s.apps.googleusercontent.com',
       selectAccount: true,
+      // ADD THIS TO FORCE THE AUTO EXCHANGE CODE TO GET THE ACCESS TOKEN ONLY WHEN NOT USING THE EXPO GO APP
+      shouldAutoExchangeCode:
+        Constants.executionEnvironment !== ExecutionEnvironment.StoreClient
+          ? true
+          : undefined,
     },
     {
       projectNameForProxy: '@kovalenkoandrii/GPT-mobile',

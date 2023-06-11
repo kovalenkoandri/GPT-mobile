@@ -1,11 +1,8 @@
 {
   "expo": {
-    // "exp+GPT-mobile": "expo-development-client/?url=https://u.expo.dev/41fcefab-6f7d-48cb-9092-0ab3fabde6a3?channel-name=production",
-    // "exp+GPT-mobile": "https://u.expo.dev/41fcefab-6f7d-48cb-9092-0ab3fabde6a3?channel-name=production&runtime-version=exposdk:48.0.0&platform=android",
     "name": "GPT-mobile",
     "slug": "GPT-mobile",
-    // "slug": "gpt-mobile", // https://stackoverflow.com/questions/76190617/why-i-am-redirecting-to-google-com-when-tried-google-login-in-react-native-exp
-    "scheme": "https",
+    "scheme": "com.kovalenkoandrii.gptmobile",
     "icon": "./assets/cloud1024.png",
     "userInterfaceStyle": "dark",
     "splash": {
@@ -13,15 +10,20 @@
       "resizeMode": "cover",
       "backgroundColor": "#2f2f3d"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
-      "permissions": ["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"],
+      "permissions": [
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/cloud1024.png",
         "backgroundColor": "#2f2f3d"
       },
-      "package": "com.kovalenkoandrii.GPTmobile",
-      "versionCode": 18
+      "package": "com.kovalenkoandrii.gptmobile",
+      "versionCode": 21
     },
     "web": {
       "favicon": "./assets/favicon.png",
