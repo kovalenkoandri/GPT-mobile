@@ -5,7 +5,7 @@ import { styles } from './styles';
 // import { useRoute } from './router';
 import { useRoute } from './routerWebView';
 import { NavigationContainer } from '@react-navigation/native';
-import { onFetchUpdateAsync } from './utils/checkUpdates';
+// import { onFetchUpdateAsync } from './utils/checkUpdates';
 import Reactotron from 'reactotron-react-native';
 // import * as Location from 'expo-location';
 if (__DEV__) {
@@ -30,7 +30,7 @@ export default function App(): JSX.Element {
   };
 
   useEffect(() => {
-    onFetchUpdateAsync();
+    // onFetchUpdateAsync();
     setAppIsReady(true);
   }, []);
 

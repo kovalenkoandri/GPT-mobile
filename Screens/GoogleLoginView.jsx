@@ -42,8 +42,7 @@ const GoogleLoginView = ({
       setToken(response.authentication.accessToken);
       getUserInfo();
     }
-  // console.log(request, response, promptAsync);
-
+    // console.log(request, response, promptAsync);
   }, [response, token]);
 
   const getUserInfo = async () => {
@@ -70,12 +69,10 @@ const GoogleLoginView = ({
           title="Sign in with Google"
           disabled={!request}
           onPress={() => {
-            promptAsync(
-              {
+            promptAsync({
               projectNameForProxy: '@kovalenkoandrii/GPT-mobile',
               useProxy: false,
-              }
-            );
+            });
           }}
         />
       ) : (

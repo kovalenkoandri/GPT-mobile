@@ -3,7 +3,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ChatWebView from './Screens/ChatWebView';
 import ImageGenerateWebView from './Screens/ImageGenerateWebView';
 import PlayMarketWebView from './Screens/PlayMarketWebView';
-import GoogleLoginView from './Screens/GoogleLoginView';
+// import GoogleLoginView from './Screens/GoogleLoginView';
+import GoogleLoginView from './Screens/GoogleLoginViewSupabase';
 import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 // import { keyLocalRequest } from './utils/keyLocalRequest'; // load data from FileSystem.cacheDirectory
