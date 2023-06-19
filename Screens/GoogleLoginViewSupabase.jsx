@@ -62,7 +62,8 @@ const GoogleLoginView = ({
 
   async function signInWithGoogle() {
     const getURL = () => {
-      let url = 'https://20dc-178-133-41-71.eu.ngrok.io/';
+      // let url = 'https://20dc-178-133-41-71.eu.ngrok.io/';
+      let url = 'https://exp.host/@kovalenkoandrii/GPT-mobile';
       // process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
       // process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
       // 'http://localhost:3000/';

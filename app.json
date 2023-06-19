@@ -14,6 +14,19 @@
       "**/*"
     ],
     "android": {
+      "intentFilters": [
+        {
+        "action": "VIEW",
+        "data": [
+            {
+            "scheme": "https",
+            "host": "exp.host",
+            "pathPrefix": "/@kovalenkoandrii/GPT-mobile"
+            }
+        ],
+        "category": ["BROWSABLE", "DEFAULT"]
+        }
+    ],
       "permissions": [
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
