@@ -55,7 +55,7 @@ const GoogleLoginView = ({
     {
       localStorage: AsyncStorage,
       autoRefreshToken: true,
-      persistSession: true,
+      persistSession: false,
       detectSessionInUrl: true,
     }
   );
