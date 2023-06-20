@@ -20,7 +20,7 @@ import CircleButton from '../components/CircleButton';
 import IconButton from '../components/IconButton';
 import * as gptImageB64 from '../utils/gptImageB64';
 import * as gptImageUrl from '../utils/gptImageUrl';
-import { onFetchUpdateAsync } from '../utils/checkUpdates';
+// import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../utils/useStopPlay';
 
@@ -44,7 +44,7 @@ const ImageDalle = ({ keyRef, setPlaying, playStatus }: any) => {
     requestPermission();
   }
 
-  setInterval(onFetchUpdateAsync, 86400000);
+  // setInterval(onFetchUpdateAsync, 86400000);
 
   const onSwap = async () => {
     try {

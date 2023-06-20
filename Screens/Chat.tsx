@@ -16,7 +16,7 @@ import * as Speech from 'expo-speech';
 import * as textDavinci003 from '../utils/textDavinci003';
 // import * as gpt35Turbo from '../utils/gpt35Turbo';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
-import { onFetchUpdateAsync } from '../utils/checkUpdates';
+// import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../utils/useStopPlay';
 
@@ -33,7 +33,7 @@ const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
   const scrollViewRef = useRef<TextInput>(null);
 
-  setInterval(onFetchUpdateAsync, 86400000);
+  // setInterval(onFetchUpdateAsync, 86400000);
   const navigation = useNavigation();
 
   const inputHandler = (prompt: string) => {
