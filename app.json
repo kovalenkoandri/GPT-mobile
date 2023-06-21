@@ -10,33 +10,28 @@
       "resizeMode": "cover",
       "backgroundColor": "#2f2f3d"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "intentFilters": [
         {
-        "action": "VIEW",
-        "data": [
+          "action": "VIEW",
+          "data": [
             {
-            "scheme": "https",
-            "host": "exp.host",
-            "pathPrefix": "/@kovalenkoandrii/GPT-mobile"
+              "scheme": "https",
+              "host": "exp.host",
+              "pathPrefix": "/@kovalenkoandrii/GPT-mobile"
             }
-        ],
-        "category": ["BROWSABLE", "DEFAULT"]
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
         }
-    ],
-      "permissions": [
-        "WRITE_EXTERNAL_STORAGE",
-        "READ_EXTERNAL_STORAGE"
       ],
+      "permissions": ["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/cloud1024.png",
         "backgroundColor": "#2f2f3d"
       },
       "package": "com.kovalenkoandrii.GPTmobile",
-      "versionCode": 23
+      "versionCode": 24
     },
     "web": {
       "favicon": "./assets/favicon.png",
