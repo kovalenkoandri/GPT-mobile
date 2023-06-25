@@ -6,7 +6,7 @@ import AuthRouter from './components/AuthRouter';
 export const useRoute = () => {
   const [isAuth, setIsAuth] = useState(true);
   const [isTestKeyPassed, setIsTestKeyPassed] = useState(false);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const playStatus = useRef('');
   const isTestKey = useRef(false);
   const scrollViewRef = useRef(null);
