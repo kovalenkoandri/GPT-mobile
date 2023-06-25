@@ -9,7 +9,6 @@ export const useRoute = () => {
   const [playing, setPlaying] = useState(true);
   const playStatus = useRef('');
   const isTestKey = useRef(false);
-  const keyRef = useRef('');
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
   const [userInfo, setUserInfo] = useState(null);
@@ -44,7 +43,6 @@ export const useRoute = () => {
         playing,
         setPlaying,
         playStatus,
-        keyRef,
         scrollViewRef,
         userAgentRef,
         isAuth,

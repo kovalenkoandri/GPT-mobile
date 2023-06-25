@@ -21,18 +21,13 @@ import { writeStringToStorage } from '../utils/saveStringToStorage';
 import Constants from 'expo-constants';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const PasteKey = ({
-  setIsTestKeyPassed,
-  keyRef,
-  playing,
-  setPlaying,
-  playStatus,
-}) => {
+const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
   const timerRef = useRef(null);
+  const keyRef = useRef('');
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
@@ -82,7 +77,9 @@ const PasteKey = ({
       setLoading(true);
       keyRef.current = value;
       const gptResponse = await ada.default.fetch(
-        'what is good for human', keyRef.current);
+        'what is good for human',
+        keyRef.current
+      );
       if (gptResponse) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);

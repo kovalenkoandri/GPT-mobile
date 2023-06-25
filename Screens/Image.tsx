@@ -26,7 +26,7 @@ import useStopPlay from '../utils/useStopPlay';
 
 const apiUrl = Env.API_ENDPOINTS;
 
-const ImageDalle = ({ keyRef, setPlaying, playStatus }: any) => {
+const ImageDalle = ({ setPlaying, playStatus }: any) => {
   const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
@@ -75,7 +75,7 @@ const ImageDalle = ({ keyRef, setPlaying, playStatus }: any) => {
       //   'data:application/octet-stream;base64,',
       //   ''
       // );
-      const gptResponse = await gptImageB64.default.fetch(prompt, keyRef);
+      const gptResponse = await gptImageB64.default.fetch(prompt);
       encodedBase64.current = gptResponse;
     } catch (error) {
       console.error(error);
@@ -111,7 +111,7 @@ const ImageDalle = ({ keyRef, setPlaying, playStatus }: any) => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const gptResponse = await gptImageB64.default.fetch(prompt, keyRef);
+      const gptResponse = await gptImageB64.default.fetch(prompt);
       // const gptResponseURL = await gptImageUrl.default.fetch(prompt);
       // const gptResponse = await axios.post(
       //   apiUrl.API_IMAGE_B64,

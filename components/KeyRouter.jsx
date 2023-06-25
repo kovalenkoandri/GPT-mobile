@@ -16,7 +16,6 @@ const KeyRouter = ({
   playing,
   setPlaying,
   playStatus,
-  keyRef,
   scrollViewRef,
   userAgentRef,
   isAuth,
@@ -49,7 +48,7 @@ const KeyRouter = ({
           <Tab.Screen
             name="ImageDalle"
             children={() => (
-              <ImageDalle {...{ keyRef, setPlaying, playStatus }} />
+              <ImageDalle {...{ setPlaying, playStatus }} />
             )}
             options={{
               tabBarLabel: 'Image create',
@@ -114,7 +113,6 @@ const KeyRouter = ({
               <PasteKey
                 {...{
                   setIsTestKeyPassed,
-                  keyRef,
                   playing,
                   setPlaying,
                   playStatus,
