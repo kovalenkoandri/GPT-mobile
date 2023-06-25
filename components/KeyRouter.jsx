@@ -32,7 +32,9 @@ const KeyRouter = ({
         <>
           <Tab.Screen
             name="Chat"
-            children={() => <Chat {...{ keyRef, setPlaying, playStatus }} />}
+            children={() => (
+              <Chat {...{ setPlaying, playStatus }} />
+            )}
             options={{
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color = '000' }) => (

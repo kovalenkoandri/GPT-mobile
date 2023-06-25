@@ -12,11 +12,11 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import * as ada from '../utils/textAda001';
-import {
-  writeFileCacheDirectory,
-  saveStringPermissions,
-} from '../utils/saveString';
+import * as ada from '../utils/textAda001onAppLoad';
+// import {
+//   writeFileCacheDirectory,
+//   saveStringPermissions,
+// } from '../utils/saveString';
 import { writeStringToStorage } from '../utils/saveStringToStorage';
 import Constants from 'expo-constants';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -82,9 +82,7 @@ const PasteKey = ({
       setLoading(true);
       keyRef.current = value;
       const gptResponse = await ada.default.fetch(
-        'what is good for human',
-        keyRef
-      );
+        'what is good for human', keyRef.current);
       if (gptResponse) {
         alert('Key is accepted. You can continue with chat or image requests.');
         setIsTestKeyPassed(true);

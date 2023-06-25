@@ -14,7 +14,6 @@ import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import * as Speech from 'expo-speech';
 import * as textDavinci003 from '../utils/textDavinci003';
-// import * as gpt35Turbo from '../utils/gpt35Turbo';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
 // import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useNavigation } from '@react-navigation/native';
@@ -25,7 +24,7 @@ interface ChatMessage {
   data: string;
 }
 
-const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
+const Chat = ({ setPlaying, playStatus }: any) => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,16 +46,14 @@ const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-
       let gptResponse;
       if (smart) {
-        gptResponse = await gpt35Turbo(value, keyRef);
+        gptResponse = await gpt35Turbo(value);
       } else {
-        gptResponse = await textDavinci003.default.fetch(value, keyRef);
+        gptResponse = await textDavinci003.default.fetch(value);
       }
       // what is good for human
       const data = gptResponse;
-      console.log(gptResponse);
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
     } catch (error) {

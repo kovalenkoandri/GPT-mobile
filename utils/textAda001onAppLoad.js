@@ -13,9 +13,11 @@ export default {
         max_tokens: 1,
       }),
     };
-    let response = await fetch(new Request(url, options));
-    let data = JSON.parse(await response.text());
-    if (!data.choices) {
+    const response = await fetch(new Request(url, options));
+    const data = await response.text();
+    const parsedData = JSON.parse(data);
+
+    if (!JSON.stringify(parsedData.choices[0].text, null, 2)) {
       return false;
     }
     return true;

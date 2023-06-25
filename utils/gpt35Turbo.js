@@ -1,15 +1,16 @@
-export const gpt35Turbo = async (prompt, keyRef) => {
+import AsyncStorage from '@react-native-async-storage/async-storage';
+export const gpt35Turbo = async (prompt) => {
   if (prompt.length === 0 || prompt.length > 2048) {
     return 'The length of the payload should be in (0,2048].';
   }
-
+  
+  const retrievedString = await AsyncStorage.getItem('@storage_Key');
   const url = 'https://api.openai.com/v1/chat/completions';
   const options = {
     method: 'POST',
     headers: {
-      // 'user-agent': 'Cloudflare Worker',
       'content-type': 'application/json;charset=UTF-8',
-      authorization: `Bearer ${keyRef.current}`,
+      authorization: `Bearer ${retrievedString}`,
     },
     body: JSON.stringify({
       model: 'gpt-3.5-turbo',

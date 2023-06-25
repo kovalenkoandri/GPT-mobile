@@ -13,14 +13,13 @@ export const useRoute = () => {
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
   const [userInfo, setUserInfo] = useState(null);
-
+  const checkLocalKey = async () => {
+    isTestKey.current = await readStringFromStorage();
+    isTestKey.current ? setIsTestKeyPassed(true) : setIsTestKeyPassed(false);
+  };
   useEffect(() => {
-    const checkLocalKey = async () => {
-      isTestKey.current = await readStringFromStorage();
-      isTestKey.current && setIsTestKeyPassed(true);
-    };
     checkLocalKey();
-  }, []);
+  }, [isTestKeyPassed]);
   const toggleAuthKey = () => {
     setIsAuth(prevState => !prevState);
   };

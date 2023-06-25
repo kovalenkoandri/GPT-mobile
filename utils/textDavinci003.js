@@ -1,5 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default {
-  async fetch(prompt, keyRef) {
+  async fetch(prompt) {
+    const retrievedString = await AsyncStorage.getItem('@storage_Key');
     if (prompt.length === 0 || prompt.length > 2048) {
       return new Response('The length of the payload should be in (0,2048].');
     }
@@ -9,20 +11,22 @@ export default {
       method: 'POST',
       headers: [
         ['Content-Type', 'application/json'],
-        ['Authorization', 'Bearer ' + keyRef.current],
+        ['Authorization', 'Bearer ' + retrievedString],
       ],
       body: JSON.stringify({
         model: 'text-davinci-003',
         prompt: prompt,
-        max_tokens: 2048,
+        // max_tokens: 2048,
       }),
     };
-    let response = await fetch(new Request(url, options));
-    let data = JSON.parse(await response.text());
-    if (!data.choices) {
+    const response = await fetch(new Request(url, options));
+    const data = JSON.parse(await response.text());
+    const parsedData = JSON.stringify(data.choices[0].text, null, 2);
+    const replacedN = parsedData.replace(/\\n/g, '');
+    if (!parsedData) {
       return new Response('An error is occurred during the request.');
     }
 
-    return data.choices[0].text.trim();
+    return replacedN;
   },
 };
