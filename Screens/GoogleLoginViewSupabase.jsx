@@ -11,6 +11,7 @@ import { createClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
 import * as Linking from 'expo-linking';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 WebBrowser.maybeCompleteAuthSession();
 // const supabaseUrl = 'https://ztcowxckjwprilhggkat.supabase.co';
@@ -47,16 +48,28 @@ const GoogleLoginView = ({
   scrollViewRef,
   userAgentRef,
 }) => {
+  const ExpoSecureStoreAdapter = {
+    getItem: (key) => {
+      return SecureStore.getItemAsync(key);
+    },
+    setItem: (key, value) => {
+      SecureStore.setItemAsync(key, value);
+    },
+    removeItem: (key) => {
+      SecureStore.deleteItemAsync(key);
+    },
+  };
   useUserAgent({ scrollViewRef, userAgentRef });
   // Create a single supabase client for interacting with your database
   const supabase = createClient(
     'https://ztcowxckjwprilhggkat.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0Y293eGNrandwcmlsaGdna2F0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY1OTA2NDYsImV4cCI6MjAwMjE2NjY0Nn0.HHH5z4dbhl4fr4tjnRpzW1OwP6GMU72hreeMTCMAv8s',
     {
-      localStorage: AsyncStorage,
+      // localStorage: AsyncStorage,
+      localStorage: ExpoSecureStoreAdapter,
       autoRefreshToken: true,
-      persistSession: false,
-      detectSessionInUrl: true,
+      persistSession: true,
+      detectSessionInUrl: false,
     }
   );
 
@@ -78,6 +91,11 @@ const GoogleLoginView = ({
       provider: 'google',
       options: {
         redirectTo: getURL(),
+        // queryParams: {
+        //   access_type: 'offline',
+        //   prompt: 'consent',
+        //   // hd: 'domain.com',
+        // },
       },
     });
     console.log(data);

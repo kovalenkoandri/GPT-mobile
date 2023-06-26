@@ -16,7 +16,7 @@ export default {
       body: JSON.stringify({
         model: 'text-davinci-003',
         prompt: prompt,
-        // max_tokens: 2048,
+        max_tokens: 2048,
       }),
     };
     const response = await fetch(new Request(url, options));
