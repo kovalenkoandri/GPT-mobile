@@ -76,7 +76,7 @@ const GoogleLoginView = ({
           }}
         />
       ) : (
-        <Text style={styles.text}>{userInfo.name}</Text>
+        <Text style={styles.userInfoName}>{userInfo.name}</Text>
       )}
     </>
   );

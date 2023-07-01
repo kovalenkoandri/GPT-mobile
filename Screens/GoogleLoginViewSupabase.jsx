@@ -80,12 +80,9 @@ const GoogleLoginView = ({
   return (
     <>
       {userInfo === null ? (
-        <Button
-          title="Sign in with Google"
-          onPress={signInWithGoogle}
-        />
+        <Button title="Sign in with Google" onPress={signInWithGoogle} />
       ) : (
-        <Text style={styles.text}>{userInfo.name}</Text>
+        <Text style={styles.userInfoName}>{userInfo.name}</Text>
       )}
     </>
   );

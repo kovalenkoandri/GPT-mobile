@@ -43,7 +43,8 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
-    width: '95%',
+    marginRight: 20,
+    width: '80%',
     color: '#f1f6ff',
     fontSize: 18,
   },
@@ -78,6 +79,18 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'flex-start',
+  },
+  shareView: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'flex-end',
+    marginTop: -20,
+  },
+  copyButton: {
+    backgroundColor: '#ddd',
+    borderRadius: 10,
+    padding: 5,
+    marginRight: 20,
   },
   showSpeechButton: {
     backgroundColor: '#ddd',
@@ -146,7 +159,7 @@ export const styles = StyleSheet.create({
   youtubePlayerContainer: {
     marginVertical: 20,
   },
-  text: {
+  userInfoName: {
     fontSize: 20,
     fontWeight: 'bold',
   },
