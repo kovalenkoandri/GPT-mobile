@@ -19,6 +19,7 @@ import { gpt35Turbo } from '../utils/gpt35Turbo';
 import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../utils/useStopPlay';
 import { copyToClipboard } from '../utils/copyToClipboard';
+import { shareContent } from '../utils/shareContent';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface ChatMessage {
@@ -92,6 +93,16 @@ const Chat = ({ setPlaying, playStatus }: any) => {
             <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
             <Text style={styles.chatResponse}>{chatItem.data}</Text>
             <View style={styles.shareView}>
+              <TouchableOpacity
+                onPress={() => shareContent(chatItem.data)}
+                style={styles.copyButton}
+              >
+                <MaterialCommunityIcons
+                  name="share-variant-outline"
+                  color={'#000'}
+                  size={26}
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => copyToClipboard(chatItem.data)}
                 style={styles.copyButton}
