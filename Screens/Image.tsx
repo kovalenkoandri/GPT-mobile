@@ -23,6 +23,9 @@ import * as gptImageUrl from '../utils/gptImageUrl';
 // import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../utils/useStopPlay';
+import { copyImageToClipboard } from '../utils/copyImageToClipboard';
+import { shareImage } from '../utils/shareImage';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const apiUrl = Env.API_ENDPOINTS;
 
@@ -96,7 +99,34 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
         alert('Saved!');
       }
     } catch (e) {
-      console.log(e);
+      console.error(`onSaveImageAsync error ${e}`);
+    }
+  };
+  const onShareImageAsync = async () => {
+    try {
+      const localUri = await captureRef(imageRef, {
+        format: 'jpg',
+        quality: 1.0,
+      });
+      if (localUri) {
+        shareImage(localUri);
+      }
+    } catch (e) {
+      console.error(`onShareImageAsync error ${e}`);
+    }
+  };
+  const onCopyToClipboardImageAsync = async () => {
+    try {
+      const base64 = await captureRef(imageRef, {
+        format: 'jpg',
+        quality: 1.0,
+        result: 'base64',
+      });
+      if (base64) {
+        copyImageToClipboard(base64);
+      }
+    } catch (e) {
+      console.error(`onCopyToClipboardImageAsync error ${e}`);
     }
   };
 
@@ -134,7 +164,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
       promptHeader.current = prompt;
       // setPrompt('');
     } catch (error) {
-      console.error(error);
+      console.error(`onSubmit gptResponse ${error}`);
     } finally {
       setLoading(false);
     }
@@ -155,6 +185,28 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
         {encodedBase64.current && (
           <View style={styles.chatItem}>
             <Text style={styles.chatRequest}>{promptHeader.current}</Text>
+            <View style={styles.shareImageView}>
+              <TouchableOpacity
+                onPress={onShareImageAsync}
+                style={styles.copyButton}
+              >
+                <MaterialCommunityIcons
+                  name="share-variant-outline"
+                  color={'#000'}
+                  size={26}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={onCopyToClipboardImageAsync}
+                style={styles.copyButton}
+              >
+                <MaterialCommunityIcons
+                  name="content-copy"
+                  color={'#000'}
+                  size={26}
+                />
+              </TouchableOpacity>
+            </View>
             <View ref={imageRef} collapsable={false}>
               <Image
                 style={styles.image}
@@ -163,7 +215,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 }}
               />
             </View>
-
             <View style={styles.optionsContainer}>
               <View style={styles.optionsRow}>
                 {loading ||

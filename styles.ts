@@ -82,6 +82,11 @@ export const styles = StyleSheet.create({
   },
   shareView: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: -20,
+  },
+  shareImageView: {
+    flexDirection: 'row',
     width: '100%',
     justifyContent: 'flex-end',
     marginTop: -20,
