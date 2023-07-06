@@ -181,7 +181,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
   return (
     <>
       <StatusBar style="auto" />
-      <ScrollView style={styles.scrollView}>
+      <View style={styles.scrollView}>
         {encodedBase64.current && (
           <View style={styles.chatItem}>
             <Text style={styles.chatRequest}>{promptHeader.current}</Text>
@@ -261,7 +261,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
           </TouchableOpacity>
           {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>
-      </ScrollView>
+      </View>
     </>
   );
 };
