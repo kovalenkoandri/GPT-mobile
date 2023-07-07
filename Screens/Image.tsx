@@ -186,6 +186,23 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
           <View style={styles.chatItem}>
             <Text style={styles.chatRequest}>{promptHeader.current}</Text>
             <View style={styles.shareImageView}>
+              <TouchableOpacity onPress={onSwap} style={styles.copyButton}>
+                <MaterialCommunityIcons
+                  name="swap-vertical"
+                  color={'#000'}
+                  size={40}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={onSaveImageAsync}
+                style={styles.copyButton}
+              >
+                <MaterialCommunityIcons
+                  name="chevron-double-down"
+                  color={'#000'}
+                  size={40}
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={onShareImageAsync}
                 style={styles.copyButton}
@@ -193,7 +210,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 <MaterialCommunityIcons
                   name="share-variant-outline"
                   color={'#000'}
-                  size={26}
+                  size={40}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -203,11 +220,11 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 <MaterialCommunityIcons
                   name="content-copy"
                   color={'#000'}
-                  size={26}
+                  size={40}
                 />
               </TouchableOpacity>
             </View>
-            <View ref={imageRef} collapsable={false}>
+            <View ref={imageRef} collapsable={false} style={styles.imageRef}>
               <Image
                 style={styles.image}
                 source={{
@@ -215,13 +232,13 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 }}
               />
             </View>
-            <View style={styles.optionsContainer}>
+            {/* <View style={styles.optionsContainer}>
               <View style={styles.optionsRow}>
                 {loading ||
                   (prompt.length >= 3 && (
                     <IconButton icon="refresh" label="Swap" onPress={onSwap} />
                   ))}
-                {/* <CircleButton onPress={onAddSticker} /> */}
+                // <CircleButton onPress={onAddSticker} /> 
                 {loading || (
                   <IconButton
                     icon="save-alt"
@@ -230,7 +247,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                   />
                 )}
               </View>
-            </View>
+            </View> */}
           </View>
         )}
 

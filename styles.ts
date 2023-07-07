@@ -7,9 +7,12 @@ export const styles = StyleSheet.create({
     paddingTop: 20,
   },
   scrollView: {
+    flex: 1,
     padding: 10,
+    rowGap: 10,
   },
   chatItem: {
+    // flex: 8,
     borderRadius: 10,
     paddingHorizontal: 0,
     paddingVertical: 10,
@@ -17,6 +20,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     marginTop: 10,
+    rowGap: 20,
   },
   imageContainer: {
     flex: 1,
@@ -29,6 +33,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     borderRadius: 10,
+    // flex: 1
   },
   input: {
     flex: 1,
@@ -39,6 +44,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   chatRequest: {
+    // flex: 1,
     backgroundColor: '#353343',
     borderRadius: 10,
     padding: 10,
@@ -58,9 +64,12 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   image: {
-    height: 200,
-    width: 200,
+    height: 300,
+    width: 300,
     borderRadius: 18,
+  },
+  imageRef: {
+    // flex: 10,
   },
   showDeleteButton: {
     position: 'absolute',
@@ -88,15 +97,20 @@ export const styles = StyleSheet.create({
   },
   shareImageView: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignContent: 'space-between',
     width: '100%',
-    justifyContent: 'flex-end',
-    marginTop: -20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
+    marginLeft: 20,
+    // flex: 2,
   },
   copyButton: {
     backgroundColor: '#ddd',
     borderRadius: 10,
     padding: 5,
-    marginRight: 20,
+    marginRight: 44,
   },
   showSpeechButton: {
     backgroundColor: '#ddd',
@@ -135,11 +149,13 @@ export const styles = StyleSheet.create({
   },
   optionsContainer: {
     position: 'absolute',
-    bottom: 80,
-    left: -100, // for swap btn be always left, not center positioned
+    bottom: 30,
+    right: 200, // for swap btn be always left, not center positioned
   },
   optionsRow: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
+    height: 180,
+    justifyContent: 'space-between',
   },
   buttonSend: {
     justifyContent: 'flex-end',
