@@ -18,14 +18,15 @@ const GoogleLoginView = ({
   scrollViewRef,
   userAgentRef,
 }) => {
+  // const [session, setSession] = useState();
   const ExpoSecureStoreAdapter = {
-    getItem: (key) => {
+    getItem: key => {
       return SecureStore.getItemAsync(key);
     },
     setItem: (key, value) => {
       SecureStore.setItemAsync(key, value);
     },
-    removeItem: (key) => {
+    removeItem: key => {
       SecureStore.deleteItemAsync(key);
     },
   };
@@ -54,15 +55,15 @@ const GoogleLoginView = ({
       url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
       return url;
     };
-    console.log(supabase.auth);
+    // console.log(supabase.auth);
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: getURL(),
       },
     });
-    console.log(data);
-    console.log(error);
+    // console.log(data);
+    error && console.log(error);
     if (data.url) {
       const { hostname, path, queryParams } = Linking.parse(data.url);
 
@@ -74,6 +75,30 @@ const GoogleLoginView = ({
       setUserInfo(data.url);
     }
   }
+
+  // const restoreSession = async () => {
+  //   const { data } = await supabase.auth.getSession();
+  //  console.log(data);
+  //   // if (data) {
+  //   //   setSession(data.session);
+  //   // }
+  // };
+
+  // useEffect(() => {
+  //   // restores session on app start
+  //   restoreSession();
+
+  //   // listener for auth changes
+  //   supabase.auth.onAuthStateChange(async (_, session) => {
+  //     if (session === null) {
+  //       await SecureStore.deleteItemAsync(`supabase-token`);
+  //       // setSession(null);
+  //     } else {
+  //       await SecureStore.setItemAsync(`supabase-token`, session.access_token);
+  //       // setSession(session);
+  //     }
+  //   });
+  // }, []);
 
   useUserAgent({ scrollViewRef, userAgentRef });
 
