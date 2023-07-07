@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -181,58 +182,91 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
   return (
     <>
       <StatusBar style="auto" />
-      <View style={styles.scrollView}>
-        {encodedBase64.current && (
-          <View style={styles.chatItem}>
-            <Text style={styles.chatRequest}>{promptHeader.current}</Text>
-            <View style={styles.shareImageView}>
-              <TouchableOpacity onPress={onSwap} style={styles.copyButton}>
-                <MaterialCommunityIcons
-                  name="swap-vertical"
-                  color={'#000'}
-                  size={40}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={onSaveImageAsync}
-                style={styles.copyButton}
-              >
-                <MaterialCommunityIcons
-                  name="chevron-double-down"
-                  color={'#000'}
-                  size={40}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={onShareImageAsync}
-                style={styles.copyButton}
-              >
-                <MaterialCommunityIcons
-                  name="share-variant-outline"
-                  color={'#000'}
-                  size={40}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={onCopyToClipboardImageAsync}
-                style={styles.copyButton}
-              >
-                <MaterialCommunityIcons
-                  name="content-copy"
-                  color={'#000'}
-                  size={40}
-                />
-              </TouchableOpacity>
-            </View>
-            <View ref={imageRef} collapsable={false} style={styles.imageRef}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `data:image/png;base64,${encodedBase64.current}`,
-                }}
-              />
-            </View>
-            {/* <View style={styles.optionsContainer}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              ref={scrollViewRef}
+              placeholder="Type from 3 symbols"
+              placeholderTextColor="#f1f6ff"
+              value={prompt}
+              onChangeText={inputHandler}
+              style={styles.input}
+              multiline={true}
+              // onBlur={() => {
+              //   if (prompt.length >= 3) {
+              //     Keyboard.dismiss();
+              //     onSubmit();
+              //   }
+              // }}
+            />
+            <TouchableOpacity
+              onPress={onSubmit}
+              disabled={loading || prompt.length < 3}
+              activeOpacity={0.6}
+              accessibilityLabel="Send button"
+              style={styles.buttonSend}
+            >
+              {prompt.length >= 3 && <SendIcon />}
+            </TouchableOpacity>
+            {loading && <ActivityIndicator size="large" color="#fff" />}
+          </View>
+          <View style={styles.scrollView}>
+            {encodedBase64.current && (
+              <View style={styles.chatItem}>
+                {/* <Text style={styles.chatRequest}>{promptHeader.current}</Text> */}
+                <View style={styles.shareImageView}>
+                  <TouchableOpacity onPress={onSwap} style={styles.copyButton}>
+                    <MaterialCommunityIcons
+                      name="swap-vertical"
+                      color={'#000'}
+                      size={40}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={onSaveImageAsync}
+                    style={styles.copyButton}
+                  >
+                    <MaterialCommunityIcons
+                      name="chevron-double-down"
+                      color={'#000'}
+                      size={40}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={onShareImageAsync}
+                    style={styles.copyButton}
+                  >
+                    <MaterialCommunityIcons
+                      name="share-variant-outline"
+                      color={'#000'}
+                      size={40}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={onCopyToClipboardImageAsync}
+                    style={styles.copyButton}
+                  >
+                    <MaterialCommunityIcons
+                      name="content-copy"
+                      color={'#000'}
+                      size={40}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View
+                  ref={imageRef}
+                  collapsable={false}
+                  style={styles.imageRef}
+                >
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `data:image/png;base64,${encodedBase64.current}`,
+                    }}
+                  />
+                </View>
+                {/* <View style={styles.optionsContainer}>
               <View style={styles.optionsRow}>
                 {loading ||
                   (prompt.length >= 3 && (
@@ -248,37 +282,11 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 )}
               </View>
             </View> */}
+              </View>
+            )}
           </View>
-        )}
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            ref={scrollViewRef}
-            placeholder="Type from 3 symbols"
-            placeholderTextColor="#f1f6ff"
-            value={prompt}
-            onChangeText={inputHandler}
-            style={styles.input}
-            multiline={true}
-            onBlur={() => {
-              if (prompt.length >= 3) {
-                Keyboard.dismiss();
-                onSubmit();
-              }
-            }}
-          />
-          <TouchableOpacity
-            onPress={onSubmit}
-            disabled={loading || prompt.length < 3}
-            activeOpacity={0.6}
-            accessibilityLabel="Send button"
-            style={styles.buttonSend}
-          >
-            {prompt.length >= 3 && <SendIcon />}
-          </TouchableOpacity>
-          {loading && <ActivityIndicator size="large" color="#fff" />}
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </>
   );
 };

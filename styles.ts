@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2f2f3d',
     paddingTop: 20,
+    paddingHorizontal: 10,
   },
   scrollView: {
     flex: 1,
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 0,
     paddingVertical: 10,
-    backgroundColor: '#414155',
+    // backgroundColor: '#414155',
     alignItems: 'center',
     width: '100%',
     marginTop: 10,
@@ -33,6 +34,9 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     borderRadius: 10,
+    paddingHorizontal: 0,
+    paddingVertical: 10,
+    alignItems: 'center',
     // flex: 1
   },
   input: {
@@ -40,7 +44,7 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     padding: 10,
     color: '#f1f6ff',
-    backgroundColor: '#414155',
+    // backgroundColor: '#414155',
     textAlignVertical: 'top',
   },
   chatRequest: {
@@ -103,14 +107,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 60,
-    marginLeft: 20,
+    // marginLeft: 20,
     // flex: 2,
   },
   copyButton: {
     backgroundColor: '#ddd',
     borderRadius: 10,
     padding: 5,
-    marginRight: 44,
+    marginRight: 40,
   },
   showSpeechButton: {
     backgroundColor: '#ddd',
