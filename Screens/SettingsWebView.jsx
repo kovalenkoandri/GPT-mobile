@@ -28,6 +28,7 @@ const SettingsWebView = ({
         thumbColor={isAuth ? '#7d7da1' : '#cdc5ff'}
         onValueChange={toggleAuthKey}
         value={isAuth}
+        style={styles.toggleSwitch}
       />
     </View>
   );

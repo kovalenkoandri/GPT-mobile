@@ -172,6 +172,9 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  toggleSwitch: {
+    transform: [{ scaleX: 2 }, { scaleY: 2 }]
+  },
   imageBackground: {
     alignItems: 'center',
   },

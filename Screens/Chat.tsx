@@ -185,6 +185,7 @@ const Chat = ({ setPlaying, playStatus }: any) => {
           thumbColor={smart ? '#7d7da1' : '#cdc5ff'}
           onValueChange={toggleSmartFast}
           value={smart}
+          style={styles.toggleSwitch}
         />
       </View>
     </>
