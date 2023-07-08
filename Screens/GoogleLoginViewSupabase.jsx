@@ -62,7 +62,6 @@ const GoogleLoginView = ({
         redirectTo: getURL(),
       },
     });
-    // console.log(data);
     error && console.log(error);
     if (data.url) {
       // const { hostname, path, queryParams } = Linking.parse(data.url);
@@ -73,13 +72,15 @@ const GoogleLoginView = ({
       //   )}`
       // );
       setUserInfo(data.url);
-    }
-    if (data.url) {
-      // const { data, error } = await supabase.auth.getSession();
-      // console.log(data);
+      ExpoSecureStoreAdapter.setItem('dataUrl', data.url);
     }
   }
-
+  useEffect(() => {
+    (async () => {
+      const dataUrl = await ExpoSecureStoreAdapter.getItem('dataUrl');
+      dataUrl && setUserInfo(dataUrl);
+    })();
+  }, []);
   useUserAgent({ scrollViewRef, userAgentRef });
 
   return (
