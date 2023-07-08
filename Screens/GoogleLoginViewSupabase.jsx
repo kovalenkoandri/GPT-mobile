@@ -65,40 +65,20 @@ const GoogleLoginView = ({
     // console.log(data);
     error && console.log(error);
     if (data.url) {
-      const { hostname, path, queryParams } = Linking.parse(data.url);
+      // const { hostname, path, queryParams } = Linking.parse(data.url);
 
-      console.log(
-        `Linked to app with hostname: ${hostname}, path: ${path} and data: ${JSON.stringify(
-          queryParams
-        )}`
-      );
+      // console.log(
+      //   `Linked to app with hostname: ${hostname}, path: ${path} and data: ${JSON.stringify(
+      //     queryParams
+      //   )}`
+      // );
       setUserInfo(data.url);
     }
+    if (data.url) {
+      // const { data, error } = await supabase.auth.getSession();
+      // console.log(data);
+    }
   }
-
-  // const restoreSession = async () => {
-  //   const { data } = await supabase.auth.getSession();
-  //  console.log(data);
-  //   // if (data) {
-  //   //   setSession(data.session);
-  //   // }
-  // };
-
-  // useEffect(() => {
-  //   // restores session on app start
-  //   restoreSession();
-
-  //   // listener for auth changes
-  //   supabase.auth.onAuthStateChange(async (_, session) => {
-  //     if (session === null) {
-  //       await SecureStore.deleteItemAsync(`supabase-token`);
-  //       // setSession(null);
-  //     } else {
-  //       await SecureStore.setItemAsync(`supabase-token`, session.access_token);
-  //       // setSession(session);
-  //     }
-  //   });
-  // }, []);
 
   useUserAgent({ scrollViewRef, userAgentRef });
 

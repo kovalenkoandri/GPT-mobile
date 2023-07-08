@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     padding: 10,
     color: '#f1f6ff',
-    // backgroundColor: '#414155',
+    backgroundColor: '#414155',
     textAlignVertical: 'top',
   },
   chatRequest: {
@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     alignContent: 'space-between',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     height: 60,
     // marginLeft: 20,
     // flex: 2,
@@ -114,7 +114,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     borderRadius: 10,
     padding: 5,
-    marginRight: 40,
+    // marginRight: 40,
   },
   showSpeechButton: {
     backgroundColor: '#ddd',
