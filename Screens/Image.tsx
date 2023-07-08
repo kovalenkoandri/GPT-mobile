@@ -165,11 +165,19 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
             {/* <Text style={styles.chatRequest}>{promptHeader.current}</Text> */}
             <View style={styles.shareImageView}>
               <TouchableOpacity onPress={onSwap} style={styles.copyButton}>
-                <MaterialCommunityIcons
-                  name="swap-vertical"
-                  color={'#000'}
-                  size={40}
-                />
+                {loading ? (
+                  <MaterialCommunityIcons
+                    name="swap-vertical"
+                    color={'#e91e63'}
+                    size={40}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="swap-vertical"
+                    color={'#000'}
+                    size={40}
+                  />
+                )}
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => saveImage(imageRef, setIsDownloaded)}
