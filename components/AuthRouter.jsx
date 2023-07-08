@@ -69,8 +69,6 @@ const AuthRouter = ({
                 {...{
                   playStatus,
                   setPlaying,
-                  scrollViewRef,
-                  userAgentRef,
                   isAuth,
                   toggleAuthKey,
                 }}

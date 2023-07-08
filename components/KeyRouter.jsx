@@ -68,8 +68,6 @@ const KeyRouter = ({
                 {...{
                   playStatus,
                   setPlaying,
-                  scrollViewRef,
-                  userAgentRef,
                   isAuth,
                   toggleAuthKey,
                 }}
