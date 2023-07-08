@@ -73,11 +73,14 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   }, [chatHistory]);
 
   const speak = async (thingToSay: any) => {
-    Speech.speak(thingToSay);
+    const isSpeak = await Speech.isSpeakingAsync();
+    if (isSpeak) {
+      Speech.stop(thingToSay);
+    } else Speech.speak(thingToSay);
   };
-  const stopSpeak = async (thingToSay: any) => {
-    Speech.stop(thingToSay);
-  };
+  // const stopSpeak = async (thingToSay: any) => {
+  //   Speech.stop(thingToSay);
+  // };
 
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);
@@ -93,6 +96,18 @@ const Chat = ({ setPlaying, playStatus }: any) => {
             <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
             <Text style={styles.chatResponse}>{chatItem.data}</Text>
             <View style={styles.shareView}>
+              <TouchableOpacity
+                onPress={() => speak(chatItem.data)}
+                style={styles.showSpeechButton}
+              >
+                <Text style={styles.showSpeechButtonText}>Start/Stop talking</Text>
+              </TouchableOpacity>
+              {/* <TouchableOpacity
+                onPress={() => stopSpeak(chatItem.data)}
+                style={styles.showStopTalkButton}
+              >
+                <Text style={styles.showStopTalkButtonText}>Stop talking</Text>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 onPress={() => shareContent(chatItem.data)}
                 style={styles.copyButton}
@@ -114,20 +129,7 @@ const Chat = ({ setPlaying, playStatus }: any) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.talkView}>
-              <TouchableOpacity
-                onPress={() => speak(chatItem.data)}
-                style={styles.showSpeechButton}
-              >
-                <Text style={styles.showSpeechButtonText}>Start talking</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => stopSpeak(chatItem.data)}
-                style={styles.showStopTalkButton}
-              >
-                <Text style={styles.showStopTalkButtonText}>Stop talking</Text>
-              </TouchableOpacity>
-            </View>
+            {/* <View style={styles.talkView}></View> */}
             {messageToDelete !== index && (
               <>
                 <TouchableOpacity

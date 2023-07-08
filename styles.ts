@@ -91,13 +91,13 @@ export const styles = StyleSheet.create({
   talkView: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
   },
   shareView: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     width: '100%',
-    marginTop: -20,
+    // marginTop: -20,
   },
   shareImageView: {
     flexDirection: 'row',
