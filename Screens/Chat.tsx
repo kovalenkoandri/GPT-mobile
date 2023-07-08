@@ -12,7 +12,6 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
-import * as Speech from 'expo-speech';
 import * as textDavinci003 from '../utils/textDavinci003';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
 // import { onFetchUpdateAsync } from '../utils/checkUpdates';
@@ -20,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../utils/useStopPlay';
 import { copyToClipboard } from '../utils/copyToClipboard';
 import { shareContent } from '../utils/shareContent';
+import { speak } from '../utils/speak';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface ChatMessage {
@@ -33,6 +33,8 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [smart, setSmart] = useState<boolean>(true);
   const [messageToDelete, setMessageToDelete] = useState<number>(-1);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isVoice, setIsVoice] = useState<boolean>(false);
   const scrollViewRef = useRef<TextInput>(null);
 
   // setInterval(onFetchUpdateAsync, 86400000);
@@ -72,16 +74,6 @@ const Chat = ({ setPlaying, playStatus }: any) => {
     }
   }, [chatHistory]);
 
-  const speak = async (thingToSay: any) => {
-    const isSpeak = await Speech.isSpeakingAsync();
-    if (isSpeak) {
-      Speech.stop(thingToSay);
-    } else Speech.speak(thingToSay);
-  };
-  // const stopSpeak = async (thingToSay: any) => {
-  //   Speech.stop(thingToSay);
-  // };
-
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);
   };
@@ -97,17 +89,23 @@ const Chat = ({ setPlaying, playStatus }: any) => {
             <Text style={styles.chatResponse}>{chatItem.data}</Text>
             <View style={styles.shareView}>
               <TouchableOpacity
-                onPress={() => speak(chatItem.data)}
-                style={styles.showSpeechButton}
+                onPress={() => speak(chatItem.data, setIsVoice)}
+                style={styles.copyButton}
               >
-                <Text style={styles.showSpeechButtonText}>Start/Stop talking</Text>
+                {isVoice ? (
+                  <MaterialCommunityIcons
+                    name="account-voice"
+                    color={'#e91e63'}
+                    size={40}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="account-voice-off"
+                    color={'#000'}
+                    size={40}
+                  />
+                )}
               </TouchableOpacity>
-              {/* <TouchableOpacity
-                onPress={() => stopSpeak(chatItem.data)}
-                style={styles.showStopTalkButton}
-              >
-                <Text style={styles.showStopTalkButtonText}>Stop talking</Text>
-              </TouchableOpacity> */}
               <TouchableOpacity
                 onPress={() => shareContent(chatItem.data)}
                 style={styles.copyButton}
@@ -115,18 +113,26 @@ const Chat = ({ setPlaying, playStatus }: any) => {
                 <MaterialCommunityIcons
                   name="share-variant-outline"
                   color={'#000'}
-                  size={26}
+                  size={40}
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => copyToClipboard(chatItem.data)}
+                onPress={() => copyToClipboard(chatItem.data, setIsCopied)}
                 style={styles.copyButton}
               >
-                <MaterialCommunityIcons
-                  name="content-copy"
-                  color={'#000'}
-                  size={26}
-                />
+                {isCopied ? (
+                  <MaterialCommunityIcons
+                    name="check-all"
+                    color={'#e91e63'}
+                    size={40}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="content-copy"
+                    color={'#000'}
+                    size={40}
+                  />
+                )}
               </TouchableOpacity>
             </View>
             {/* <View style={styles.talkView}></View> */}

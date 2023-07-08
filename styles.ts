@@ -88,11 +88,6 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  talkView: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'flex-end',
-  },
   shareView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -115,28 +110,6 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
     // marginRight: 40,
-  },
-  showSpeechButton: {
-    backgroundColor: '#ddd',
-    borderRadius: 10,
-    padding: 5,
-    marginLeft: 20,
-    marginRight: 40,
-  },
-  showSpeechButtonText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  showStopTalkButton: {
-    backgroundColor: '#ddd',
-    borderRadius: 10,
-    padding: 5,
-  },
-  showStopTalkButtonText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   checkUpdateButton: {
     borderRadius: 10,
@@ -173,7 +146,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   toggleSwitch: {
-    transform: [{ scaleX: 2 }, { scaleY: 2 }]
+    transform: [{ scaleX: 2 }, { scaleY: 2 }],
   },
   imageBackground: {
     alignItems: 'center',

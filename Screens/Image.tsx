@@ -33,6 +33,7 @@ const apiUrl = Env.API_ENDPOINTS;
 const ImageDalle = ({ setPlaying, playStatus }: any) => {
   const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
 
   const scrollViewRef = useRef<TextInput>(null);
@@ -124,7 +125,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
         result: 'base64',
       });
       if (base64) {
-        copyImageToClipboard(base64);
+        copyImageToClipboard(base64, setIsCopied);
       }
     } catch (e) {
       console.error(`onCopyToClipboardImageAsync error ${e}`);
@@ -246,11 +247,19 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 onPress={onCopyToClipboardImageAsync}
                 style={styles.copyButton}
               >
-                <MaterialCommunityIcons
-                  name="content-copy"
-                  color={'#000'}
-                  size={40}
-                />
+                {isCopied ? (
+                  <MaterialCommunityIcons
+                    name="check-all"
+                    color={'#e91e63'}
+                    size={40}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="content-copy"
+                    color={'#000'}
+                    size={40}
+                  />
+                )}
               </TouchableOpacity>
             </View>
             <View ref={imageRef} collapsable={false} style={styles.imageRef}>
