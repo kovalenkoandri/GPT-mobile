@@ -7,26 +7,23 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
-  TouchableWithoutFeedback,
 } from 'react-native';
+import * as MediaLibrary from 'expo-media-library';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { Env } from '../Env';
-import { captureRef } from 'react-native-view-shot';
-import * as MediaLibrary from 'expo-media-library';
-import CircleButton from '../components/CircleButton';
-import IconButton from '../components/IconButton';
 import * as gptImageB64 from '../utils/gptImageB64';
 import * as gptImageUrl from '../utils/gptImageUrl';
 // import { onFetchUpdateAsync } from '../utils/checkUpdates';
-import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../utils/useStopPlay';
 import { copyImageToClipboard } from '../utils/copyImageToClipboard';
 import { shareImage } from '../utils/shareImage';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { saveImage } from '../utils/saveImage';
 
 const apiUrl = Env.API_ENDPOINTS;
 
@@ -34,6 +31,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
   const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isDownloaded, setIsDownloaded] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
 
   const scrollViewRef = useRef<TextInput>(null);
@@ -48,7 +46,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
   if (status === null) {
     requestPermission();
   }
-
   // setInterval(onFetchUpdateAsync, 86400000);
 
   const onSwap = async () => {
@@ -86,49 +83,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
       console.error(error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const onSaveImageAsync = async () => {
-    try {
-      const localUri = await captureRef(imageRef, {
-        height: 440,
-        quality: 1,
-      });
-
-      await MediaLibrary.saveToLibraryAsync(localUri);
-      if (localUri) {
-        alert('Saved!');
-      }
-    } catch (e) {
-      console.error(`onSaveImageAsync error ${e}`);
-    }
-  };
-  const onShareImageAsync = async () => {
-    try {
-      const localUri = await captureRef(imageRef, {
-        format: 'jpg',
-        quality: 1.0,
-      });
-      if (localUri) {
-        shareImage(localUri);
-      }
-    } catch (e) {
-      console.error(`onShareImageAsync error ${e}`);
-    }
-  };
-  const onCopyToClipboardImageAsync = async () => {
-    try {
-      const base64 = await captureRef(imageRef, {
-        format: 'jpg',
-        quality: 1.0,
-        result: 'base64',
-      });
-      if (base64) {
-        copyImageToClipboard(base64, setIsCopied);
-      }
-    } catch (e) {
-      console.error(`onCopyToClipboardImageAsync error ${e}`);
     }
   };
 
@@ -193,12 +147,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
           style={styles.input}
           multiline={true}
           onBlur={() => Keyboard.dismiss()}
-          // onBlur={() => {
-          //   if (prompt.length >= 3) {
-          //     Keyboard.dismiss();
-          //     onSubmit();
-          //   }
-          // }}
         />
         <TouchableOpacity
           onPress={onSubmit}
@@ -224,17 +172,25 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={onSaveImageAsync}
+                onPress={() => saveImage(imageRef, setIsDownloaded)}
                 style={styles.copyButton}
               >
-                <MaterialCommunityIcons
-                  name="chevron-double-down"
-                  color={'#000'}
-                  size={40}
-                />
+                {isDownloaded ? (
+                  <MaterialCommunityIcons
+                    name="check-all"
+                    color={'#e91e63'}
+                    size={40}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="chevron-double-down"
+                    color={'#000'}
+                    size={40}
+                  />
+                )}
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={onShareImageAsync}
+                onPress={() => shareImage(imageRef)}
                 style={styles.copyButton}
               >
                 <MaterialCommunityIcons
@@ -244,7 +200,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={onCopyToClipboardImageAsync}
+                onPress={() => copyImageToClipboard(imageRef, setIsCopied)}
                 style={styles.copyButton}
               >
                 {isCopied ? (
@@ -270,22 +226,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
                 }}
               />
             </View>
-            {/* <View style={styles.optionsContainer}>
-              <View style={styles.optionsRow}>
-                {loading ||
-                  (prompt.length >= 3 && (
-                    <IconButton icon="refresh" label="Swap" onPress={onSwap} />
-                  ))}
-                // <CircleButton onPress={onAddSticker} /> 
-                {loading || (
-                  <IconButton
-                    icon="save-alt"
-                    label="Save"
-                    onPress={onSaveImageAsync}
-                  />
-                )}
-              </View>
-            </View> */}
           </View>
         )}
       </ScrollView>

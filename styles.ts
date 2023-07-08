@@ -124,16 +124,6 @@ export const styles = StyleSheet.create({
     flex: 1 / 3,
     alignItems: 'center',
   },
-  optionsContainer: {
-    position: 'absolute',
-    bottom: 30,
-    right: 200, // for swap btn be always left, not center positioned
-  },
-  optionsRow: {
-    // flexDirection: 'row',
-    height: 180,
-    justifyContent: 'space-between',
-  },
   buttonSend: {
     justifyContent: 'flex-end',
   },
