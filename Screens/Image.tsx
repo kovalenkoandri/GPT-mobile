@@ -20,7 +20,7 @@ import { Env } from '../Env';
 import * as gptImageB64 from '../utils/gptImageB64';
 import * as gptImageUrl from '../utils/gptImageUrl';
 // import { onFetchUpdateAsync } from '../utils/checkUpdates';
-import useStopPlay from '../utils/useStopPlay';
+import useStopPlay from '../hooks/useStopPlay';
 import { copyImageToClipboard } from '../utils/copyImageToClipboard';
 import { shareImage } from '../utils/shareImage';
 import { saveImage } from '../utils/saveImage';

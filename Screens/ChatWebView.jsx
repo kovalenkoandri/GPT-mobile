@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WebView } from 'react-native-webview';
-import useStopPlay from '../utils/useStopPlay';
-import useUserAgent from '../utils/useUserAgent';
+import useStopPlay from '../hooks/useStopPlay';
+import useUserAgent from '../hooks/useUserAgent';
 import { useNavigation } from '@react-navigation/native';
 
 const ChatWebView = ({

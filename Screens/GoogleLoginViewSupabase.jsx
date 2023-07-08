@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button, Text } from 'react-native';
 import { styles } from '../styles';
 import * as WebBrowser from 'expo-web-browser';
-import useUserAgent from '../utils/useUserAgent';
+import useUserAgent from '../hooks/useUserAgent';
 import { createClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
 import * as Linking from 'expo-linking';

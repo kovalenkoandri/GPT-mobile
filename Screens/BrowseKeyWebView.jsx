@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
-import useStopPlay from '../utils/useStopPlay';
-import useUserAgent from '../utils/useUserAgent';
+import useStopPlay from '../hooks/useStopPlay';
+import useUserAgent from '../hooks/useUserAgent';
 
-const BrowseKeyWebView = ({ playStatus, setPlaying, scrollViewRef, userAgentRef }) => {
-  
+const BrowseKeyWebView = ({
+  playStatus,
+  setPlaying,
+  scrollViewRef,
+  userAgentRef,
+}) => {
   const navigation = useNavigation();
 
   useUserAgent({ scrollViewRef, userAgentRef });

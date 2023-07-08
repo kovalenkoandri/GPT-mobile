@@ -16,7 +16,7 @@ import * as textDavinci003 from '../utils/textDavinci003';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
 // import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useNavigation } from '@react-navigation/native';
-import useStopPlay from '../utils/useStopPlay';
+import useStopPlay from '../hooks/useStopPlay';
 import { copyToClipboard } from '../utils/copyToClipboard';
 import { shareContent } from '../utils/shareContent';
 import { speak } from '../utils/speak';
