@@ -75,19 +75,6 @@ export const styles = StyleSheet.create({
   imageRef: {
     // flex: 10,
   },
-  showDeleteButton: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    backgroundColor: '#ddd',
-    borderRadius: 10,
-    padding: 5,
-  },
-  showDeleteButtonText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
   shareView: {
     flexDirection: 'row',
     justifyContent: 'space-between',

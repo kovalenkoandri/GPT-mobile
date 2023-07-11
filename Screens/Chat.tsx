@@ -32,7 +32,6 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [smart, setSmart] = useState<boolean>(true);
-  const [messageToDelete, setMessageToDelete] = useState<number>(-1);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isVoice, setIsVoice] = useState<boolean>(false);
   const scrollViewRef = useRef<TextInput>(null);
@@ -77,7 +76,6 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);
   };
-
   useStopPlay({ playStatus, setPlaying, navigation });
   return (
     <>
@@ -134,24 +132,21 @@ const Chat = ({ setPlaying, playStatus }: any) => {
                   />
                 )}
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.copyButton}
+                onPress={() => {
+                  const newChatHistory = [...chatHistory];
+                  newChatHistory.splice(index, 1);
+                  setChatHistory(newChatHistory);
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="delete-variant"
+                  color={'#000'}
+                  size={40}
+                />
+              </TouchableOpacity>
             </View>
-            {/* <View style={styles.talkView}></View> */}
-            {messageToDelete !== index && (
-              <>
-                <TouchableOpacity
-                  style={styles.showDeleteButton}
-                  onPress={() => {
-                    setMessageToDelete(index);
-                    const newChatHistory = [...chatHistory];
-                    newChatHistory.splice(index, 1);
-                    setChatHistory(newChatHistory);
-                    setMessageToDelete(-1);
-                  }}
-                >
-                  <Text style={styles.showDeleteButtonText}>Delete</Text>
-                </TouchableOpacity>
-              </>
-            )}
           </View>
         ))}
 
