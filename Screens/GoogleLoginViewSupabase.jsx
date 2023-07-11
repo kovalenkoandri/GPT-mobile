@@ -76,6 +76,7 @@ const GoogleLoginView = ({
     }
   }
   useEffect(() => {
+    !userInfo && signInWithGoogle();
     (async () => {
       const dataUrl = await ExpoSecureStoreAdapter.getItem('dataUrl');
       dataUrl && setUserInfo(dataUrl);
