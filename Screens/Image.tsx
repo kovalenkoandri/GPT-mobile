@@ -19,7 +19,6 @@ import { SendIcon } from '../assets/send';
 import { Env } from '../Env';
 import * as gptImageB64 from '../utils/gptImageB64';
 import * as gptImageUrl from '../utils/gptImageUrl';
-// import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import useStopPlay from '../hooks/useStopPlay';
 import { copyImageToClipboard } from '../utils/copyImageToClipboard';
 import { shareImage } from '../utils/shareImage';
@@ -46,7 +45,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
   if (status === null) {
     requestPermission();
   }
-  // setInterval(onFetchUpdateAsync, 86400000);
 
   const onSwap = async () => {
     try {

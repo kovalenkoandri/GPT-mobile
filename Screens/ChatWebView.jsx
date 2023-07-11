@@ -3,6 +3,7 @@ import { WebView } from 'react-native-webview';
 import useStopPlay from '../hooks/useStopPlay';
 import useUserAgent from '../hooks/useUserAgent';
 import { useNavigation } from '@react-navigation/native';
+import { onFetchUpdateAsync } from '../utils/checkUpdates';
 
 const ChatWebView = ({
   scrollViewRef,
@@ -13,6 +14,10 @@ const ChatWebView = ({
   const navigation = useNavigation();
   useUserAgent({ scrollViewRef, userAgentRef });
   useStopPlay({ playStatus, setPlaying, navigation });
+
+  useEffect(() => {
+    onFetchUpdateAsync();
+  }, []);
 
   return (
     <WebView

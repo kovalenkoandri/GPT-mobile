@@ -14,7 +14,7 @@ import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
 import * as textDavinci003 from '../utils/textDavinci003';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
-// import { onFetchUpdateAsync } from '../utils/checkUpdates';
+import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../hooks/useStopPlay';
 import { copyToClipboard } from '../utils/copyToClipboard';
@@ -36,7 +36,6 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   const [isVoice, setIsVoice] = useState<boolean>(false);
   const scrollViewRef = useRef<TextInput>(null);
 
-  // setInterval(onFetchUpdateAsync, 86400000);
   const navigation = useNavigation();
 
   const inputHandler = (prompt: string) => {
@@ -72,6 +71,10 @@ const Chat = ({ setPlaying, playStatus }: any) => {
       scrollViewRef.current.focus();
     }
   }, [chatHistory]);
+
+  useEffect(() => {
+    onFetchUpdateAsync();
+  }, []);
 
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);

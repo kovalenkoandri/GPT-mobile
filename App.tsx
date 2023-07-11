@@ -6,12 +6,12 @@ import { styles } from './styles';
 // import { useRoute } from './routerWebView';
 import { useRoute } from './totalRouter';
 import { NavigationContainer } from '@react-navigation/native';
-// import { onFetchUpdateAsync } from './utils/checkUpdates';
-import Reactotron from 'reactotron-react-native';
+// import { checkUpdatesOnAppStart } from './utils/checkUpdates';
+// import Reactotron from 'reactotron-react-native';
 // import * as Location from 'expo-location';
-if (__DEV__) {
-  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
-}
+// if (__DEV__) {
+//   import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
+// }
 
 SplashScreen.preventAutoHideAsync();
 export default function App(): JSX.Element {
@@ -31,7 +31,7 @@ export default function App(): JSX.Element {
   };
 
   useEffect(() => {
-    // onFetchUpdateAsync();
+    // checkUpdatesOnAppStart(); // too long
     setAppIsReady(true);
   }, []);
 
