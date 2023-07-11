@@ -16,7 +16,7 @@ const ChatWebView = ({
   useStopPlay({ playStatus, setPlaying, navigation });
 
   useEffect(() => {
-    onFetchUpdateAsync();
+    !__DEV__ && onFetchUpdateAsync();
   }, []);
 
   return (

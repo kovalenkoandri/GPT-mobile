@@ -73,7 +73,7 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   }, [chatHistory]);
 
   useEffect(() => {
-    onFetchUpdateAsync();
+    !__DEV__ && onFetchUpdateAsync();
   }, []);
 
   const toggleSmartFast = () => {
