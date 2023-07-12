@@ -1,8 +1,11 @@
 import * as FileSystem from 'expo-file-system';
+// import { useEffect, useRef } from 'react';
 const { StorageAccessFramework } = FileSystem;
 
 let directoryUri = '';
 let gifDir = '';
+
+// export const gifDirSharedText = useRef(null);
 
 const createWriteFile = async data => {
   const newFile = await StorageAccessFramework.createFileAsync(
@@ -18,7 +21,7 @@ const createWriteFile = async data => {
 
 const ensureDirExists = async () => {
   const dirInfo = await FileSystem.getInfoAsync(gifDir);
-  // console.log(dirInfo);
+  console.log(dirInfo);
   if (!dirInfo.exists) {
     console.log("Gif directory doesn't exist, creating...");
     await StorageAccessFramework.makeDirectoryAsync(gifDir, {
@@ -78,6 +81,18 @@ export const writeFileCacheDirectory = async data => {
     //   gifDir + `example.txt`
     // );
     // console.log(readFile);
+    console.log('File saved successfully.');
+  } catch (error) {
+    console.error('Error while writing file:', error);
+  }
+};
+export const writeSharedTextToCacheDirectory = async data => {
+  
+  try {
+    await StorageAccessFramework.writeAsStringAsync(
+      `${FileSystem.cacheDirectory}sharedText.txt`,
+      data
+    );
     console.log('File saved successfully.');
   } catch (error) {
     console.error('Error while writing file:', error);

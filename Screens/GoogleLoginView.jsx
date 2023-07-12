@@ -4,7 +4,7 @@ import * as AuthSession from 'expo-auth-session';
 import { Button, Text } from 'react-native';
 import { styles } from '../styles';
 import * as WebBrowser from 'expo-web-browser';
-import useUserAgent from '../utils/useUserAgent';
+import useUserAgent from '../hooks/useUserAgent';
 import Constants, { ExecutionEnvironment } from 'expo-constants';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -15,7 +15,6 @@ const GoogleLoginView = ({
   scrollViewRef,
   userAgentRef,
 }) => {
-
   // const redirectUri = AuthSession.makeRedirectUri({
   //   // native: 'https://auth.expo.io/@kovalenkoandrii/GPT-mobile',
   //   native: 'com.kovalenkoandrii.GPTmobile://',
@@ -76,7 +75,7 @@ const GoogleLoginView = ({
           }}
         />
       ) : (
-        <Text style={styles.text}>{userInfo.name}</Text>
+        <Text style={styles.userInfoName}>{userInfo.name}</Text>
       )}
     </>
   );

@@ -12,27 +12,22 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import * as ada from '../utils/textAda001';
-import {
-  writeFileCacheDirectory,
-  saveStringPermissions,
-} from '../utils/saveString';
+import * as ada from '../utils/textAda001onAppLoad';
+// import {
+//   writeFileCacheDirectory,
+//   saveStringPermissions,
+// } from '../utils/saveString';
 import { writeStringToStorage } from '../utils/saveStringToStorage';
 import Constants from 'expo-constants';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const PasteKey = ({
-  setIsTestKeyPassed,
-  keyRef,
-  playing,
-  setPlaying,
-  playStatus,
-}) => {
+const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
   const userAgentRef = useRef('');
   const timerRef = useRef(null);
+  const keyRef = useRef('');
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
@@ -83,7 +78,7 @@ const PasteKey = ({
       keyRef.current = value;
       const gptResponse = await ada.default.fetch(
         'what is good for human',
-        keyRef
+        keyRef.current
       );
       if (gptResponse) {
         alert('Key is accepted. You can continue with chat or image requests.');

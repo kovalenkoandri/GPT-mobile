@@ -8,7 +8,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import Button from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import useStopPlay from '../utils/useStopPlay';
+import useStopPlay from '../hooks/useStopPlay';
 
 const PlaceholderImage = require('../assets/images/background-image.png');
 

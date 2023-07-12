@@ -5,18 +5,23 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2f2f3d',
     paddingTop: 20,
+    paddingHorizontal: 10,
   },
   scrollView: {
+    flex: 1,
     padding: 10,
+    rowGap: 10,
   },
   chatItem: {
+    // flex: 8,
     borderRadius: 10,
     paddingHorizontal: 0,
     paddingVertical: 10,
-    backgroundColor: '#414155',
+    // backgroundColor: '#414155',
     alignItems: 'center',
     width: '100%',
     marginTop: 10,
+    rowGap: 20,
   },
   imageContainer: {
     flex: 1,
@@ -29,6 +34,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     borderRadius: 10,
+    paddingHorizontal: 0,
+    paddingVertical: 10,
+    alignItems: 'center',
+    // flex: 1
   },
   input: {
     flex: 1,
@@ -39,11 +48,13 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   chatRequest: {
+    // flex: 1,
     backgroundColor: '#353343',
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
-    width: '95%',
+    marginRight: 20,
+    width: '80%',
     color: '#f1f6ff',
     fontSize: 18,
   },
@@ -57,49 +68,35 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   image: {
-    height: 200,
-    width: 200,
+    height: 300,
+    width: 300,
     borderRadius: 18,
   },
-  showDeleteButton: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    backgroundColor: '#ddd',
-    borderRadius: 10,
-    padding: 5,
+  imageRef: {
+    // flex: 10,
   },
-  showDeleteButtonText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  talkView: {
+  shareView: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '100%',
-    justifyContent: 'flex-start',
+    // marginTop: -20,
   },
-  showSpeechButton: {
+  shareImageView: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignContent: 'space-between',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 60,
+    // marginLeft: 20,
+    // flex: 2,
+  },
+  copyButton: {
     backgroundColor: '#ddd',
     borderRadius: 10,
     padding: 5,
-    marginLeft: 20,
-    marginRight: 40,
-  },
-  showSpeechButtonText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  showStopTalkButton: {
-    backgroundColor: '#ddd',
-    borderRadius: 10,
-    padding: 5,
-  },
-  showStopTalkButtonText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 16,
+    // marginRight: 40,
   },
   checkUpdateButton: {
     borderRadius: 10,
@@ -114,14 +111,6 @@ export const styles = StyleSheet.create({
     flex: 1 / 3,
     alignItems: 'center',
   },
-  optionsContainer: {
-    position: 'absolute',
-    bottom: 80,
-    left: -100, // for swap btn be always left, not center positioned
-  },
-  optionsRow: {
-    flexDirection: 'row',
-  },
   buttonSend: {
     justifyContent: 'flex-end',
   },
@@ -132,6 +121,9 @@ export const styles = StyleSheet.create({
     color: '#f1f6ff',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  toggleSwitch: {
+    transform: [{ scaleX: 2 }, { scaleY: 2 }],
   },
   imageBackground: {
     alignItems: 'center',
@@ -146,7 +138,7 @@ export const styles = StyleSheet.create({
   youtubePlayerContainer: {
     marginVertical: 20,
   },
-  text: {
+  userInfoName: {
     fontSize: 20,
     fontWeight: 'bold',
   },

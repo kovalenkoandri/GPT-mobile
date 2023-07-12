@@ -12,28 +12,29 @@ import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
 import React, { useState, useEffect, useRef } from 'react';
-import * as Speech from 'expo-speech';
 import * as textDavinci003 from '../utils/textDavinci003';
-// import * as gpt35Turbo from '../utils/gpt35Turbo';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
-// import { onFetchUpdateAsync } from '../utils/checkUpdates';
+import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useNavigation } from '@react-navigation/native';
-import useStopPlay from '../utils/useStopPlay';
+import useStopPlay from '../hooks/useStopPlay';
+import { copyToClipboard } from '../utils/copyToClipboard';
+import { shareContent } from '../utils/shareContent';
+import { speak } from '../utils/speak';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface ChatMessage {
   prompt: string;
   data: string;
 }
 
-const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
+const Chat = ({ setPlaying, playStatus }: any) => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [smart, setSmart] = useState<boolean>(true);
-  const [messageToDelete, setMessageToDelete] = useState<number>(-1);
-  const scrollViewRef = useRef<TextInput>(null);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isVoice, setIsVoice] = useState<boolean>(false);
 
-  // setInterval(onFetchUpdateAsync, 86400000);
   const navigation = useNavigation();
 
   const inputHandler = (prompt: string) => {
@@ -47,16 +48,14 @@ const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-
       let gptResponse;
       if (smart) {
-        gptResponse = await gpt35Turbo(value, keyRef);
+        gptResponse = await gpt35Turbo(value);
       } else {
-        gptResponse = await textDavinci003.default.fetch(value, keyRef);
+        gptResponse = await textDavinci003.default.fetch(value);
       }
       // what is good for human
       const data = gptResponse;
-      console.log(gptResponse);
       setChatHistory([...chatHistory, { prompt: value, data }]);
       setValue('');
     } catch (error) {
@@ -67,22 +66,12 @@ const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
   };
 
   useEffect(() => {
-    if (scrollViewRef.current) {
-      scrollViewRef.current.focus();
-    }
-  }, [chatHistory]);
-
-  const speak = async (thingToSay: any) => {
-    Speech.speak(thingToSay);
-  };
-  const stopSpeak = async (thingToSay: any) => {
-    Speech.stop(thingToSay);
-  };
+    !__DEV__ && onFetchUpdateAsync();
+  }, []);
 
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);
   };
-
   useStopPlay({ playStatus, setPlaying, navigation });
   return (
     <>
@@ -92,42 +81,74 @@ const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
           <View key={index} style={styles.chatItem}>
             <Text style={styles.chatRequest}>{chatItem.prompt}</Text>
             <Text style={styles.chatResponse}>{chatItem.data}</Text>
-            <View style={styles.talkView}>
+            <View style={styles.shareView}>
               <TouchableOpacity
-                onPress={() => speak(chatItem.data)}
-                style={styles.showSpeechButton}
+                onPress={() => speak(chatItem.data, setIsVoice)}
+                style={styles.copyButton}
               >
-                <Text style={styles.showSpeechButtonText}>Start talking</Text>
+                {isVoice ? (
+                  <MaterialCommunityIcons
+                    name="account-voice"
+                    color={'#e91e63'}
+                    size={40}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="account-voice-off"
+                    color={'#000'}
+                    size={40}
+                  />
+                )}
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => stopSpeak(chatItem.data)}
-                style={styles.showStopTalkButton}
+                onPress={() => shareContent(chatItem.data)}
+                style={styles.copyButton}
               >
-                <Text style={styles.showStopTalkButtonText}>Stop talking</Text>
+                <MaterialCommunityIcons
+                  name="share-variant-outline"
+                  color={'#000'}
+                  size={40}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => copyToClipboard(chatItem.data, setIsCopied)}
+                style={styles.copyButton}
+              >
+                {isCopied ? (
+                  <MaterialCommunityIcons
+                    name="check-all"
+                    color={'#e91e63'}
+                    size={40}
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="content-copy"
+                    color={'#000'}
+                    size={40}
+                  />
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.copyButton}
+                onPress={() => {
+                  const newChatHistory = [...chatHistory];
+                  newChatHistory.splice(index, 1);
+                  setChatHistory(newChatHistory);
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="delete-variant"
+                  color={'#000'}
+                  size={40}
+                />
               </TouchableOpacity>
             </View>
-            {messageToDelete !== index && (
-              <>
-                <TouchableOpacity
-                  style={styles.showDeleteButton}
-                  onPress={() => {
-                    setMessageToDelete(index);
-                    const newChatHistory = [...chatHistory];
-                    newChatHistory.splice(index, 1);
-                    setChatHistory(newChatHistory);
-                    setMessageToDelete(-1);
-                  }}
-                >
-                  <Text style={styles.showDeleteButtonText}>Delete</Text>
-                </TouchableOpacity>
-              </>
-            )}
           </View>
         ))}
 
         <View style={styles.inputContainer}>
           <TextInput
-            ref={scrollViewRef}
+            autoFocus={true}
             placeholder="Type from 5 symbols"
             placeholderTextColor="#f1f6ff"
             value={value}
@@ -163,6 +184,7 @@ const Chat = ({ keyRef, setPlaying, playStatus }: any) => {
           thumbColor={smart ? '#7d7da1' : '#cdc5ff'}
           onValueChange={toggleSmartFast}
           value={smart}
+          style={styles.toggleSwitch}
         />
       </View>
     </>
