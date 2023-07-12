@@ -34,7 +34,6 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   const [smart, setSmart] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isVoice, setIsVoice] = useState<boolean>(false);
-  const scrollViewRef = useRef<TextInput>(null);
 
   const navigation = useNavigation();
 
@@ -65,12 +64,6 @@ const Chat = ({ setPlaying, playStatus }: any) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (scrollViewRef.current) {
-      scrollViewRef.current.focus();
-    }
-  }, [chatHistory]);
 
   useEffect(() => {
     !__DEV__ && onFetchUpdateAsync();
@@ -155,7 +148,7 @@ const Chat = ({ setPlaying, playStatus }: any) => {
 
         <View style={styles.inputContainer}>
           <TextInput
-            ref={scrollViewRef}
+            autoFocus={true}
             placeholder="Type from 5 symbols"
             placeholderTextColor="#f1f6ff"
             value={value}

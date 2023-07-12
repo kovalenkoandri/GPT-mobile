@@ -32,8 +32,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isDownloaded, setIsDownloaded] = useState<boolean>(false);
   const [status, requestPermission] = MediaLibrary.usePermissions();
-
-  const scrollViewRef = useRef<TextInput>(null);
   const imageRef = useRef<View>(null);
 
   const navigation = useNavigation();
@@ -124,12 +122,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (scrollViewRef.current) {
-  //     scrollViewRef.current.focus();
-  //   }
-  // });
-
   useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
@@ -137,7 +129,7 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
       <StatusBar style="auto" />
       <View style={styles.inputContainer}>
         <TextInput
-          ref={scrollViewRef}
+          autoFocus={true}
           placeholder="Type from 3 symbols"
           placeholderTextColor="#f1f6ff"
           value={prompt}
