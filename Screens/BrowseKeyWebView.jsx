@@ -1,24 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
 import useStopPlay from '../hooks/useStopPlay';
-import useUserAgent from '../hooks/useUserAgent';
+import { useSelector } from 'react-redux';
 
-const BrowseKeyWebView = ({
-  playStatus,
-  setPlaying,
-  scrollViewRef,
-  userAgentRef,
-}) => {
+const BrowseKeyWebView = ({ playStatus, setPlaying }) => {
   const navigation = useNavigation();
-
-  useUserAgent({ scrollViewRef, userAgentRef });
+  const { userAgentRef } = useSelector(state => state.gpt);
   useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <WebView
       originWhitelist={['*']}
-      userAgent={userAgentRef.current ?? ''}
+      userAgent={userAgentRef ?? ''}
       source={{ uri: 'https://platform.openai.com/account/api-keys' }}
     />
   );

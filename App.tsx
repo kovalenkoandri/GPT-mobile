@@ -1,11 +1,11 @@
 import { View } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
+import { Provider } from 'react-redux';
 import { styles } from './styles';
-// import { useRoute } from './router';
-// import { useRoute } from './routerWebView';
 import { useRoute } from './totalRouter';
 import { NavigationContainer } from '@react-navigation/native';
+import { store } from './redux/store';
 // import { checkUpdatesOnAppStart } from './utils/checkUpdates';
 // import Reactotron from 'reactotron-react-native';
 // import * as Location from 'expo-location';
@@ -64,12 +64,14 @@ export default function App(): JSX.Element {
   // };
   // _getLocationAsync();
   return (
-    <View
-      style={styles.container}
-      onLayout={onLayoutRootView}
-      accessibilityHint="Splash screen while loading sends http request for improving performance. It takes up to 20 seconds."
-    >
-      <NavigationContainer theme={MyTheme}>{routing}</NavigationContainer>
-    </View>
+    <Provider store={store}>
+      <View
+        style={styles.container}
+        onLayout={onLayoutRootView}
+        accessibilityHint="Splash screen while loading sends http request for improving performance. It takes up to 20 seconds."
+      >
+        <NavigationContainer theme={MyTheme}>{routing}</NavigationContainer>
+      </View>
+    </Provider>
   );
 }

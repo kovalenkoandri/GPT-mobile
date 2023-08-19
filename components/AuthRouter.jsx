@@ -11,8 +11,6 @@ const Tab = createMaterialBottomTabNavigator();
 const AuthRouter = ({
   setPlaying,
   playStatus,
-  scrollViewRef,
-  userAgentRef,
   userInfo,
   setUserInfo,
   isAuth,
@@ -28,11 +26,7 @@ const AuthRouter = ({
         <>
           <Tab.Screen
             name="ChatWebView"
-            children={() => (
-              <ChatWebView
-                {...{ scrollViewRef, userAgentRef, playStatus, setPlaying }}
-              />
-            )}
+            children={() => <ChatWebView {...{ playStatus, setPlaying }} />}
             options={{
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color = '000' }) => (
@@ -47,9 +41,7 @@ const AuthRouter = ({
           <Tab.Screen
             name="ImageGenerateWebView"
             children={() => (
-              <ImageGenerateWebView
-                {...{ scrollViewRef, userAgentRef, playStatus, setPlaying }}
-              />
+              <ImageGenerateWebView {...{ playStatus, setPlaying }} />
             )}
             options={{
               tabBarLabel: 'Image generate',
@@ -88,9 +80,7 @@ const AuthRouter = ({
           <Tab.Screen
             name="PlayMarketWebViewUserInfo"
             children={() => (
-              <PlayMarketWebView
-                {...{ scrollViewRef, userAgentRef, playStatus, setPlaying }}
-              />
+              <PlayMarketWebView {...{ playStatus, setPlaying }} />
             )}
             options={{
               tabBarLabel: 'Home page',
@@ -108,11 +98,7 @@ const AuthRouter = ({
         <>
           <Tab.Screen
             name="GoogleLoginView"
-            children={() => (
-              <GoogleLoginView
-                {...{ userInfo, setUserInfo, scrollViewRef, userAgentRef }}
-              />
-            )}
+            children={() => <GoogleLoginView {...{ userInfo, setUserInfo }} />}
             options={{
               tabBarLabel: 'Google login',
               tabBarIcon: ({ color = '000' }) => (
@@ -127,8 +113,6 @@ const AuthRouter = ({
                 {...{
                   playStatus,
                   setPlaying,
-                  scrollViewRef,
-                  userAgentRef,
                   isAuth,
                   toggleAuthKey,
                 }}
@@ -149,7 +133,7 @@ const AuthRouter = ({
             name="PlayMarketWebView"
             children={() => (
               <PlayMarketWebView
-                {...{ scrollViewRef, userAgentRef, playStatus, setPlaying }}
+                {...{ playStatus, setPlaying }}
               />
             )}
             options={{

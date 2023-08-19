@@ -86,3 +86,4 @@ dist/
 credentials.json
 samples/app.json
 credentials/
+%ProgramData%/Microsoft/Windows/UUS/State/_active.uusver

@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { WebView } from 'react-native-webview';
 import useStopPlay from '../hooks/useStopPlay';
-import useUserAgent from '../hooks/useUserAgent';
 import { useNavigation } from '@react-navigation/native';
 import { onFetchUpdateAsync } from '../utils/checkUpdates';
+import { useSelector } from 'react-redux';
 
-const ChatWebView = ({
-  scrollViewRef,
-  userAgentRef,
-  playStatus,
-  setPlaying,
-}) => {
+const ChatWebView = ({ playStatus, setPlaying }) => {
   const navigation = useNavigation();
-  useUserAgent({ scrollViewRef, userAgentRef });
+  const { userAgentRef } = useSelector(state => state.gpt);
   useStopPlay({ playStatus, setPlaying, navigation });
 
   useEffect(() => {
@@ -22,7 +17,7 @@ const ChatWebView = ({
   return (
     <WebView
       originWhitelist={['*']}
-      userAgent={userAgentRef.current ?? ''}
+      userAgent={userAgentRef ?? ''}
       source={{ uri: 'https://chat.openai.com' }}
     />
   );

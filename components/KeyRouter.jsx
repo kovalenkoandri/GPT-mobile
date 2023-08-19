@@ -4,7 +4,6 @@ import ImageDalle from '../Screens/Image';
 import PasteKey from '../Screens/PasteKey';
 import BrowseKeyWebView from '../Screens/BrowseKeyWebView';
 import ImageUpload from '../Screens/ImageUpload';
-import React, { useState, useEffect, useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import PlayMarketWebView from '../Screens/PlayMarketWebView';
 import SettingsWebView from '../Screens/SettingsWebView';
@@ -16,8 +15,6 @@ const KeyRouter = ({
   playing,
   setPlaying,
   playStatus,
-  scrollViewRef,
-  userAgentRef,
   isAuth,
   toggleAuthKey,
 }) => {
@@ -31,9 +28,7 @@ const KeyRouter = ({
         <>
           <Tab.Screen
             name="Chat"
-            children={() => (
-              <Chat {...{ setPlaying, playStatus }} />
-            )}
+            children={() => <Chat {...{ setPlaying, playStatus }} />}
             options={{
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color = '000' }) => (
@@ -47,9 +42,7 @@ const KeyRouter = ({
           />
           <Tab.Screen
             name="ImageDalle"
-            children={() => (
-              <ImageDalle {...{ setPlaying, playStatus }} />
-            )}
+            children={() => <ImageDalle {...{ setPlaying, playStatus }} />}
             options={{
               tabBarLabel: 'Image create',
               tabBarIcon: ({ color = '000' }) => (
@@ -87,9 +80,7 @@ const KeyRouter = ({
           <Tab.Screen
             name="PlayMarketWebViewKeyPassed"
             children={() => (
-              <PlayMarketWebView
-                {...{ playStatus, setPlaying, scrollViewRef, userAgentRef }}
-              />
+              <PlayMarketWebView {...{ playStatus, setPlaying }} />
             )}
             options={{
               tabBarLabel: 'Home page',
@@ -127,9 +118,7 @@ const KeyRouter = ({
           <Tab.Screen
             name="BrowseKeyWebView"
             children={() => (
-              <BrowseKeyWebView
-                {...{ playStatus, setPlaying, scrollViewRef, userAgentRef }}
-              />
+              <BrowseKeyWebView {...{ playStatus, setPlaying }} />
             )}
             options={{
               tabBarLabel: 'Browse key',
@@ -145,8 +134,6 @@ const KeyRouter = ({
                 {...{
                   playStatus,
                   setPlaying,
-                  scrollViewRef,
-                  userAgentRef,
                   isAuth,
                   toggleAuthKey,
                 }}
@@ -166,9 +153,7 @@ const KeyRouter = ({
           <Tab.Screen
             name="PlayMarketWebView"
             children={() => (
-              <PlayMarketWebView
-                {...{ playStatus, setPlaying, scrollViewRef, userAgentRef }}
-              />
+              <PlayMarketWebView {...{ playStatus, setPlaying }} />
             )}
             options={{
               tabBarLabel: 'Home page',

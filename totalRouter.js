@@ -9,8 +9,6 @@ export const useRoute = () => {
   const [playing, setPlaying] = useState(false);
   const playStatus = useRef('');
   const isTestKey = useRef(false);
-  const scrollViewRef = useRef(null);
-  const userAgentRef = useRef('');
   const [userInfo, setUserInfo] = useState(null);
   const checkLocalKey = async () => {
     isTestKey.current = await readStringFromStorage();
@@ -27,8 +25,6 @@ export const useRoute = () => {
       {...{
         setPlaying,
         playStatus,
-        scrollViewRef,
-        userAgentRef,
         userInfo,
         setUserInfo,
         isAuth,
@@ -43,8 +39,6 @@ export const useRoute = () => {
         playing,
         setPlaying,
         playStatus,
-        scrollViewRef,
-        userAgentRef,
         isAuth,
         toggleAuthKey,
       }}

@@ -25,7 +25,6 @@ const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef(null);
-  const userAgentRef = useRef('');
   const timerRef = useRef(null);
   const keyRef = useRef('');
 
@@ -98,10 +97,6 @@ const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
   };
 
   useEffect(() => {
-    const fetchUserAgent = async () => {
-      userAgentRef.current = await Constants.getWebViewUserAgentAsync();
-    };
-    fetchUserAgent();
     if (scrollViewRef.current) {
       scrollViewRef.current.focus();
     }

@@ -1,24 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Button, Text } from 'react-native';
 import { styles } from '../styles';
 import * as WebBrowser from 'expo-web-browser';
-import useUserAgent from '../hooks/useUserAgent';
 import { createClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
-import * as Linking from 'expo-linking';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
+import { useDispatch } from 'react-redux';
+import { userAgent } from '../redux/gpt/gptOperations';
 
 WebBrowser.maybeCompleteAuthSession();
 // const supabaseUrl = 'https://ztcowxckjwprilhggkat.supabase.co';
 
-const GoogleLoginView = ({
-  userInfo,
-  setUserInfo,
-  scrollViewRef,
-  userAgentRef,
-}) => {
+const GoogleLoginView = ({ userInfo, setUserInfo }) => {
   // const [session, setSession] = useState();
+  const dispatch = useDispatch();
   const ExpoSecureStoreAdapter = {
     getItem: key => {
       return SecureStore.getItemAsync(key);
@@ -30,7 +26,6 @@ const GoogleLoginView = ({
       SecureStore.deleteItemAsync(key);
     },
   };
-  useUserAgent({ scrollViewRef, userAgentRef });
   // Create a single supabase client for interacting with your database
   const supabase = createClient(
     'https://ztcowxckjwprilhggkat.supabase.co',
@@ -64,24 +59,17 @@ const GoogleLoginView = ({
     });
     error && console.log(error);
     if (data.url) {
-      // const { hostname, path, queryParams } = Linking.parse(data.url);
-
-      // console.log(
-      //   `Linked to app with hostname: ${hostname}, path: ${path} and data: ${JSON.stringify(
-      //     queryParams
-      //   )}`
-      // );
       setUserInfo(data.url);
       ExpoSecureStoreAdapter.setItem('dataUrl', data.url);
     }
   }
   useEffect(() => {
     (async () => {
+      dispatch(userAgent());
       const dataUrl = await ExpoSecureStoreAdapter.getItem('dataUrl');
       dataUrl && setUserInfo(dataUrl);
     })();
   }, []);
-  useUserAgent({ scrollViewRef, userAgentRef });
 
   return (
     <>

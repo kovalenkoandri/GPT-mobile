@@ -1,23 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { WebView } from 'react-native-webview';
 import useStopPlay from '../hooks/useStopPlay';
-import useUserAgent from '../hooks/useUserAgent';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
-const ImageGenerateWebView = ({
-  scrollViewRef,
-  userAgentRef,
-  playStatus,
-  setPlaying,
-}) => {
+const ImageGenerateWebView = ({ playStatus, setPlaying }) => {
   const navigation = useNavigation();
-  useUserAgent({ scrollViewRef, userAgentRef });
+  const { userAgentRef } = useSelector(state => state.gpt);
   useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <WebView
       originWhitelist={['*']}
-      userAgent={userAgentRef.current ?? ''}
+      userAgent={userAgentRef ?? ''}
       source={{ uri: 'https://labs.openai.com/' }}
     />
   );
