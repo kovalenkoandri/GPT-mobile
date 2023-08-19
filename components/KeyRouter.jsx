@@ -3,7 +3,7 @@ import Chat from '../Screens/Chat';
 import ImageDalle from '../Screens/Image';
 import PasteKey from '../Screens/PasteKey';
 import BrowseKeyWebView from '../Screens/BrowseKeyWebView';
-import ImageUpload from '../Screens/ImageUpload';
+// import ImageUpload from '../Screens/ImageUpload';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import PlayMarketWebView from '../Screens/PlayMarketWebView';
 import SettingsWebView from '../Screens/SettingsWebView';
@@ -17,18 +17,49 @@ const KeyRouter = ({
   playStatus,
   isAuth,
   toggleAuthKey,
+  timerRef,
 }) => {
   return (
     <Tab.Navigator
       initialRouteName="Chat"
       activeColor="#e91e63"
       barStyle={{ backgroundColor: '#2f2f3d' }}
+      screenListeners={({ navigation }) => ({
+        state: e => {
+          // Do something with the state
+          // console.log('state changed', e.data);
+
+          const handleTabPress = () => {
+            if (playStatus.current === 'playing') {
+              timerRef.current = setTimeout(() => {
+                setPlaying(false);
+              }, 50);
+              // console.log('handleTabPress ' + playStatus.current);
+              // console.log('playing ' + playing);
+            }
+          };
+
+          const unsubscribePlay = navigation.addListener(
+            'tabPress',
+            handleTabPress
+          );
+
+          handleTabPress();
+
+          return () => {
+            if (timerRef.current) {
+              clearTimeout(timerRef.current);
+            }
+            unsubscribePlay();
+          };
+        },
+      })}
     >
       {isTestKeyPassed ? (
         <>
           <Tab.Screen
             name="Chat"
-            children={() => <Chat {...{ setPlaying, playStatus }} />}
+            children={() => <Chat />}
             options={{
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color = '000' }) => (
@@ -42,7 +73,7 @@ const KeyRouter = ({
           />
           <Tab.Screen
             name="ImageDalle"
-            children={() => <ImageDalle {...{ setPlaying, playStatus }} />}
+            children={() => <ImageDalle />}
             options={{
               tabBarLabel: 'Image create',
               tabBarIcon: ({ color = '000' }) => (
@@ -59,8 +90,6 @@ const KeyRouter = ({
             children={() => (
               <SettingsWebView
                 {...{
-                  playStatus,
-                  setPlaying,
                   isAuth,
                   toggleAuthKey,
                 }}
@@ -79,9 +108,7 @@ const KeyRouter = ({
           />
           <Tab.Screen
             name="PlayMarketWebViewKeyPassed"
-            children={() => (
-              <PlayMarketWebView {...{ playStatus, setPlaying }} />
-            )}
+            children={() => <PlayMarketWebView />}
             options={{
               tabBarLabel: 'Home page',
               tabBarIcon: ({ color = '000' }) => (
@@ -117,9 +144,7 @@ const KeyRouter = ({
           />
           <Tab.Screen
             name="BrowseKeyWebView"
-            children={() => (
-              <BrowseKeyWebView {...{ playStatus, setPlaying }} />
-            )}
+            children={() => <BrowseKeyWebView />}
             options={{
               tabBarLabel: 'Browse key',
               tabBarIcon: ({ color = '000' }) => (
@@ -132,8 +157,6 @@ const KeyRouter = ({
             children={() => (
               <SettingsWebView
                 {...{
-                  playStatus,
-                  setPlaying,
                   isAuth,
                   toggleAuthKey,
                 }}
@@ -152,9 +175,7 @@ const KeyRouter = ({
           />
           <Tab.Screen
             name="PlayMarketWebView"
-            children={() => (
-              <PlayMarketWebView {...{ playStatus, setPlaying }} />
-            )}
+            children={() => <PlayMarketWebView />}
             options={{
               tabBarLabel: 'Home page',
               tabBarIcon: ({ color = '000' }) => (

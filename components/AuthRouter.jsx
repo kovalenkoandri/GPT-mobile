@@ -8,14 +8,7 @@ import ChatWebView from '../Screens/ChatWebView';
 import ImageGenerateWebView from '../Screens/ImageGenerateWebView';
 
 const Tab = createMaterialBottomTabNavigator();
-const AuthRouter = ({
-  setPlaying,
-  playStatus,
-  userInfo,
-  setUserInfo,
-  isAuth,
-  toggleAuthKey,
-}) => {
+const AuthRouter = ({ userInfo, setUserInfo, isAuth, toggleAuthKey }) => {
   return (
     <Tab.Navigator
       initialRouteName="Navigator"
@@ -26,7 +19,7 @@ const AuthRouter = ({
         <>
           <Tab.Screen
             name="ChatWebView"
-            children={() => <ChatWebView {...{ playStatus, setPlaying }} />}
+            children={() => <ChatWebView />}
             options={{
               tabBarLabel: 'Chat',
               tabBarIcon: ({ color = '000' }) => (
@@ -40,9 +33,7 @@ const AuthRouter = ({
           />
           <Tab.Screen
             name="ImageGenerateWebView"
-            children={() => (
-              <ImageGenerateWebView {...{ playStatus, setPlaying }} />
-            )}
+            children={() => <ImageGenerateWebView />}
             options={{
               tabBarLabel: 'Image generate',
               tabBarIcon: ({ color = '000' }) => (
@@ -59,8 +50,6 @@ const AuthRouter = ({
             children={() => (
               <SettingsWebView
                 {...{
-                  playStatus,
-                  setPlaying,
                   isAuth,
                   toggleAuthKey,
                 }}
@@ -79,9 +68,7 @@ const AuthRouter = ({
           />
           <Tab.Screen
             name="PlayMarketWebViewUserInfo"
-            children={() => (
-              <PlayMarketWebView {...{ playStatus, setPlaying }} />
-            )}
+            children={() => <PlayMarketWebView />}
             options={{
               tabBarLabel: 'Home page',
               tabBarIcon: ({ color = '000' }) => (
@@ -111,8 +98,6 @@ const AuthRouter = ({
             children={() => (
               <SettingsWebView
                 {...{
-                  playStatus,
-                  setPlaying,
                   isAuth,
                   toggleAuthKey,
                 }}
@@ -131,11 +116,7 @@ const AuthRouter = ({
           />
           <Tab.Screen
             name="PlayMarketWebView"
-            children={() => (
-              <PlayMarketWebView
-                {...{ playStatus, setPlaying }}
-              />
-            )}
+            children={() => <PlayMarketWebView />}
             options={{
               tabBarLabel: 'Home page',
               tabBarIcon: ({ color = '000' }) => (

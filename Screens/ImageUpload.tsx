@@ -7,18 +7,14 @@ import ImageViewer from '../components/ImageViewer';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import Button from '../components/Button';
-import { useNavigation } from '@react-navigation/native';
-import useStopPlay from '../hooks/useStopPlay';
 
 const PlaceholderImage = require('../assets/images/background-image.png');
 
 const apiUrl = Env.API_ENDPOINTS;
 
-const ImageUpload = ({ playStatus, setPlaying }: any) => {
+const ImageUpload = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>('');
   const [status, requestPermission] = MediaLibrary.usePermissions();
-
-  const navigation = useNavigation();
 
   if (status === null) {
     requestPermission();
@@ -36,8 +32,6 @@ const ImageUpload = ({ playStatus, setPlaying }: any) => {
       alert('You did not select any image.');
     }
   };
-
-  useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <>

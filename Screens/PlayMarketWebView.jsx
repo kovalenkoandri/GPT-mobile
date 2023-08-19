@@ -1,12 +1,8 @@
 import { WebView } from 'react-native-webview';
-import useStopPlay from '../hooks/useStopPlay';
-import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
-const PlayMarketWebView = ({ playStatus, setPlaying }) => {
-  const navigation = useNavigation();
+const PlayMarketWebView = () => {
   const { userAgentRef } = useSelector(state => state.gpt);
-  useStopPlay({ playStatus, setPlaying, navigation });
   
   return (
     <WebView

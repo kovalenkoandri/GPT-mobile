@@ -1,14 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { WebView } from 'react-native-webview';
-import useStopPlay from '../hooks/useStopPlay';
-import { useNavigation } from '@react-navigation/native';
 import { onFetchUpdateAsync } from '../utils/checkUpdates';
 import { useSelector } from 'react-redux';
 
-const ChatWebView = ({ playStatus, setPlaying }) => {
-  const navigation = useNavigation();
+const ChatWebView = () => {
   const { userAgentRef } = useSelector(state => state.gpt);
-  useStopPlay({ playStatus, setPlaying, navigation });
 
   useEffect(() => {
     !__DEV__ && onFetchUpdateAsync();

@@ -11,12 +11,10 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as textDavinci003 from '../utils/textDavinci003';
 import { gpt35Turbo } from '../utils/gpt35Turbo';
 import { onFetchUpdateAsync } from '../utils/checkUpdates';
-import { useNavigation } from '@react-navigation/native';
-import useStopPlay from '../hooks/useStopPlay';
 import { copyToClipboard } from '../utils/copyToClipboard';
 import { shareContent } from '../utils/shareContent';
 import { speak } from '../utils/speak';
@@ -27,15 +25,13 @@ interface ChatMessage {
   data: string;
 }
 
-const Chat = ({ setPlaying, playStatus }: any) => {
+const Chat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [smart, setSmart] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isVoice, setIsVoice] = useState<boolean>(false);
-
-  const navigation = useNavigation();
 
   const inputHandler = (prompt: string) => {
     prompt.trim();
@@ -72,7 +68,7 @@ const Chat = ({ setPlaying, playStatus }: any) => {
   const toggleSmartFast = () => {
     setSmart(prevState => !prevState);
   };
-  useStopPlay({ playStatus, setPlaying, navigation });
+
   return (
     <>
       <StatusBar style="auto" />

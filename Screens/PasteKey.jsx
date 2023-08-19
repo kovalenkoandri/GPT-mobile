@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
-  AppState,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
@@ -18,7 +17,6 @@ import * as ada from '../utils/textAda001onAppLoad';
 //   saveStringPermissions,
 // } from '../utils/saveString';
 import { writeStringToStorage } from '../utils/saveStringToStorage';
-import Constants from 'expo-constants';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
@@ -28,16 +26,6 @@ const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
   const timerRef = useRef(null);
   const keyRef = useRef('');
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      AppState.currentState = nextAppState;
-      console.log(AppState.currentState);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
   const onStateChange = useCallback(state => {
     // console.log('onStateChange ' + state);
     // setPlayStatus(state);

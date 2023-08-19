@@ -1,17 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import useStopPlay from '../hooks/useStopPlay';
-import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles';
 import { View, Text, Switch } from 'react-native';
 
 const SettingsWebView = ({
-  playStatus,
-  setPlaying,
   isAuth,
   toggleAuthKey,
 }) => {
-  const navigation = useNavigation();
-  useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <View style={styles.toggleSmartFastView}>

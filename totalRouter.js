@@ -10,6 +10,8 @@ export const useRoute = () => {
   const playStatus = useRef('');
   const isTestKey = useRef(false);
   const [userInfo, setUserInfo] = useState(null);
+  const timerRef = useRef(null);
+
   const checkLocalKey = async () => {
     isTestKey.current = await readStringFromStorage();
     isTestKey.current ? setIsTestKeyPassed(true) : setIsTestKeyPassed(false);
@@ -41,6 +43,7 @@ export const useRoute = () => {
         playStatus,
         isAuth,
         toggleAuthKey,
+        timerRef,
       }}
     />
   );

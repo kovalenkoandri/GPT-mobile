@@ -10,23 +10,20 @@ import {
 } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
+import React, { useState, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../styles';
 import { SendIcon } from '../assets/send';
-import { Env } from '../Env';
+// import { Env } from '../Env';
 import * as gptImageB64 from '../utils/gptImageB64';
-import * as gptImageUrl from '../utils/gptImageUrl';
-import useStopPlay from '../hooks/useStopPlay';
+// import * as gptImageUrl from '../utils/gptImageUrl';
 import { copyImageToClipboard } from '../utils/copyImageToClipboard';
 import { shareImage } from '../utils/shareImage';
 import { saveImage } from '../utils/saveImage';
 
-const apiUrl = Env.API_ENDPOINTS;
+// const apiUrl = Env.API_ENDPOINTS;
 
-const ImageDalle = ({ setPlaying, playStatus }: any) => {
+const ImageDalle = () => {
   const [prompt, setPrompt] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -34,10 +31,8 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
   const [status, requestPermission] = MediaLibrary.usePermissions();
   const imageRef = useRef<View>(null);
 
-  const navigation = useNavigation();
-
   let encodedBase64 = useRef('');
-  let imageURL = useRef('');
+  // let imageURL = useRef('');
   let promptHeader = useRef('');
 
   if (status === null) {
@@ -121,8 +116,6 @@ const ImageDalle = ({ setPlaying, playStatus }: any) => {
       setLoading(false);
     }
   };
-
-  useStopPlay({ playStatus, setPlaying, navigation });
 
   return (
     <>
