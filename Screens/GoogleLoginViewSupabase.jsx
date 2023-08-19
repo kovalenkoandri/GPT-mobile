@@ -6,15 +6,16 @@ import { createClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
-import { useDispatch } from 'react-redux';
-import { userAgent } from '../redux/gpt/gptOperations';
+import { useDispatch, useSelector } from 'react-redux';
+import { userAgent, userInfoFetch } from '../redux/gpt/gptOperations';
 
 WebBrowser.maybeCompleteAuthSession();
 // const supabaseUrl = 'https://ztcowxckjwprilhggkat.supabase.co';
 
-const GoogleLoginView = ({ userInfo, setUserInfo }) => {
+const GoogleLoginView = () => {
   // const [session, setSession] = useState();
   const dispatch = useDispatch();
+  const { userInfo } = useSelector(state => state.gpt);
   const ExpoSecureStoreAdapter = {
     getItem: key => {
       return SecureStore.getItemAsync(key);
@@ -40,26 +41,18 @@ const GoogleLoginView = ({ userInfo, setUserInfo }) => {
   );
 
   async function signInWithGoogle() {
-    const getURL = () => {
-      // let url = 'https://20dc-178-133-41-71.eu.ngrok.io/';
-      let url = 'https://exp.host/@kovalenkoandrii/GPT-mobile/';
-      // 'http://localhost:3000/';
-      // Make sure to include `https://` when not localhost.
-      url = url.includes('http') ? url : `https://${url}`;
-      // Make sure to including trailing `/`.
-      url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
-      return url;
-    };
+    // let url = 'https://20dc-178-133-41-71.eu.ngrok.io/';
+    // 'http://localhost:3000/';
     // console.log(supabase.auth);
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: getURL(),
+        redirectTo: 'https://exp.host/@kovalenkoandrii/GPT-mobile/',
       },
     });
     error && console.log(error);
     if (data.url) {
-      setUserInfo(data.url);
+      dispatch(userInfoFetch(data.url));
       ExpoSecureStoreAdapter.setItem('dataUrl', data.url);
     }
   }
@@ -67,16 +60,14 @@ const GoogleLoginView = ({ userInfo, setUserInfo }) => {
     (async () => {
       dispatch(userAgent());
       const dataUrl = await ExpoSecureStoreAdapter.getItem('dataUrl');
-      dataUrl && setUserInfo(dataUrl);
+      dataUrl && dispatch(userInfoFetch(dataUrl));
     })();
   }, []);
 
   return (
     <>
-      {userInfo === null ? (
+      {!userInfo && (
         <Button title="Sign in with Google" onPress={signInWithGoogle} />
-      ) : (
-        <Text style={styles.userInfoName}>{userInfo.name}</Text>
       )}
     </>
   );

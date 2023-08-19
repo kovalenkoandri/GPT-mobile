@@ -9,7 +9,6 @@ export const useRoute = () => {
   const [playing, setPlaying] = useState(false);
   const playStatus = useRef('');
   const isTestKey = useRef(false);
-  const [userInfo, setUserInfo] = useState(null);
   const timerRef = useRef(null);
 
   const checkLocalKey = async () => {
@@ -25,10 +24,6 @@ export const useRoute = () => {
   return isAuth ? (
     <AuthRouter
       {...{
-        setPlaying,
-        playStatus,
-        userInfo,
-        setUserInfo,
         isAuth,
         toggleAuthKey,
       }}

@@ -6,9 +6,11 @@ import SettingsWebView from '../Screens/SettingsWebView';
 import GoogleLoginView from '../Screens/GoogleLoginViewSupabase';
 import ChatWebView from '../Screens/ChatWebView';
 import ImageGenerateWebView from '../Screens/ImageGenerateWebView';
+import { useSelector } from 'react-redux';
 
 const Tab = createMaterialBottomTabNavigator();
-const AuthRouter = ({ userInfo, setUserInfo, isAuth, toggleAuthKey }) => {
+const AuthRouter = ({ isAuth, toggleAuthKey }) => {
+  const { userInfo } = useSelector(state => state.gpt);
   return (
     <Tab.Navigator
       initialRouteName="Navigator"
@@ -85,7 +87,7 @@ const AuthRouter = ({ userInfo, setUserInfo, isAuth, toggleAuthKey }) => {
         <>
           <Tab.Screen
             name="GoogleLoginView"
-            children={() => <GoogleLoginView {...{ userInfo, setUserInfo }} />}
+            children={() => <GoogleLoginView />}
             options={{
               tabBarLabel: 'Google login',
               tabBarIcon: ({ color = '000' }) => (

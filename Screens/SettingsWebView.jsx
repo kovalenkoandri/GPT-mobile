@@ -9,7 +9,7 @@ const SettingsWebView = ({
   return (
     <View style={styles.toggleSmartFastView}>
       <Text style={styles.toggleSmartFastText}>
-        Acces by {isAuth ? 'Google Auth' : 'Key'}
+        Acces by 'Google Auth' or 'Key'. Now is {isAuth ? 'Google Auth' : 'Key'}
       </Text>
       <Switch
         trackColor={{ false: '#767577', true: '#81b0ff' }}

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 const state = {
   userAgentRef: '',
+  userInfo: null,
 };
 
 export const gptSlice = createSlice({
@@ -10,6 +11,10 @@ export const gptSlice = createSlice({
     updateUserAgent: (state, { payload }) => ({
       ...state,
       userAgentRef: payload.userAgentRef,
+    }),
+    updateUserInfo: (state, { payload }) => ({
+      ...state,
+      userInfo: payload.userInfo,
     }),
   },
 });
