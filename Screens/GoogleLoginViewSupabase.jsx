@@ -48,6 +48,10 @@ const GoogleLoginView = () => {
       provider: 'google',
       options: {
         redirectTo: 'https://exp.host/@kovalenkoandrii/GPT-mobile/',
+        queryParams: { // obtain refresh token
+          access_type: 'offline',
+          prompt: 'consent',
+        },
       },
     });
     error && console.log(error);
