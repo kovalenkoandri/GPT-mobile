@@ -1,11 +1,10 @@
 import { styles } from '../styles';
 import { View, Text, Switch } from 'react-native';
-
-const SettingsWebView = ({
-  isAuth,
-  toggleAuthKey,
-}) => {
-
+interface SettingsWebViewProps {
+  isAuth: boolean;
+  toggleAuthKey: () => void;
+}
+const SettingsWebView = ({ isAuth, toggleAuthKey }: SettingsWebViewProps) => {
   return (
     <View style={styles.toggleSmartFastView}>
       <Text style={styles.toggleSmartFastText}>
