@@ -1,8 +1,8 @@
 import { WebView } from 'react-native-webview';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../redux/hooks';
 
 const PlayMarketWebView = () => {
-  const { userAgentRef } = useSelector(state => state.gpt);
+  const { userAgentRef } = useAppSelector(state => state.gpt);
   
   return (
     <WebView
