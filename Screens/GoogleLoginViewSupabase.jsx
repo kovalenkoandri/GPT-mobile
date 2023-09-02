@@ -32,11 +32,13 @@ const GoogleLoginView = () => {
     'https://ztcowxckjwprilhggkat.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0Y293eGNrandwcmlsaGdna2F0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY1OTA2NDYsImV4cCI6MjAwMjE2NjY0Nn0.HHH5z4dbhl4fr4tjnRpzW1OwP6GMU72hreeMTCMAv8s',
     {
-      // localStorage: AsyncStorage,
-      localStorage: ExpoSecureStoreAdapter,
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: false,
+      auth: {
+        autoRefreshToken: true,
+        debug: true,
+        detectSessionInUrl: true,
+        persistSession: true,
+        storage: ExpoSecureStoreAdapter,
+      },
     }
   );
 

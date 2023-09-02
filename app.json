@@ -1,5 +1,6 @@
 {
   "expo": {
+    "jsEngine": "hermes",
     "name": "GPT-mobile",
     "slug": "GPT-mobile",
     "scheme": "com.kovalenkoandrii.gptmobile",
@@ -10,9 +11,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#2f2f3d"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "intentFilters": [
         {
@@ -24,16 +23,10 @@
               "pathPrefix": "/@kovalenkoandrii/GPT-mobile"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
-      "permissions": [
-        "WRITE_EXTERNAL_STORAGE",
-        "READ_EXTERNAL_STORAGE"
-      ],
+      "permissions": ["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/cloud1024.png",
         "backgroundColor": "#2f2f3d"

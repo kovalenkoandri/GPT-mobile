@@ -18,15 +18,26 @@ import * as ada from '../utils/textAda001onAppLoad';
 // } from '../utils/saveString';
 import { writeStringToStorage } from '../utils/saveStringToStorage';
 import YoutubePlayer from 'react-native-youtube-iframe';
+interface PasteKeyProps {
+  setIsTestKeyPassed: (isTestKeyPassed: boolean) => void;
+  playing: boolean;
+  setPlaying: (playing: boolean) => void;
+  playStatus: React.MutableRefObject<string>;
+}
 
-const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
+const PasteKey = ({
+  setIsTestKeyPassed,
+  playing,
+  setPlaying,
+  playStatus,
+}: PasteKeyProps) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
-  const scrollViewRef = useRef(null);
-  const timerRef = useRef(null);
+  const scrollViewRef = useRef<TextInput | null>(null);
+  const timerRef = useRef<null | NodeJS.Timeout>(null);
   const keyRef = useRef('');
 
-  const onStateChange = useCallback(state => {
+  const onStateChange = useCallback((state: string) => {
     // console.log('onStateChange ' + state);
     // setPlayStatus(state);
     playStatus.current = state;
@@ -51,7 +62,7 @@ const PasteKey = ({ setIsTestKeyPassed, playing, setPlaying, playStatus }) => {
     };
   }, []);
 
-  const inputHandler = prompt => {
+  const inputHandler = (prompt: string) => {
     prompt.trim();
     if (prompt.length > 51) {
       return setValue(prompt.slice(0, 51));
