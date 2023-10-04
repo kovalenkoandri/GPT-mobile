@@ -8,12 +8,11 @@ import 'react-native-url-polyfill/auto';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch, useSelector } from 'react-redux';
 import { userAgent, userInfoFetch } from '../redux/gpt/gptOperations';
+import Constants from 'expo-constants';
 
 WebBrowser.maybeCompleteAuthSession();
-// const supabaseUrl = 'https://ztcowxckjwprilhggkat.supabase.co';
 
 const GoogleLoginView = () => {
-  // const [session, setSession] = useState();
   const dispatch = useDispatch();
   const { userInfo } = useSelector(state => state.gpt);
   const ExpoSecureStoreAdapter = {
@@ -29,8 +28,8 @@ const GoogleLoginView = () => {
   };
   // Create a single supabase client for interacting with your database
   const supabase = createClient(
-    'https://ztcowxckjwprilhggkat.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0Y293eGNrandwcmlsaGdna2F0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY1OTA2NDYsImV4cCI6MjAwMjE2NjY0Nn0.HHH5z4dbhl4fr4tjnRpzW1OwP6GMU72hreeMTCMAv8s',
+    Constants?.expoConfig?.extra?.supabaseUrl,
+    Constants?.expoConfig?.extra?.supabaseKey,
     {
       auth: {
         autoRefreshToken: true,
@@ -50,7 +49,8 @@ const GoogleLoginView = () => {
       provider: 'google',
       options: {
         redirectTo: 'https://exp.host/@kovalenkoandrii/GPT-mobile/',
-        queryParams: { // obtain refresh token
+        queryParams: {
+          // obtain refresh token
           access_type: 'offline',
           prompt: 'consent',
         },
