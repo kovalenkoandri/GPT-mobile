@@ -7,6 +7,7 @@ import GoogleLoginView from '../Screens/GoogleLoginViewSupabase';
 import ChatWebView from '../Screens/ChatWebView';
 import ImageGenerateWebView from '../Screens/ImageGenerateWebView';
 import { useSelector } from 'react-redux';
+import LaraBrowser from '../Screens/LaraBrowser';
 
 const Tab = createMaterialBottomTabNavigator();
 const AuthRouter = ({ isAuth, toggleAuthKey }) => {
@@ -76,6 +77,20 @@ const AuthRouter = ({ isAuth, toggleAuthKey }) => {
               tabBarIcon: ({ color = '000' }) => (
                 <MaterialCommunityIcons
                   name="google-play"
+                  color={color}
+                  size={26}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="LaraBrowser"
+            children={() => <LaraBrowser />}
+            options={{
+              tabBarLabel: 'Lara browser',
+              tabBarIcon: ({ color = '000' }) => (
+                <MaterialCommunityIcons
+                  name="sail-boat"
                   color={color}
                   size={26}
                 />
