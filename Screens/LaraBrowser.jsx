@@ -6,20 +6,41 @@ import {
   View,
   Button,
   SafeAreaView,
-  Keyboard
+  Keyboard,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Clipboard,
 } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
+const windowDimensions = Dimensions.get('window');
 
 const LaraBrowser = () => {
   const { userAgentRef } = useAppSelector(state => state.gpt);
-  const [address, setAddress] = useState('https://google.com');
-  // const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(
+    // 'https://prom.ua/'
+    // 'https://olx.ua'
+    // 'https://medium.com/geekculture/first-class-push-notifications-for-expo-apps-4bd7bbb9a01a'
+    'https://google.com'
+  );
   const [valid, setValid] = useState(true);
+  const [multiline, setMultiline] = useState(false);
+  const [shouldReload, setShouldReload] = useState(false);
+  const [navStateUrl, setNavStateUrl] = useState('');
+  const [dimensions, setDimensions] = useState({
+    window: windowDimensions,
+  });
+
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setDimensions({ window });
+    });
+    return () => subscription?.remove();
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(address, { method: 'HEAD' });
-        // const response = await fetch(address, { method: 'GET' })
         // console.log(JSON.stringify(response, null, 2));
         // console.log(JSON.stringify(response.url, null, 2));
         if (response) {
@@ -34,17 +55,25 @@ const LaraBrowser = () => {
     };
     fetchData();
   }, [address]);
+
+  useEffect(() => {
+    if (shouldReload) {
+      ref.current?.reload();
+      setShouldReload(false); // Reset the flag after reloading
+    }
+  }, [shouldReload]);
   const ref = useRef(null);
   const handleNavigationStateChange = navState => {
     console.log('navState.url ', navState.url);
-    console.log('navState.title ',navState.title);
-    console.log('navState.target ',navState.target);
-    let newAddress = navState.url;
-    console.log(newAddress !== address);
-    if (newAddress !== address) {
-      setAddress((old) => old = newAddress);
-      console.log('address after setAddress ', address);
+    // one way to handle errors is via query string
+    if (navState.url.includes('?errors=true')) {
+      ref.current?.stopLoading();
     }
+    setNavStateUrl(oldUrl => {
+      if (navState.url !== oldUrl) {
+        return navState.url;
+      }
+    });
   };
   const handleLoad = syntheticEvent => {
     // update component to be aware of loading status
@@ -54,6 +83,13 @@ const LaraBrowser = () => {
     console.log(nativeEvent.target);
     // this.isLoading = nativeEvent.loading;
   };
+
+  const INJECTED_JAVASCRIPT = `
+      (function() {
+    window.ReactNativeWebView.postMessage(JSON.stringify(window.location.href));
+})();
+    `;
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.btnContainer}>
@@ -64,55 +100,67 @@ const LaraBrowser = () => {
           }}
         ></Button>
         <Button
-          title="Reload"
-          onPress={() => {
-            ref.current?.reload();
-          }}
-        ></Button>
-        <Button
-          title="Forward"
+          title="For"
           onPress={() => {
             ref.current?.goForward();
           }}
         ></Button>
         <Button
-          title="clearCache"
-          onPress={() => {
-            ref.current?.clearCache();
-          }}
-        ></Button>
-        <Button
-          title="requestFocus"
-          onPress={() => {
-            ref.current?.requestFocus();
-          }}
-        ></Button>
-        <Button
-          title="stopLoading"
+          title="stop"
           onPress={() => {
             ref.current?.stopLoading();
           }}
         ></Button>
         <Button
+          title="Rel"
+          onPress={() => {
+            ref.current?.reload();
+          }}
+        ></Button>
+        {/* <Button
+          title="clearCache"
+          onPress={() => {
+            ref.current?.clearCache();
+          }}
+        ></Button> */}
+        {/* <Button
+          title="requestFocus"
+          onPress={() => {
+            ref.current?.requestFocus();
+          }}
+        ></Button> */}
+        {/* <Button
           title="clearHistory"
           onPress={() => {
             ref.current?.clearHistory();
           }}
-        ></Button>
-        <Button
+        ></Button> */}
+        {/* <Button
           title="clearFormData"
           onPress={() => {
             ref.current?.clearFormData();
           }}
-        ></Button>
+        ></Button> */}
+
+        <TextInput
+          value={address}
+          onChangeText={address => setAddress(address)}
+          placeholder={'Enter web-address'}
+          style={styles.input}
+          multiline={multiline}
+          onBlur={() => setMultiline(false)}
+          onFocus={() => setMultiline(true)}
+        />
+        <TouchableOpacity onPress={Keyboard.dismiss}>
+          <Text
+            selectable={true}
+            style={[{ width: dimensions.window.width - 30 }, styles.output]}
+          >
+            {navStateUrl}
+          </Text>
+        </TouchableOpacity>
       </View>
-      <TextInput
-        value={address}
-        onChangeText={address => setAddress(address)}
-        placeholder={'Enter web-address'}
-        style={styles.input}
-      />
-      {/* {console.log(valid)} */}
+
       {valid ? (
         <WebView
           ref={ref}
@@ -124,6 +172,20 @@ const LaraBrowser = () => {
           style={styles.webView}
           onNavigationStateChange={handleNavigationStateChange}
           // onLoadStart={handleLoad}
+          onLoad={() => console.log('Page loaded')}
+          onError={syntheticEvent =>
+            console.log('WebView error:', syntheticEvent.nativeEvent)
+          }
+          forceDarkOn={true}
+          javaScriptEnabledAndroid={true}
+          javaScriptEnabled={true}
+          injectedJavaScript={INJECTED_JAVASCRIPT}
+          injectedJavaScriptBeforeContentLoaded={INJECTED_JAVASCRIPT}
+          onMessage={event => {
+            console.log('window.location.href >>>>' + event.nativeEvent.data);
+          }}
+          startInLoadingState={true}
+          renderLoading={() => <Text>Loading...</Text>}
         />
       ) : (
         <View></View>
@@ -131,7 +193,6 @@ const LaraBrowser = () => {
     </SafeAreaView>
   );
 };
-// uri: 'https://play.google.com/store/apps/details?id=com.kovalenkoandrii.GPTmobile',
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
@@ -144,11 +205,21 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   input: {
-    width: '100%',
-    height: 44,
-    padding: 10,
-    marginTop: 20,
-    marginBottom: 10,
+    // width: '40%',
+    padding: 4,
+    // marginTop: 20,
+    // marginBottom: 10,
+    color: '#e8e8e8',
+    backgroundColor: '#2f2f3d',
+    borderColor: '#767577',
+    borderWidth: 5,
+    borderRadius: 10,
+  },
+  output: {
+    padding: 4,
+    height: 30,
+    // marginTop: 20,
+    // marginBottom: 10,
     color: '#e8e8e8',
     backgroundColor: '#2f2f3d',
     borderColor: '#767577',
@@ -160,8 +231,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     borderColor: '#767577',
     borderWidth: 50,
-    marginTop: 50,
-    marginBottom: 20,
+    // marginTop: 50,
+    // marginBottom: 20,
   },
 });
 
