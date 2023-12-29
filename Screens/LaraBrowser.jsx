@@ -10,9 +10,10 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  Clipboard,
 } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
+import * as Clipboard from 'expo-clipboard';
+
 const windowDimensions = Dimensions.get('window');
 
 const LaraBrowser = () => {
@@ -73,6 +74,7 @@ const LaraBrowser = () => {
       if (navState.url !== oldUrl) {
         return navState.url;
       }
+      return oldUrl;
     });
   };
   const handleLoad = syntheticEvent => {
@@ -83,7 +85,10 @@ const LaraBrowser = () => {
     console.log(nativeEvent.target);
     // this.isLoading = nativeEvent.loading;
   };
-
+  const handleClipboard = async () => {
+    Keyboard.dismiss();
+    await Clipboard.setStringAsync(navStateUrl);
+  };
   const INJECTED_JAVASCRIPT = `
       (function() {
     window.ReactNativeWebView.postMessage(JSON.stringify(window.location.href));
@@ -150,8 +155,9 @@ const LaraBrowser = () => {
           multiline={multiline}
           onBlur={() => setMultiline(false)}
           onFocus={() => setMultiline(true)}
+          selection={{start: 0, end: 32}}
         />
-        <TouchableOpacity onPress={Keyboard.dismiss}>
+        <TouchableOpacity onPress={handleClipboard}>
           <Text
             selectable={true}
             style={[{ width: dimensions.window.width - 30 }, styles.output]}
@@ -214,10 +220,11 @@ const styles = StyleSheet.create({
     borderColor: '#767577',
     borderWidth: 5,
     borderRadius: 10,
+    fontSize: 12
   },
   output: {
-    padding: 4,
-    height: 30,
+    paddingBottom: 8,
+    height: 40,
     // marginTop: 20,
     // marginBottom: 10,
     color: '#e8e8e8',
@@ -225,6 +232,7 @@ const styles = StyleSheet.create({
     borderColor: '#767577',
     borderWidth: 5,
     borderRadius: 10,
+    fontSize: 24
   },
   webView: {
     // flex: 1,
