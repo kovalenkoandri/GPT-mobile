@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 import * as Clipboard from 'expo-clipboard';
+import * as Progress from 'react-native-progress';
 
 const windowDimensions = Dimensions.get('window');
 
@@ -24,6 +25,8 @@ const LaraBrowser = () => {
     // 'https://medium.com/geekculture/first-class-push-notifications-for-expo-apps-4bd7bbb9a01a'
     'https://google.com'
   );
+  const [progress, setProgress] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(true);
   const [valid, setValid] = useState(true);
   const [multiline, setMultiline] = useState(false);
   const [shouldReload, setShouldReload] = useState(false);
@@ -77,14 +80,6 @@ const LaraBrowser = () => {
       return oldUrl;
     });
   };
-  const handleLoad = syntheticEvent => {
-    // update component to be aware of loading status
-    const { nativeEvent } = syntheticEvent;
-    console.log(nativeEvent.url);
-    console.log(nativeEvent.title);
-    console.log(nativeEvent.target);
-    // this.isLoading = nativeEvent.loading;
-  };
   const handleClipboard = async () => {
     Keyboard.dismiss();
     await Clipboard.setStringAsync(navStateUrl);
@@ -97,6 +92,13 @@ const LaraBrowser = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+     {isLoaded && <Progress.Bar
+        progress={progress}
+        borderWidth={0}
+        borderRadius={0}
+        color="blue"
+        width={null}
+      />}
       <View style={styles.btnContainer}>
         <Button
           title="Back"
@@ -155,7 +157,7 @@ const LaraBrowser = () => {
           multiline={multiline}
           onBlur={() => setMultiline(false)}
           onFocus={() => setMultiline(true)}
-          selection={{start: 0, end: 32}}
+          selection={{ start: 0, end: 32 }}
         />
         <TouchableOpacity onPress={handleClipboard}>
           <Text
@@ -166,7 +168,6 @@ const LaraBrowser = () => {
           </Text>
         </TouchableOpacity>
       </View>
-
       {valid ? (
         <WebView
           ref={ref}
@@ -177,21 +178,20 @@ const LaraBrowser = () => {
           }}
           style={styles.webView}
           onNavigationStateChange={handleNavigationStateChange}
-          // onLoadStart={handleLoad}
-          onLoad={() => console.log('Page loaded')}
-          onError={syntheticEvent =>
-            console.log('WebView error:', syntheticEvent.nativeEvent)
+          onError={({ nativeEvent }) =>
+            console.log('WebView error:', nativeEvent.description)
           }
           forceDarkOn={true}
-          javaScriptEnabledAndroid={true}
-          javaScriptEnabled={true}
           injectedJavaScript={INJECTED_JAVASCRIPT}
-          injectedJavaScriptBeforeContentLoaded={INJECTED_JAVASCRIPT}
           onMessage={event => {
             console.log('window.location.href >>>>' + event.nativeEvent.data);
           }}
           startInLoadingState={true}
-          renderLoading={() => <Text>Loading...</Text>}
+          onLoadStart={() => setIsLoaded(true)}
+          onLoadEnd={() => setIsLoaded(false)}
+          onLoadProgress={({ nativeEvent }) =>
+            setProgress(nativeEvent.progress)
+          }
         />
       ) : (
         <View></View>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     borderColor: '#767577',
     borderWidth: 5,
     borderRadius: 10,
-    fontSize: 12
+    fontSize: 12,
   },
   output: {
     paddingBottom: 8,
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     borderColor: '#767577',
     borderWidth: 5,
     borderRadius: 10,
-    fontSize: 24
+    fontSize: 24,
   },
   webView: {
     // flex: 1,
