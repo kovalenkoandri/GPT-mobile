@@ -14,6 +14,8 @@ import {
 import { useState, useEffect, useRef } from 'react';
 import * as Clipboard from 'expo-clipboard';
 import * as Progress from 'react-native-progress';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 const windowDimensions = Dimensions.get('window');
 
@@ -27,14 +29,25 @@ const LaraBrowser = () => {
   );
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(true);
+  const [focused, setFocused] = useState(false);
   const [valid, setValid] = useState(true);
   const [multiline, setMultiline] = useState(false);
+  const [topEl, setTopEl] = useState(true);
   const [shouldReload, setShouldReload] = useState(false);
   const [navStateUrl, setNavStateUrl] = useState('');
   const [dimensions, setDimensions] = useState({
     window: windowDimensions,
   });
-
+  const handleBlur = () => {
+    setMultiline(false);
+    setTopEl(true);
+    setFocused(false);
+  };
+  const handleFocus = () => {
+    setMultiline(true);
+    setTopEl(false);
+    setFocused(true);
+  };
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions({ window });
@@ -92,83 +105,91 @@ const LaraBrowser = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-     {isLoaded && <Progress.Bar
-        progress={progress}
-        borderWidth={0}
-        borderRadius={0}
-        color="blue"
-        width={null}
-      />}
-      <View style={styles.btnContainer}>
-        <Button
-          title="Back"
-          onPress={() => {
-            ref.current?.goBack();
-          }}
-        ></Button>
-        <Button
-          title="For"
-          onPress={() => {
-            ref.current?.goForward();
-          }}
-        ></Button>
-        <Button
-          title="stop"
-          onPress={() => {
-            ref.current?.stopLoading();
-          }}
-        ></Button>
-        <Button
-          title="Rel"
-          onPress={() => {
-            ref.current?.reload();
-          }}
-        ></Button>
-        {/* <Button
+      {isLoaded && (
+        <Progress.Bar
+          progress={progress}
+          borderWidth={0}
+          borderRadius={0}
+          color="blue"
+          width={null}
+        />
+      )}
+      <TextInput
+        value={address}
+        onChangeText={address => setAddress(address)}
+        placeholder={'Enter web-address'}
+        style={styles.input}
+        multiline={multiline}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+        selection={!focused && { start: 0, end: 32 }}
+      />
+      {topEl && (
+        <View style={styles.btnContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              ref.current?.goBack();
+            }}
+          >
+            <FontAwesome name="backward" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              ref.current?.goForward();
+            }}
+          >
+            <AntDesign name="forward" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              ref.current?.stopLoading();
+            }}
+          >
+            <FontAwesome name="stop" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              ref.current?.reload();
+            }}
+          >
+            <AntDesign name="reload1" size={24} color="white" />
+          </TouchableOpacity>
+          {/* <Button
           title="clearCache"
           onPress={() => {
             ref.current?.clearCache();
           }}
         ></Button> */}
-        {/* <Button
+          {/* <Button
           title="requestFocus"
           onPress={() => {
             ref.current?.requestFocus();
           }}
         ></Button> */}
-        {/* <Button
+          {/* <Button
           title="clearHistory"
           onPress={() => {
             ref.current?.clearHistory();
           }}
         ></Button> */}
-        {/* <Button
+          {/* <Button
           title="clearFormData"
           onPress={() => {
             ref.current?.clearFormData();
           }}
         ></Button> */}
 
-        <TextInput
-          value={address}
-          onChangeText={address => setAddress(address)}
-          placeholder={'Enter web-address'}
-          style={styles.input}
-          multiline={multiline}
-          onBlur={() => setMultiline(false)}
-          onFocus={() => setMultiline(true)}
-          selection={{ start: 0, end: 32 }}
-        />
-        <TouchableOpacity onPress={handleClipboard}>
-          <Text
-            selectable={true}
-            style={[{ width: dimensions.window.width - 30 }, styles.output]}
-          >
-            {navStateUrl}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {valid ? (
+          <TouchableOpacity onPress={handleClipboard}>
+            <Text
+              selectable={true}
+              style={[{ width: dimensions.window.width - 30 }, styles.output]}
+            >
+              {navStateUrl}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      {valid && (
         <WebView
           ref={ref}
           userAgent={userAgentRef ?? ''}
@@ -193,8 +214,6 @@ const LaraBrowser = () => {
             setProgress(nativeEvent.progress)
           }
         />
-      ) : (
-        <View></View>
       )}
     </SafeAreaView>
   );
@@ -203,12 +222,16 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     borderColor: '#767577',
-    borderWidth: 5,
+    borderWidth: 1,
     borderRadius: 10,
   },
   btnContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginTop: 20,
+    // padding: 12
   },
   input: {
     // width: '40%',
@@ -218,19 +241,19 @@ const styles = StyleSheet.create({
     color: '#e8e8e8',
     backgroundColor: '#2f2f3d',
     borderColor: '#767577',
-    borderWidth: 5,
+    borderWidth: 1,
     borderRadius: 10,
     fontSize: 12,
   },
   output: {
-    paddingBottom: 8,
+    // paddingBottom: 8,
     height: 40,
-    // marginTop: 20,
+    marginTop: 20,
     // marginBottom: 10,
     color: '#e8e8e8',
     backgroundColor: '#2f2f3d',
     borderColor: '#767577',
-    borderWidth: 5,
+    borderWidth: 1,
     borderRadius: 10,
     fontSize: 24,
   },
@@ -238,7 +261,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     borderRadius: 100,
     borderColor: '#767577',
-    borderWidth: 50,
+    borderWidth: 1,
     // marginTop: 50,
     // marginBottom: 20,
   },
