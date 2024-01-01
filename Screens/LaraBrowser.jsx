@@ -33,8 +33,9 @@ const LaraBrowser = () => {
   const [valid, setValid] = useState(true);
   const [multiline, setMultiline] = useState(false);
   const [topEl, setTopEl] = useState(true);
-  const [shouldReload, setShouldReload] = useState(false);
   const [navStateUrl, setNavStateUrl] = useState('');
+  const [hasButtonBeenPressed, setButtonPressed] = useState(false);
+  const [isButtonActive, setButtonActive] = useState(true);
   const [dimensions, setDimensions] = useState({
     window: windowDimensions,
   });
@@ -47,6 +48,9 @@ const LaraBrowser = () => {
     setMultiline(true);
     setTopEl(false);
     setFocused(true);
+  };
+  const handleAddress = inputAddress => {
+    setAddress(inputAddress);
   };
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
@@ -73,12 +77,6 @@ const LaraBrowser = () => {
     fetchData();
   }, [address]);
 
-  useEffect(() => {
-    if (shouldReload) {
-      ref.current?.reload();
-      setShouldReload(false); // Reset the flag after reloading
-    }
-  }, [shouldReload]);
   const ref = useRef(null);
   const handleNavigationStateChange = navState => {
     console.log('navState.url ', navState.url);
@@ -96,6 +94,15 @@ const LaraBrowser = () => {
   const handleClipboard = async () => {
     Keyboard.dismiss();
     await Clipboard.setStringAsync(navStateUrl);
+    if (!hasButtonBeenPressed) {
+      setButtonPressed(true);
+      setButtonActive(false);
+    }
+    // Reset the button to active after 5 seconds
+    setTimeout(() => {
+      setButtonPressed(false);
+      setButtonActive(true);
+    }, 2000);
   };
   const INJECTED_JAVASCRIPT = `
       (function() {
@@ -116,9 +123,9 @@ const LaraBrowser = () => {
       )}
       <TextInput
         value={address}
-        onChangeText={address => setAddress(address)}
+        onChangeText={handleAddress}
         placeholder={'Enter web-address'}
-        style={styles.input}
+        style={[{ fontSize: address.length < 50 ? 20 : 12 }, styles.input]}
         multiline={multiline}
         onBlur={handleBlur}
         onFocus={handleFocus}
@@ -178,18 +185,22 @@ const LaraBrowser = () => {
             ref.current?.clearFormData();
           }}
         ></Button> */}
-
-          <TouchableOpacity onPress={handleClipboard}>
+          <TouchableOpacity
+            disabled={!isButtonActive}
+            onPress={handleClipboard}
+            style={[{ width: dimensions.window.width - 30 }, styles.copyBtn]}
+          >
+            <FontAwesome name="copy" size={24} color="white" />
             <Text
               selectable={true}
-              style={[{ width: dimensions.window.width - 30 }, styles.output]}
+              style={[{ width: dimensions.window.width - 80 }, styles.output]}
             >
-              {navStateUrl}
+              {hasButtonBeenPressed ? 'copied!' : navStateUrl}
             </Text>
           </TouchableOpacity>
         </View>
       )}
-      {valid && (
+      {valid ? (
         <WebView
           ref={ref}
           userAgent={userAgentRef ?? ''}
@@ -214,6 +225,12 @@ const LaraBrowser = () => {
             setProgress(nativeEvent.progress)
           }
         />
+      ) : (
+        <Text selectable={true} style={styles.ensureText}>
+          Please, ensure{'\n'}
+          <Text style={styles.ensureTextHighlighted}>{'https://\n'}</Text>
+          is passed before the address
+        </Text>
       )}
     </SafeAreaView>
   );
@@ -225,45 +242,53 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
+  input: {
+    padding: 4,
+    color: '#e8e8e8',
+    backgroundColor: '#2f2f3d',
+    borderColor: '#767577',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
   btnContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     marginTop: 20,
-    // padding: 12
   },
-  input: {
-    // width: '40%',
-    padding: 4,
-    // marginTop: 20,
-    // marginBottom: 10,
-    color: '#e8e8e8',
-    backgroundColor: '#2f2f3d',
-    borderColor: '#767577',
-    borderWidth: 1,
-    borderRadius: 10,
-    fontSize: 12,
-  },
-  output: {
-    // paddingBottom: 8,
+  copyBtn: {
     height: 40,
     marginTop: 20,
-    // marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#767577',
+    borderWidth: 1,
+  },
+  output: {
     color: '#e8e8e8',
     backgroundColor: '#2f2f3d',
     borderColor: '#767577',
     borderWidth: 1,
     borderRadius: 10,
     fontSize: 24,
+    marginLeft: 12,
+    overflow: 'hidden',
   },
   webView: {
-    // flex: 1,
     borderRadius: 100,
     borderColor: '#767577',
     borderWidth: 1,
-    // marginTop: 50,
-    // marginBottom: 20,
+  },
+  ensureText: {
+    fontSize: 32,
+    color: '#e8e8e8',
+    textAlign: 'center',
+    height: 160,
+    textAlignVertical: 'center',
+  },
+  ensureTextHighlighted: {
+    color: 'red',
   },
 });
 
