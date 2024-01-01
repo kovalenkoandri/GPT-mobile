@@ -36,6 +36,7 @@ const LaraBrowser = () => {
   const [multiline, setMultiline] = useState(false);
   const [topEl, setTopEl] = useState(true);
   const [navStateUrl, setNavStateUrl] = useState('');
+  const [navStateUrlCutted, setNavStateUrlCutted] = useState('');
   const [copyBtnPressed, setCopyBtnPressed] = useState(false);
   const [pasteBtnPressed, setPasteBtnPressed] = useState(false);
   const [dimensions, setDimensions] = useState({
@@ -87,7 +88,13 @@ const LaraBrowser = () => {
       ref.current?.stopLoading();
     }
     setNavStateUrl(oldUrl => {
+      let startValue = oldUrl;
+      const trimmedValue = startValue.slice(0, 24);
+      setNavStateUrlCutted(trimmedValue + '...');
       if (navState.url !== oldUrl) {
+        startValue = navState.url;
+        const trimmedValue = startValue.slice(0, 24);
+        setNavStateUrlCutted(trimmedValue + '...');
         return navState.url;
       }
       return oldUrl;
@@ -234,7 +241,7 @@ const LaraBrowser = () => {
               selectable={true}
               style={[{ width: dimensions.window.width - 80 }, styles.output]}
             >
-              {navStateUrl}
+              {navStateUrlCutted}
             </Text>
           </TouchableOpacity>
         </View>
