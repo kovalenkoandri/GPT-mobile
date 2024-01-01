@@ -10,6 +10,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 import * as Clipboard from 'expo-clipboard';
@@ -131,23 +132,29 @@ const LaraBrowser = () => {
         />
       )}
       <View style={styles.inputContainer}>
-        <TextInput
-          value={address}
-          onChangeText={handleAddress}
-          placeholder={'Enter web-address'}
-          style={[{ fontSize: address.length < 50 ? 20 : 12 }, styles.input]}
-          multiline={multiline}
-          onBlur={handleBlur}
-          onFocus={handleFocus}
-          selection={!focused && { start: 0, end: 32 }}
-        />
-        <TouchableOpacity disabled={pasteBtnPressed} onPress={handlePaste}>
+        <TouchableOpacity
+          style={styles.pasteBtn}
+          disabled={pasteBtnPressed}
+          onPress={handlePaste}
+        >
           {pasteBtnPressed ? (
             <Ionicons name="checkmark-done" size={24} color="white" />
           ) : (
             <FontAwesome name="paste" size={24} color="white" />
           )}
         </TouchableOpacity>
+        <ScrollView>
+          <TextInput
+            value={address}
+            onChangeText={handleAddress}
+            placeholder={'Enter web-address'}
+            style={[styles.input]}
+            multiline={multiline}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+            selection={!focused && { start: 0, end: 8 }}
+          />
+        </ScrollView>
       </View>
       {topEl && (
         <View style={styles.btnContainer}>
@@ -208,13 +215,27 @@ const LaraBrowser = () => {
             onPress={handleCopy}
             style={[{ width: dimensions.window.width - 30 }, styles.copyBtn]}
           >
+            {copyBtnPressed ? (
+              <Ionicons
+                name="checkmark-done"
+                size={24}
+                color="white"
+                style={styles.iconCopy}
+              />
+            ) : (
+              <FontAwesome
+                name="copy"
+                size={24}
+                color="white"
+                style={styles.iconCopy}
+              />
+            )}
             <Text
               selectable={true}
               style={[{ width: dimensions.window.width - 80 }, styles.output]}
             >
-              {copyBtnPressed ? 'copied!' : navStateUrl}
+              {navStateUrl}
             </Text>
-            <FontAwesome name="copy" size={24} color="white" />
           </TouchableOpacity>
         </View>
       )}
@@ -262,6 +283,13 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
+    maxHeight: 160,
+    alignItems: 'center',
+    borderColor: '#767577',
+    borderWidth: 1,
+  },
+  pasteBtn: {
+    marginRight: 20,
   },
   input: {
     padding: 4,
@@ -270,7 +298,8 @@ const styles = StyleSheet.create({
     borderColor: '#767577',
     borderWidth: 1,
     borderRadius: 10,
-    width: '50%',
+    width: '90%',
+    fontSize: 24,
   },
   btnContainer: {
     flexDirection: 'row',
@@ -287,6 +316,9 @@ const styles = StyleSheet.create({
     borderColor: '#767577',
     borderWidth: 1,
   },
+  iconCopy: {
+    marginRight: 20,
+  },
   output: {
     color: '#e8e8e8',
     backgroundColor: '#2f2f3d',
@@ -294,7 +326,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     fontSize: 24,
-    marginRight: 12,
     overflow: 'hidden',
   },
   webView: {
