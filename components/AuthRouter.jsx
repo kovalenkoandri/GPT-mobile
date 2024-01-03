@@ -83,7 +83,7 @@ const AuthRouter = ({ isAuth, toggleAuthKey }) => {
               ),
             }}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="LaraBrowser"
             children={() => <LaraBrowser />}
             options={{
@@ -96,7 +96,7 @@ const AuthRouter = ({ isAuth, toggleAuthKey }) => {
                 />
               ),
             }}
-          />
+          /> */}
         </>
       ) : (
         <>
