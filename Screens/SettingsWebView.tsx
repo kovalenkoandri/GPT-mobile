@@ -8,7 +8,7 @@ const SettingsWebView = ({ isAuth, toggleAuthKey }: SettingsWebViewProps) => {
   return (
     <View style={styles.toggleSmartFastView}>
       <Text style={styles.toggleSmartFastText}>
-        Acces by 'Google Auth' or 'Key'. Now is {isAuth ? 'Google Auth' : 'Key'}
+        Access by{`\n`} Google Auth
       </Text>
       <Switch
         trackColor={{ false: '#767577', true: '#81b0ff' }}
@@ -17,6 +17,10 @@ const SettingsWebView = ({ isAuth, toggleAuthKey }: SettingsWebViewProps) => {
         value={isAuth}
         style={styles.toggleSwitch}
       />
+      <Text style={styles.toggleSmartFastText}>
+        GPT Key{`\n`} Now is
+        {`\n`} {isAuth ? "'Google Auth'" : "'GPT Key'"}
+      </Text>
     </View>
   );
 };

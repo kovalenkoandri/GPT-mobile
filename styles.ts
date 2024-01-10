@@ -115,15 +115,21 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   toggleSmartFastView: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
     alignItems: 'center',
   },
   toggleSmartFastText: {
+    textAlign: 'center',
     color: '#f1f6ff',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 32,
+    width: '80%',
+    lineHeight: 80,
   },
   toggleSwitch: {
     transform: [{ scaleX: 2 }, { scaleY: 2 }],
+    marginVertical: 20,
   },
   imageBackground: {
     alignItems: 'center',
