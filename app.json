@@ -16,28 +16,13 @@
       "**/*"
     ],
     "android": {
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "data": [
-            {
-              "scheme": "https",
-              "host": "exp.host",
-              "pathPrefix": "/@kovalenkoandrii/GPT-mobile"
-            }
-          ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
-        }
-      ],
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.kovalenkoandrii.GPTmobile",
       "permissions": [
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
       ],
       "package": "com.kovalenkoandrii.GPTmobile",
-      "versionCode": 32
+      "versionCode": 34
     },
     "runtimeVersion": {
       "policy": "sdkVersion"

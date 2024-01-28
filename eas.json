@@ -16,8 +16,8 @@
     },
     "production": {
       "autoIncrement": true,
-      "channel": "production",
-      "credentialsSource": "remote"
+      "channel": "master",
+      "credentialsSource": "local"
     }
   },
   "submit": {
